@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戰力計算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('wpbg2.png') no-repeat center center/cover;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #resultValue {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffea00;
+            margin-top: 5px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 14px;
+            color: white;
+            opacity: 0.8;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>戰力計算器</h1>
+        <input type="number" id="inputValue" placeholder="請輸入數值" oninput="calculatePower()">
+        <p>您可以攻擊的最大戰力為</p>
+        <span id="resultValue"></span>
+    </div>
+    <footer>© 2025 Marco. All rights reserved.</footer>
+    <script>
+        function calculatePower() {
+            let inputVal = document.getElementById('inputValue').value;
+            let resultValue = document.getElementById('resultValue');
+            if (inputVal) {
+                let result = (parseFloat(inputVal) * 1.05 / 0.95).toFixed(2);
+                resultValue.textContent = result;
+            } else {
+                resultValue.textContent = "";
+            }
+        }
+    </script>
+</body>
+</html>
