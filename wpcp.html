@@ -18,7 +18,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: url('wpbg2.png') no-repeat center center/cover;
+            background: url('./wpbg2.png') no-repeat center center/cover;
             color: white;
         }
         .container {
@@ -53,7 +53,7 @@
             font-weight: bold;
             margin-top: 10px;
         }
-        #resultValue {
+        #resultValue, #reverseResultValue {
             display: block;
             font-size: 24px;
             font-weight: bold;
@@ -74,9 +74,15 @@
 <body>
     <div class="container">
         <h1>戰力計算器</h1>
-        <input type="number" id="inputValue" placeholder="請輸入數值" oninput="calculatePower()">
+        <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="calculatePower()">
         <p>您可以攻擊的最大戰力為</p>
         <span id="resultValue"></span>
+        
+        <hr style="margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.3);">
+        
+        <input type="number" id="reverseInputValue" placeholder="請輸入對方戰力" oninput="reverseCalculatePower()">
+        <p>您至少需要的戰力為</p>
+        <span id="reverseResultValue"></span>
     </div>
     <footer>© 2025 Marco. All rights reserved.</footer>
     <script>
@@ -85,6 +91,17 @@
             let resultValue = document.getElementById('resultValue');
             if (inputVal) {
                 let result = (parseFloat(inputVal) * 1.05 / 0.95).toFixed(2);
+                resultValue.textContent = result;
+            } else {
+                resultValue.textContent = "";
+            }
+        }
+        
+        function reverseCalculatePower() {
+            let inputVal = document.getElementById('reverseInputValue').value;
+            let resultValue = document.getElementById('reverseResultValue');
+            if (inputVal) {
+                let result = (parseFloat(inputVal) * 0.95 / 1.05).toFixed(2);
                 resultValue.textContent = result;
             } else {
                 resultValue.textContent = "";
