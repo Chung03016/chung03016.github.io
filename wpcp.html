@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>戰力計算器與修仙攻略</title>
+    <title>戰力計算器</title>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,13 @@
         }
         html, body {
             height: 100%;
-            overflow-x: hidden;
+            overflow: hidden;
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background: url('/wpbg2.png') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('./wpbg2.png') no-repeat center center/cover;
             color: white;
         }
         .container {
@@ -25,8 +28,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
             width: 90%;
-            max-width: 600px;
-            margin: 50px auto;
+            max-width: 400px;
         }
         h1 {
             font-size: 28px;
@@ -46,27 +48,6 @@
             color: black;
             margin-bottom: 15px;
         }
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            min-width: 600px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid white;
-            text-align: center;
-        }
-        th {
-            background: rgba(255, 255, 255, 0.2);
-        }
         p {
             font-size: 18px;
             font-weight: bold;
@@ -81,10 +62,12 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         footer {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            position: absolute;
+            bottom: 15px;
             font-size: 14px;
+            color: white;
             opacity: 0.8;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -94,54 +77,14 @@
         <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="calculatePower()">
         <p>您可以攻擊的最大戰力為</p>
         <span id="resultValue"></span>
+        
         <hr style="margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.3);">
+        
         <input type="number" id="reverseInputValue" placeholder="請輸入對方戰力" oninput="reverseCalculatePower()">
         <p>您至少需要的戰力為</p>
         <span id="reverseResultValue"></span>
     </div>
-    
-    <div class="container">
-        <h2>修仙等級與修為對應表</h2>
-        <div class="table-container">
-            <table>
-                <tr>
-                    <th>等級</th>
-                    <th>階段</th>
-                    <th>前期</th>
-                    <th>中期</th>
-                    <th>後期</th>
-                    <th>基礎修為</th>
-                </tr>
-                <tr><td>1</td><td>凡人</td><td>15</td><td>25</td><td>50</td><td>1修為/s</td></tr>
-            <tr><td>2</td><td>煉氣</td><td>100</td><td>440</td><td>900</td><td>1修為/s</td></tr>
-            <tr><td>3</td><td>築基</td><td>5,400</td><td>13,000</td><td>24,150</td><td>3修為/s</td></tr>
-            <tr><td>4</td><td>結丹</td><td>25,000</td><td>26,000</td><td>44,625</td><td>5修為/s</td></tr>
-            <tr><td>5</td><td>元嬰</td><td>48,825</td><td>51,240</td><td>54,915</td><td>5修為/s</td></tr>
-            <tr><td>6</td><td>出竅</td><td>56,490</td><td>59,325</td><td>61,950</td><td>5修為/s</td></tr>
-
-            <tr><td>7</td><td>化神</td><td>65,415</td><td>68,670</td><td>72,135</td><td>5修為/s</td></tr>
-
-            <tr><td>8</td><td>合體</td><td>75,705</td><td>79,485</td><td>166,950</td><td>10修為/s</td></tr>
-            <tr><td>9</td><td>洞虛</td><td>175,350</td><td>183,750</td><td>193,200</td><td>10修為/s</td></tr>
-            <tr><td>10</td><td>大承</td><td>202,965</td><td>213,150</td><td>223,650</td><td>10修為/s</td></tr>
-
-            <tr><td>11</td><td>渡劫</td><td>262,500</td><td>283,500</td><td>315,000</td><td>10修為/s</td></tr>
-
-            <tr><td>12</td><td>人仙</td><td>1,050,000</td><td>861,000</td><td>903,000</td><td>30修為/s</td></tr>
-            <tr><td>13</td><td>真仙</td><td>924,000</td><td>945,000</td><td>950,985</td><td>30修為/s</td></tr>
-            <tr><td>14</td><td>金仙</td><td>966,980</td><td>985,530</td><td>1,003,275</td><td>30修為/s</td></tr>
-
-            <tr><td>15</td><td>上仙</td><td>1,020,000</td><td>1,039,500</td><td>1,058,422</td><td>30修為/s</td></tr>
-
-            <tr><td>16</td><td>仙君</td><td>2,520,000</td><td>1,890,000</td><td>1,942,500</td><td>50修為/s</td></tr>
-            <tr><td>17</td><td>仙尊</td><td>2,047,500</td><td>2,252,250</td><td>2,478,000</td><td>50修為/s</td></tr>
-            <tr><td>18</td><td>仙帝</td><td>6,300,000</td><td></td><td>7,035,000</td><td>100修為/s</td></tr>
-            </table>
-        </div>
-    </div>
-    
-    <footer>© 2025 ᴍᴀʀᴄᴏ ෆ⃛. All rights reserved.</footer>
-    
+    <footer>© 2025 Marco. All rights reserved.</footer>
     <script>
         function calculatePower() {
             let inputVal = document.getElementById('inputValue').value;
@@ -153,6 +96,7 @@
                 resultValue.textContent = "";
             }
         }
+        
         function reverseCalculatePower() {
             let inputVal = document.getElementById('reverseInputValue').value;
             let resultValue = document.getElementById('reverseResultValue');
