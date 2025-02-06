@@ -9,11 +9,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        html, body {
-            height: 100%;
-            overflow: hidden;
             font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100%;
             text-align: center;
             display: flex;
             align-items: center;
@@ -22,50 +22,75 @@
             color: white;
         }
         .container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
         }
         h1 {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            text-align: center;
-            border: none;
-            border-radius: 6px;
-            outline: none;
-            background: rgba(255, 255, 255, 0.8);
-            color: black;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        #resultValue, #reverseResultValue {
-            display: block;
             font-size: 24px;
             font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        h2, h3 {
+            font-weight: bold;
+            margin: 15px auto 5px auto;
+            color: #fff;
+        }
+        .section {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 10px;
+            outline: none;
+            background: white;
+        }
+        p {
+            font-weight: bold;
+            margin: 15px auto 5px auto;
+            color: #fff;
+        }
+        .result {
+            font-size: 22px;
+            font-weight: bold;
             color: #ffea00;
-            margin-top: 5px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+        }
+        .config-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .config-box {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .config-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         footer {
-            position: absolute;
-            bottom: 15px;
             font-size: 14px;
             color: white;
+            margin-top: 10px;
             opacity: 0.8;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
@@ -74,39 +99,125 @@
 <body>
     <div class="container">
         <h1>戰力計算器</h1>
-        <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="calculatePower()">
-        <p>您可以攻擊的最大戰力為</p>
-        <span id="resultValue"></span>
+
+        <div class="section">
+            <h2>您的戰力</h2>
+            <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="updateCalculations()">
+            <h3>您的心法配置</h3>
+            <select id="config1" onchange="updateConfig(0, this.value)"></select>
+            <select id="config2" onchange="updateConfig(1, this.value)"></select>
+            <select id="config3" onchange="updateConfig(2, this.value)"></select>
+            <select id="config4" onchange="updateConfig(3, this.value)"></select>
+            <div class="config-grid">
+                <div class="config-box" id="box1"></div>
+                <div class="config-box" id="box2"></div>
+                <div class="config-box" id="box3"></div>
+                <div class="config-box" id="box4"></div>
+            </div>
+            <p>您可以攻擊的最大戰力</p>
+            <div class="result" id="resultValue">-</div>
+        </div>
+
+        <div class="section">
+            <h2>對手戰力</h2>
+            <input type="number" id="opponentPower" placeholder="請輸入對手戰力" oninput="updateCalculations()">
+            <h3>對手的心法配置</h3>
+            <select id="opponentConfig1" onchange="updateConfig(4, this.value)"></select>
+            <select id="opponentConfig2" onchange="updateConfig(5, this.value)"></select>
+            <select id="opponentConfig3" onchange="updateConfig(6, this.value)"></select>
+            <select id="opponentConfig4" onchange="updateConfig(7, this.value)"></select>
+            <div class="config-grid">
+                <div class="config-box" id="box5"></div>
+                <div class="config-box" id="box6"></div>
+                <div class="config-box" id="box7"></div>
+                <div class="config-box" id="box8"></div>
+            </div>
+            <p>您至少需要的戰力</p>
+            <div class="result" id="requiredPower">-</div>
+        </div>
         
-        <hr style="margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.3);">
-        
-        <input type="number" id="reverseInputValue" placeholder="請輸入對方戰力" oninput="reverseCalculatePower()">
-        <p>您至少需要的戰力為</p>
-        <span id="reverseResultValue"></span>
+        <footer>© 2025 ᴍᴀʀᴄᴏ ෆ⃛. All rights reserved.</footer>
     </div>
-    <footer>© 2025 ᴍᴀʀᴄᴏ ෆ⃛. All rights reserved.</footer>
+
     <script>
+        const skills = {
+            "N秘笈": { "天書": [1000, 5000, 10000, 15000, 20000] },
+            "SR秘笈": { "天罡陣": [1.02, 1.05, 1.07, 1.1, 1.12] },
+            "SSR秘笈": { "大象心法": [1.01, 1.02, 1.03, 1.04, 1.06] }
+        };
+
+        const images = {
+            "天書": "wp_image1.jpg",
+            "天罡陣": "wp_image2.jpg",
+            "大象心法": "wp_image3.jpg"
+        };
+
+        function populateSelectOptions() {
+            let selects = document.querySelectorAll("select");
+            selects.forEach(select => {
+                select.innerHTML = `<option value="">請選擇本命心法</option>`;
+                for (let category in skills) {
+                    let optgroup = document.createElement("optgroup");
+                    optgroup.label = `-${category}-`;
+                    for (let skill in skills[category]) {
+                        for (let i = 0; i < skills[category][skill].length; i++) {
+                            let option = document.createElement("option");
+                            option.value = `${skill}-${i + 1}`;
+                            option.textContent = `${skill} - LV${i + 1}`;
+                            optgroup.appendChild(option);
+                        }
+                    }
+                    select.appendChild(optgroup);
+                }
+            });
+        }
+
+        function updateConfig(index, value) {
+            let box = document.getElementById(`box${index + 1}`);
+            if (value) {
+                let [skill] = value.split("-");
+                box.innerHTML = `<img src="${images[skill]}" alt="${skill}">`;
+            } else {
+                box.innerHTML = "";
+            }
+            updateCalculations();
+        }
+
+        function updateCalculations() {
+            calculatePower();
+            calculateRequiredPower();
+        }
         function calculatePower() {
-            let inputVal = document.getElementById('inputValue').value;
-            let resultValue = document.getElementById('resultValue');
-            if (inputVal) {
-                let result = (parseFloat(inputVal) * 1.05 / 0.95).toFixed(2);
-                resultValue.textContent = result;
-            } else {
-                resultValue.textContent = "";
-            }
+            let basePower = parseFloat(document.getElementById('inputValue').value) || 0;
+            let { bonusPower, multiplier } = getBuffValues(["config1", "config2", "config3", "config4"]);
+            let finalPower = (basePower + bonusPower) * multiplier;
+            document.getElementById('resultValue').textContent = (finalPower * 1.05 / 0.95).toFixed(2);
         }
-        
-        function reverseCalculatePower() {
-            let inputVal = document.getElementById('reverseInputValue').value;
-            let resultValue = document.getElementById('reverseResultValue');
-            if (inputVal) {
-                let result = (parseFloat(inputVal) * 0.95 / 1.05).toFixed(2);
-                resultValue.textContent = result;
-            } else {
-                resultValue.textContent = "";
-            }
+
+        function calculateRequiredPower() {
+            let opponentPower = parseFloat(document.getElementById('opponentPower').value) || 0;
+            let { bonusPower: oppBonus, multiplier: oppMulti } = getBuffValues(["opponentConfig1", "opponentConfig2", "opponentConfig3", "opponentConfig4"]);
+            let opponentFinalPower = (opponentPower + oppBonus) * oppMulti;
+            let { bonusPower, multiplier } = getBuffValues(["config1", "config2", "config3", "config4"]);
+            let requiredPower = ((opponentFinalPower * 0.95) / (1.05 * multiplier)) - bonusPower;
+            document.getElementById('requiredPower').textContent = Math.max(0, requiredPower.toFixed(2));
         }
+
+        function getBuffValues(selectIDs) {
+            let bonusPower = 0, multiplier = 1;
+            selectIDs.forEach(id => {
+                let value = document.getElementById(id).value;
+                if (!value) return;
+                let [skill, level] = value.split("-");
+                level = parseInt(level) - 1;
+                if (skills["N秘笈"][skill]) bonusPower += skills["N秘笈"][skill][level];
+                else if (skills["SR秘笈"][skill] || skills["SSR秘笈"][skill]) multiplier *= skills["SR秘笈"][skill]?.[level] || skills["SSR秘笈"][skill]?.[level];
+            });
+            return { bonusPower, multiplier };
+        }
+
+        window.onload = populateSelectOptions;
+        window.onload = populateSelectOptions;
     </script>
 </body>
 </html>
