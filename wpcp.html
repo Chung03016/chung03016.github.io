@@ -114,24 +114,7 @@
             width: 100%; /* 確保足夠寬度 */
             max-width: 400px; /* 測試，視需求調整 */
         }
-        /* 當螢幕寬度小於 600px（可自行調整）時，改為單列 */
-        @media (max-width: 600px) {
-            .gongfa-grid {
-                grid-template-columns: 1fr; /* 變成單列 */
-            }
-
-            .section-2 {
-                display: flex !important;
-                justify-content: center !important; /* 水平置中 */
-                align-items: center !important; /* 垂直置中 */
-                
-            }
-            .section-2 > h3{
-                font-weight: bold;
-                margin: 5px 20px 5px  20px;
-                color: #fff;
-            }
-        }
+        
         label {
             display: flex;
             align-items: center;
@@ -191,8 +174,7 @@
             position: relative;
             max-height: 80vh;
             overflow: hidden;
-            font-size: 12px;
-            
+            font-size: 16px;
         }
 
         /* 讓表格滾動 */
@@ -232,7 +214,27 @@
             background-color: #f4f4f4;
             font-weight: bold;
         }
+        /* 當螢幕寬度小於 600px（可自行調整）時，改為單列 */
+        @media (max-width: 600px) {
+            .gongfa-grid {
+                grid-template-columns: 1fr; /* 變成單列 */
+            }
 
+            .section-2 {
+                display: flex !important;
+                justify-content: center !important; /* 水平置中 */
+                align-items: center !important; /* 垂直置中 */
+                
+            }
+            .section-2 > h3{
+                font-weight: bold;
+                margin: 5px 20px 5px  20px;
+                color: #fff;
+            }
+            .modal-content {
+                font-size: 12px;
+            }
+        }
 
     </style>
 </head>
@@ -268,6 +270,7 @@
                             <tr><td>淺處挖掘</td><td>加修為</td><td>深處挖掘</td><td>無</td></tr>
                             <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>普通的靈石</td><td>加修為</td><td>古怪的靈石</td><td>加修為(較多)</td></tr>
                             <tr><td>食用果實</td><td>加修為(較多)</td><td>飲用溪水</td><td>加修為</td></tr>
+                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>過去</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>未來</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
                         </tbody>
                     </table>
                 </div>
