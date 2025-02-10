@@ -45,6 +45,19 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+        .section-2 {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+        .section-2 > h3{
+            font-weight: bold;
+            margin: 5px auto 5px auto;
+            color: #fff;
+        }
         input, select {
             width: 100%;
             padding: 12px;
@@ -94,6 +107,48 @@
             opacity: 0.8;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
+        .gongfa-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 兩列 */
+            gap: 10px; /* 行間距 */
+            width: 100%; /* 確保足夠寬度 */
+            max-width: 400px; /* 測試，視需求調整 */
+        }
+        /* 當螢幕寬度小於 600px（可自行調整）時，改為單列 */
+        @media (max-width: 600px) {
+            .gongfa-grid {
+                grid-template-columns: 1fr; /* 變成單列 */
+            }
+
+            .section-2 {
+                display: flex !important;
+                justify-content: center !important; /* 水平置中 */
+                align-items: center !important; /* 垂直置中 */
+                
+            }
+            .section-2 > h3{
+                font-weight: bold;
+                margin: 5px 20px 5px  20px;
+                color: #fff;
+            }
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* 調整勾選框與文字的間距 */
+            white-space: nowrap; /* 防止換行 */
+            border-radius: 6px; /* 美觀 */
+            align-items: flex-end;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -103,6 +158,18 @@
         <div class="section">
             <h2>您的戰力</h2>
             <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="updateCalculations()">
+            <div class="section-2">
+                <h3>功法</h3>
+                <div class="gongfa-grid">
+                    <label><input type="checkbox" class="gongfa" value="火-3">天元神火訣(Lv6)</label>
+                    <label><input type="checkbox" class="gongfa" value="水-3">潤下之水法(Lv7)</label>
+                    <label><input type="checkbox" class="gongfa" value="木-3">木日曲直卷(Lv8)</label>
+                    <label><input type="checkbox" class="gongfa" value="木-5">春木衍光符(Lv13)</label>
+                    <label><input type="checkbox" class="gongfa" value="火-5">火燚聖火功(Lv14)</label>
+                    <label><input type="checkbox" class="gongfa" value="水-5">萬世橫江典(Lv15)</label>
+                </div>
+            </div>
+        
             <h3>您的心法配置</h3>
             <select id="config1" onchange="updateConfig(0, this.value)"></select>
             <select id="config2" onchange="updateConfig(1, this.value)"></select>
@@ -114,13 +181,31 @@
                 <div class="config-box" id="box3"></div>
                 <div class="config-box" id="box4"></div>
             </div>
-            <p>您可以攻擊的最大戰力</p>
-            <div class="result" id="resultValue">-</div>
+            <p>💧可攻擊的最大戰力</p>
+            <div class="result" id="waterResult">-</div>
+
+            <p>🔥可攻擊的最大戰力</p>
+            <div class="result" id="fireResult">-</div>
+
+            <p>🪵可攻擊的最大戰力</p>
+            <div class="result" id="woodResult">-</div>
+
         </div>
 
         <div class="section">
             <h2>對手戰力</h2>
             <input type="number" id="opponentPower" placeholder="請輸入對手戰力" oninput="updateCalculations()">
+            <div class="section-2">
+                <h3>對手的功法</h3>
+                <div class="gongfa-grid">
+                    <label><input type="checkbox" class="opponent-gongfa" value="火-3">天元神火訣(Lv6)</label>
+                    <label><input type="checkbox" class="opponent-gongfa" value="水-3">潤下之水法(Lv7)</label>
+                    <label><input type="checkbox" class="opponent-gongfa" value="木-3">木日曲直卷(Lv8)</label>
+                    <label><input type="checkbox" class="opponent-gongfa" value="木-5">春木衍光符(Lv13)</label>
+                    <label><input type="checkbox" class="opponent-gongfa" value="火-5">火燚聖火功(Lv14)</label>
+                    <label><input type="checkbox" class="opponent-gongfa" value="水-5">萬世橫江典(Lv15)</label>
+                </div>
+            </div>
             <h3>對手的心法配置</h3>
             <select id="opponentConfig1" onchange="updateConfig(4, this.value)"></select>
             <select id="opponentConfig2" onchange="updateConfig(5, this.value)"></select>
@@ -132,8 +217,15 @@
                 <div class="config-box" id="box7"></div>
                 <div class="config-box" id="box8"></div>
             </div>
-            <p>您至少需要的戰力</p>
-            <div class="result" id="requiredPower">-</div>
+            <p>💧至少需要的戰力</p>
+            <div class="result" id="requiredWaterPower">-</div>
+
+            <p>🔥至少需要的戰力</p>
+            <div class="result" id="requiredFirePower">-</div>
+
+            <p>🪵至少需要的戰力</p>
+            <div class="result" id="requiredWoodPower">-</div>
+
         </div>
         
         <footer>© 2025 ᴍᴀʀᴄᴏ ෆ⃛. All rights reserved.</footer>
@@ -141,15 +233,20 @@
 
     <script>
         const skills = {
-            "N秘笈": { "天書": [1000, 5000, 10000, 15000, 20000] },
+            "N秘笈": { "水卷": [3000, 10000, 15000, 20000, 30000],
+                       "火卷": [3000, 10000, 15000, 20000, 30000],
+                       "木卷": [3000, 10000, 15000, 20000, 30000] 
+                    },
             "SR秘笈": { "天罡陣": [1.02, 1.05, 1.07, 1.1, 1.12] },
-            "SSR秘笈": { "大象心法": [1.01, 1.02, 1.03, 1.04, 1.06] }
         };
 
         const images = {
             "天書": "wp_image1.jpg",
             "天罡陣": "wp_image2.jpg",
-            "大象心法": "wp_image3.jpg"
+            "大象心法": "wp_image3.jpg",
+            "水卷": "wp_image4.jpg",
+            "火卷": "wp_image5.jpg",
+            "木卷": "wp_image6.jpg"
         };
 
         function populateSelectOptions() {
@@ -187,36 +284,123 @@
             calculatePower();
             calculateRequiredPower();
         }
+        
         function calculatePower() {
             let basePower = parseFloat(document.getElementById('inputValue').value) || 0;
-            let { bonusPower, multiplier } = getBuffValues(["config1", "config2", "config3", "config4"]);
-            let finalPower = (basePower + bonusPower) * multiplier;
-            document.getElementById('resultValue').textContent = (finalPower * 1.05 / 0.95).toFixed(2);
+            let { bonusPower, multiplier, srSsrMultiplier } = getBuffValues(["config1", "config2", "config3", "config4"], false);
+
+            // 計算不同屬性的戰力
+            let waterPower = (basePower + bonusPower["水"]) * (1 + multiplier["水"]) * srSsrMultiplier;
+            let firePower = (basePower + bonusPower["火"]) * (1 + multiplier["火"]) * srSsrMultiplier;
+            let woodPower = (basePower + bonusPower["木"]) * (1 + multiplier["木"]) * srSsrMultiplier;
+
+            // 計算最大 / 最小總戰力
+            let maxTotalPower = Math.max(waterPower, firePower, woodPower);
+            let minTotalPower = Math.min(waterPower, firePower, woodPower);
+
+            // 即時更新顯示結果
+            document.getElementById('waterResult').textContent = (waterPower * 1.05 / 0.95).toFixed(2);
+            document.getElementById('fireResult').textContent = (firePower * 1.05 / 0.95).toFixed(2);
+            document.getElementById('woodResult').textContent = (woodPower * 1.05 / 0.95).toFixed(2);
         }
+
+
+
 
         function calculateRequiredPower() {
             let opponentPower = parseFloat(document.getElementById('opponentPower').value) || 0;
-            let { bonusPower: oppBonus, multiplier: oppMulti } = getBuffValues(["opponentConfig1", "opponentConfig2", "opponentConfig3", "opponentConfig4"]);
-            let opponentFinalPower = (opponentPower + oppBonus) * oppMulti;
-            let { bonusPower, multiplier } = getBuffValues(["config1", "config2", "config3", "config4"]);
-            let requiredPower = ((opponentFinalPower * 0.95) / (1.05 * multiplier)) - bonusPower;
-            document.getElementById('requiredPower').textContent = Math.max(0, requiredPower.toFixed(2));
+            let { bonusPower: oppBonus, multiplier: oppMulti, srSsrMultiplier: oppSrSsrMultiplier } = getBuffValues(["opponentConfig1", "opponentConfig2", "opponentConfig3", "opponentConfig4"], true);
+
+            let opponentWaterPower = (opponentPower + oppBonus["水"]) * (1 + oppMulti["水"]) * oppSrSsrMultiplier;
+            let opponentFirePower = (opponentPower + oppBonus["火"]) * (1 + oppMulti["火"]) * oppSrSsrMultiplier;
+            let opponentWoodPower = (opponentPower + oppBonus["木"]) * (1 + oppMulti["木"]) * oppSrSsrMultiplier;
+
+            let { bonusPower, multiplier, srSsrMultiplier } = getBuffValues(["config1", "config2", "config3", "config4"], false);
+
+            let requiredWaterPower = ((opponentWaterPower * 0.95) / (1.05 * srSsrMultiplier * (1 + multiplier["水"]))) - bonusPower["水"];
+            let requiredFirePower = ((opponentFirePower * 0.95) / (1.05 * srSsrMultiplier * (1 + multiplier["火"]))) - bonusPower["火"];
+            let requiredWoodPower = ((opponentWoodPower * 0.95) / (1.05 * srSsrMultiplier * (1 + multiplier["木"]))) - bonusPower["木"];
+
+            requiredWaterPower = Math.max(0, requiredWaterPower.toFixed(2));
+            requiredFirePower = Math.max(0, requiredFirePower.toFixed(2));
+            requiredWoodPower = Math.max(0, requiredWoodPower.toFixed(2));
+
+            let maxRequiredPower = Math.max(requiredWaterPower, requiredFirePower, requiredWoodPower);
+            let minRequiredPower = Math.min(requiredWaterPower, requiredFirePower, requiredWoodPower);
+
+            document.getElementById('requiredWaterPower').textContent = requiredWaterPower;
+            document.getElementById('requiredFirePower').textContent = requiredFirePower;
+            document.getElementById('requiredWoodPower').textContent = requiredWoodPower;
         }
 
-        function getBuffValues(selectIDs) {
-            let bonusPower = 0, multiplier = 1;
+
+
+
+
+
+        function getBuffValues(selectIDs, isOpponent = false) {
+            let bonusPower = { "水": 0, "火": 0, "木": 0 }; // 固定戰力加成 (來自 N秘笈)
+            let multiplier = { "水": 0, "火": 0, "木": 0 }; // 百分比加成 (來自功法)
+            let srSsrMultiplier = 1; // SR/SSR心法的倍率加成 (連乘)
+
+            // 讀取心法影響 (N秘笈加固定戰力 & SR/SSR加倍率)
             selectIDs.forEach(id => {
                 let value = document.getElementById(id).value;
                 if (!value) return;
                 let [skill, level] = value.split("-");
                 level = parseInt(level) - 1;
-                if (skills["N秘笈"][skill]) bonusPower += skills["N秘笈"][skill][level];
-                else if (skills["SR秘笈"][skill] || skills["SSR秘笈"][skill]) multiplier *= skills["SR秘笈"][skill]?.[level] || skills["SSR秘笈"][skill]?.[level];
+
+                // N秘笈：增加固定戰力
+                if (skills["N秘笈"][skill]) {
+                    if (skill === "水卷") bonusPower["水"] += skills["N秘笈"][skill][level];
+                    else if (skill === "火卷") bonusPower["火"] += skills["N秘笈"][skill][level];
+                    else if (skill === "木卷") bonusPower["木"] += skills["N秘笈"][skill][level];
+                }
+                // SR/SSR秘笈 (這些秘笈是倍率加成，影響所有屬性)
+                else if (skills["SR秘笈"][skill] || skills["SSR秘笈"][skill]) {
+                    let multiplierValue = skills["SR秘笈"][skill]?.[level] || skills["SSR秘笈"][skill]?.[level];
+                    srSsrMultiplier *= multiplierValue;
+                }
             });
-            return { bonusPower, multiplier };
+
+            // 取得對應的功法加成
+            let gongfaMultiplier = getGongfaMultiplier(isOpponent);
+            multiplier["水"] += gongfaMultiplier["水"];
+            multiplier["火"] += gongfaMultiplier["火"];
+            multiplier["木"] += gongfaMultiplier["木"];
+
+            return { bonusPower, multiplier, srSsrMultiplier };
         }
 
-        window.onload = populateSelectOptions;
+        function getGongfaMultiplier(isOpponent = false) {
+            let multiplier = { "水": 0, "火": 0, "木": 0 };
+            let checkboxSelector = isOpponent ? '.opponent-gongfa:checked' : '.gongfa:checked';
+
+            document.querySelectorAll(checkboxSelector).forEach(cb => {
+                let [type, percent] = cb.value.split("-");
+                multiplier[type] += parseInt(percent) / 100; // 直接加總百分比
+            });
+
+            return multiplier;
+        }
+
+
+
+
+        document.querySelectorAll('.gongfa').forEach(cb => {
+            cb.addEventListener('change', updateCalculations);
+        });
+
+        window.onload = function () {
+            populateSelectOptions();
+            document.querySelectorAll('.gongfa').forEach(cb => {
+                cb.addEventListener('change', updateCalculations);
+            });
+        };
+
+
+
+
         window.onload = populateSelectOptions;
     </script>
 </body>
