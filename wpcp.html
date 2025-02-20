@@ -453,9 +453,9 @@
             let maxRequiredPower = Math.max(requiredWaterPower, requiredFirePower, requiredWoodPower);
             let minRequiredPower = Math.min(requiredWaterPower, requiredFirePower, requiredWoodPower);
 
-            document.getElementById('requiredWaterPower').textContent = requiredWaterPower;
-            document.getElementById('requiredFirePower').textContent = requiredFirePower;
-            document.getElementById('requiredWoodPower').textContent = requiredWoodPower;
+            document.getElementById('requiredWaterPower').textContent =  requiredFirePower;
+            document.getElementById('requiredFirePower').textContent =  requiredWoodPower;
+            document.getElementById('requiredWoodPower').textContent =  requiredWaterPower;
         }
 
 
