@@ -149,6 +149,25 @@
             background-color: rgba(255, 255, 255, 0.4);
         }
 
+        /* 左上角按鈕樣式 */
+        .info-btn2 {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .info-btn2:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
         /* Modal 背景 */
         .modal {
             display: none;
@@ -185,7 +204,7 @@
         }
 
         /* 關閉按鈕 */
-        .close {
+        .close,.close2 {
             position: absolute;
             top: 10px;
             right: 15px;
@@ -193,7 +212,7 @@
             cursor: pointer;
         }
 
-        .close:hover {
+        .close:hover,.close2:hover {
             color: red;
         }
 
@@ -242,6 +261,7 @@
     <div class="container">
         <!-- 右上角按鈕 -->
         <button id="infoButton" class="info-btn">ℹ️ 問答題</button>
+        <button id="infoButton2" class="info-btn2">ℹ️ 靈泉房計算</button>
 
        <!-- Modal 框 -->
         <div id="infoModal" class="modal">
@@ -276,6 +296,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal 框 -->
+        <div id="infoModal2" class="modal">
+            <div class="modal-content">
+                <span class="close2">&times;</span>
+                <h2 style="color:#666;">靈泉房計算</h2>
+                <div class="modal-body">
+                    <input type="number" id="linroom" placeholder="請輸入報名房間數" oninput="processLinRoom()"><br><br>
+
+                    <p style="color:#333;">最終靈泉房數量</p>
+                    <div class="result" style="color:#f00;" id="linroomans">-</div>
+
+                    <p style="color:#333;">有機會輪空的輪次</p>
+                    <div class="result" style="color:#f00; margin-bottom:20px;" id="linroompass">-</div>
+                </div>
+            </div>
+        </div>
+
 
 
         <h1>戰力計算器</h1>
@@ -357,6 +395,41 @@
     </div>
 
     <script>
+
+        function processLinRoom() {
+            let roomnum = parseInt(document.getElementById('linroom').value);
+            let roundsWithBye = [];
+
+            // 🛡️ 若輸入無效或為負數 → 清空結果並返回
+            if (isNaN(roomnum) || roomnum <= 0) {
+                document.getElementById('linroomans').textContent = "-";
+                document.getElementById('linroompass').textContent = "-";
+                return;
+            }
+
+            let finalRoomCount = roomnum; // 記錄最後剩下的房間數
+
+            // 循環最多 5 輪 (可視需求調整)
+            for (let i = 1; i <= 5; i++) {
+                if (roomnum <= 1) break; // 若剩 1 間則提前結束
+
+                if (roomnum % 2 !== 0) {
+                    // 🧮 奇數房間 → +1 後除以 2 並記錄輪空輪次
+                    roomnum = Math.ceil(roomnum / 2);
+                    roundsWithBye.push(i); // 第 i 輪有機會輪空
+                } else {
+                    // ⚖️ 偶數房間 → 直接除以 2
+                    roomnum = roomnum / 2;
+                }
+                finalRoomCount = roomnum; // 更新最終房間數
+            }
+
+            // ✅ 更新計算結果
+            document.getElementById('linroomans').textContent = finalRoomCount;
+            document.getElementById('linroompass').textContent = roundsWithBye.length > 0 ? roundsWithBye.join("、") : "無";
+        }
+
+
         const skills = {
             "N秘笈": { "水卷": [3000, 10000, 15000, 20000, 30000],
                        "火卷": [3000, 10000, 15000, 20000, 30000],
@@ -453,9 +526,9 @@
             let maxRequiredPower = Math.max(requiredWaterPower, requiredFirePower, requiredWoodPower);
             let minRequiredPower = Math.min(requiredWaterPower, requiredFirePower, requiredWoodPower);
 
-            document.getElementById('requiredWaterPower').textContent =  requiredFirePower;
-            document.getElementById('requiredFirePower').textContent =  requiredWoodPower;
-            document.getElementById('requiredWoodPower').textContent =  requiredWaterPower;
+            document.getElementById('requiredWaterPower').textContent =   requiredWaterPower;
+            document.getElementById('requiredFirePower').textContent =   requiredFirePower;
+            document.getElementById('requiredWoodPower').textContent =   requiredWoodPower;
         }
 
 
@@ -516,10 +589,21 @@
             cb.addEventListener('change', updateCalculations);
         });
 
+        document.querySelectorAll('.opponent-gongfa').forEach(cb => {
+            cb.addEventListener('change', calculateRequiredPower);
+        });
+
         window.onload = function () {
             populateSelectOptions();
+
+            // ✅ 自己的功法 - 綁定即時計算
             document.querySelectorAll('.gongfa').forEach(cb => {
                 cb.addEventListener('change', updateCalculations);
+            });
+
+            // ✅ 對手的功法 - 新增這段代碼以即時計算
+            document.querySelectorAll('.opponent-gongfa').forEach(cb => {
+                cb.addEventListener('change', calculateRequiredPower);
             });
         };
 
@@ -531,22 +615,34 @@
         // 取得按鈕與 Modal 元素
         let modal = document.getElementById("infoModal");
         let btn = document.getElementById("infoButton");
+        let modal2 = document.getElementById("infoModal2");
+        let btn2 = document.getElementById("infoButton2");
         let closeBtn = document.querySelector(".close");
+        let closeBtn2 = document.querySelector(".close2");
 
         // 點擊按鈕，顯示 Modal
         btn.onclick = function () {
             modal.style.display = "block";
+        };
+        btn2.onclick = function () {
+            modal2.style.display = "block";
         };
 
         // 點擊關閉按鈕，隱藏 Modal
         closeBtn.onclick = function () {
             modal.style.display = "none";
         };
+        closeBtn2.onclick = function () {
+            modal2.style.display = "none";
+        };
 
         // 點擊 Modal 外部時，關閉 Modal
         window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+            }
+            if (event.target == modal2) {
+                modal2.style.display = "none";
             }
         };
 
