@@ -183,7 +183,7 @@ function updateConfig(index, value) {
   let box = document.getElementById(`box${index + 1}`);
   if (value) {
     let [skill] = value.split("-");
-    box.innerHTML = `<img src="../wp/img/${images[skill]}" alt="${skill}">`;
+    box.innerHTML = `<img src="../img/${images[skill]}" alt="${skill}">`;
   } else {
     box.innerHTML = "";
   }
