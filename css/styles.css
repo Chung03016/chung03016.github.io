@@ -1,0 +1,284 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("../img/wpbg2.png") no-repeat center center/cover;
+  color: white;
+}
+.container {
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+}
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff;
+}
+h2,
+h3 {
+  font-weight: bold;
+  margin: 15px auto 5px auto;
+  color: #fff;
+}
+.section {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.section-2 {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.section-2 > h3 {
+  font-weight: bold;
+  margin: 5px auto 5px auto;
+  color: #fff;
+}
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 10px;
+  outline: none;
+  background: white;
+}
+p {
+  font-weight: bold;
+  margin: 15px auto 5px auto;
+  color: #fff;
+}
+.result {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffea00;
+  margin-top: 10px;
+}
+.config-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+.config-box {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.config-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+footer {
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+  opacity: 0.8;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+.gongfa-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 兩列 */
+  gap: 10px; /* 行間距 */
+  width: 100%; /* 確保足夠寬度 */
+  max-width: 400px; /* 測試，視需求調整 */
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 調整勾選框與文字的間距 */
+  white-space: nowrap; /* 防止換行 */
+  border-radius: 6px; /* 美觀 */
+  align-items: flex-end;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* 右上角按鈕樣式 */
+.info-btn {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.info-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 左上角按鈕樣式 */
+.info-btn2 {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.info-btn2:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Modal 背景 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Modal 內容 */
+.modal-content {
+  background-color: white;
+  color: black;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  max-height: 80vh;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+/* 讓表格滾動 */
+.modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* 關閉按鈕 */
+.close,
+.close2 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close2:hover {
+  color: red;
+}
+
+/* 表格樣式 */
+.modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.modal-table th,
+.modal-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.modal-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* 🗂️ Tabs 樣式 */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+  margin: 0 5px;
+  transition: background-color 0.2s ease;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+  background-color: #666;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  border-radius: 0 0 10px 10px;
+}
+/* 當螢幕寬度小於 600px（可自行調整）時，改為單列 */
+@media (max-width: 600px) {
+  .gongfa-grid {
+    grid-template-columns: 1fr; /* 變成單列 */
+  }
+
+  .section-2 {
+    display: flex !important;
+    justify-content: center !important; /* 水平置中 */
+    align-items: center !important; /* 垂直置中 */
+  }
+  .section-2 > h3 {
+    font-weight: bold;
+    margin: 5px 20px 5px 20px;
+    color: #fff;
+  }
+  .modal-content {
+    font-size: 12px;
+  }
+}
