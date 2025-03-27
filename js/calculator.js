@@ -123,6 +123,46 @@ function processTrainingTime() {
   // 🔎 計算最近可晉升場次
   const promotionTime = findNextPromotionSlot(now, promotionSlots);
   nextSlotDiv.textContent = `(${promotionTime}秘境)`;
+
+  // 🧮 根據 nowlv 計算對應 pkpluse 與 pkpluse2
+  let pkpluse = 0;
+  let pkpluse2 = 0;
+
+  const pkConfig = [
+    { levels: [42550, 37150, 24150], pk: 800, pk2: 1000 },
+    { levels: [95625, 70625, 44625], pk: 1000, pk2: 1500 },
+    { levels: [154980, 106155, 54915], pk: 1500, pk2: 2000 },
+    { levels: [177765, 121275, 61950], pk: 2000, pk2: 3000 },
+    { levels: [206220, 140805, 72135], pk: 3000, pk2: 4000 },
+    { levels: [322140, 246435, 166950], pk: 4000, pk2: 5000 },
+    { levels: [552320, 376970, 193220], pk: 5000, pk2: 6000 },
+    { levels: [639765, 436800, 223650], pk: 6000, pk2: 8000 },
+    { levels: [861000, 598500, 315000], pk: 8000, pk2: 20000 },
+    { levels: [2841000, 1764000, 903000], pk: 20000, pk2: 25000 },
+    { levels: [2818895, 1895985, 950985], pk: 25000, pk2: 28000 },
+    { levels: [2956905, 1988805, 1003275], pk: 28000, pk2: 30000 },
+    { levels: [3117942, 2097922, 1058422], pk: 30000, pk2: 45000 },
+    { levels: [6352500, 3832500, 1942500], pk: 45000, pk2: 60000 },
+    { levels: [6777750, 4730250, 2478000], pk: 60000, pk2: 100000 },
+  ];
+
+  for (const config of pkConfig) {
+    if (config.levels.includes(nowlv)) {
+      pkpluse = config.pk;
+      pkpluse2 = config.pk2;
+      break;
+    }
+  }
+
+  // 📦 計算挑戰帖數量（若資料無對應就不顯示）
+  if (pkpluse > 0 && pkpluse2 > 0) {
+    const pktime = Math.ceil(remainingExp / pkpluse);
+    const pktime2 = Math.ceil(remainingExp / pkpluse2);
+
+    const pkDiv = document.getElementById("pkTime");
+    pkDiv.innerHTML = `
+    PK同等還需：<span style="color:#f00;">${pktime}</span> 張挑戰帖 | PK越級還需：<span style="color:#f00;">${pktime2}</span> 張挑戰帖`;
+  }
 }
 
 // 🔍 找到下一個可晉升場次
