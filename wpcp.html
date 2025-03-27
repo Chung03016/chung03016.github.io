@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>戰力計算器</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=1.0.1">
     
 </head>
 <body>
@@ -126,14 +126,16 @@
                     <input type="number" id="c-speed" placeholder="目前修練速度" oninput="processTrainingTime()"><br><br>
 
                     <input type="number" id="energy-pill" placeholder="吃元氣丹可補回經驗" oninput="processTrainingTime()"><br><br>
-
-                    <p style="color:#333;">離晉升還需要的時間</p>
+                    
+                    <p style="color:#333; font-size:16px;">離晉升還需要的時間</p>
                     <div class="result" style="color:#f00; " id="trainingTime">-</div>
+                    <div id="pkTime" style="color:#6d6d6d; "></div> 
 
-                    <p style="color:#333;">預計晉升時間</p>
+                    <p style="color:#333;font-size:16px;">預計晉升時間</p>
                     <div>
                         <span class="result" style="color:#f00; margin-bottom:20px;" id="expectedTime">-</span>
                         <span class="result" style="color:#f00;" id="nextPromotionSlot">-</span>
+                        
                     </div>
                     
                     
@@ -222,6 +224,6 @@
         <footer>© 2025 ᴍᴀʀᴄᴏ . All rights reserved.</footer>
     </div>
 
-    <script src="js/calculator.js"></script>
+    <script src="js/calculator.js?v=1.0.2"></script>
 </body>
 </html>
