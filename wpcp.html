@@ -220,10 +220,29 @@
             <div class="result" id="requiredWoodPower">-</div>
 
         </div>
-        
+        <div id="visitCounter" style="color:#fff; font-size:14px; margin-top:20px;"></div>
         <footer>© 2025 ᴍᴀʀᴄᴏ . All rights reserved.</footer>
     </div>
 
     <script src="js/calculator.js?v=1.0.2"></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            fetch("https://fanshopping.com.tw/wp/visit.php")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.totalVisits !== undefined) {
+                        const formattedCount = Number(data.totalVisits).toLocaleString(); // 三位加逗點
+                        document.getElementById("visitCounter").innerText = "📈 本站總訪問次數：" + formattedCount;
+                    } else {
+                        document.getElementById("visitCounter").innerText = "載入瀏覽次數失敗";
+                        console.error("API 回傳錯誤：", data);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("visitCounter").innerText = "連線錯誤";
+                    console.error("發生錯誤：", error);
+                });
+        });
+    </script>
 </body>
 </html>
