@@ -232,7 +232,7 @@
                 .then(data => {
                     if (data.totalVisits !== undefined) {
                         const formattedCount = Number(data.totalVisits).toLocaleString(); // 三位加逗點
-                        document.getElementById("visitCounter").innerText = "📈 本站總訪問次數：" + formattedCount;
+                        document.getElementById("visitCounter").innerText = "📈 本站總瀏覽：" + formattedCount + " 次";
                     } else {
                         document.getElementById("visitCounter").innerText = "載入瀏覽次數失敗";
                         console.error("API 回傳錯誤：", data);
