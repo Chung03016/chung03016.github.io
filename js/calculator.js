@@ -180,7 +180,45 @@ function findNextPromotionSlot(targetTime, slots) {
   // 若超過當日最後場次 → 返回隔日 10:00
   return "隔日 10:00";
 }
+function processStorageTime() {
+  // 取得目前選取等級的 value（結晶總量）
+  const selectedLevel = document.getElementById("S-now-lv").value;
+  const crystalAmount = parseFloat(selectedLevel);
 
+  // 取得目前修練速度
+  const speedInput = document.getElementById("S-c-speed").value;
+  const cultivationSpeed = parseFloat(speedInput);
+
+  // 驗證數值是否合法
+  if (
+    isNaN(crystalAmount) ||
+    isNaN(cultivationSpeed) ||
+    cultivationSpeed <= 0
+  ) {
+    document.getElementById("StorageTime").innerText = "請輸入有效的修練速度";
+    return;
+  }
+
+  // 計算總分鐘數
+  const totalMinutes = (crystalAmount * 0.4) / (cultivationSpeed * 60);
+
+  // 換算為秒 → 小時、分鐘、秒
+  const totalSeconds = Math.floor(totalMinutes * 60);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  // 補零的格式化函數
+  const pad = (num) => String(num).padStart(2, "0");
+
+  // 組合顯示內容：黑色文字 + 紅色時間
+  document.getElementById("StorageTime").innerHTML =
+    `<span style="color:#6d6d6d; font-size:16px;">請每隔 </span>` +
+    `<span style="color:#f00; font-size:16px;">${pad(hours)}時${pad(
+      minutes
+    )}分${pad(seconds)}秒</span>` +
+    `<span style="color:#6d6d6d; font-size:16px;"> 收取一次</span>`;
+}
 const skills = {
   N秘笈: {
     水卷: [3000, 10000, 15000, 20000, 30000],
