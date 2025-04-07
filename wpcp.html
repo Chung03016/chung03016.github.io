@@ -55,22 +55,15 @@
 
                 <!-- 🔖 Tabs 導航 -->
                 <div class="tabs">
-                    <button class="tab-btn active" data-target="tab-linroom">靈泉房計算</button>
-                    <button class="tab-btn" data-target="tab-training">修練時間計算</button>
+                    <button class="tab-btn active" data-target="tab-training">修練時間計算</button>
+                    <button class="tab-btn" data-target="tab-linroom">靈泉房計算</button>
+                    <button class="tab-btn" data-target="tab-storage">結晶儲存計算</button>
                 </div>
 
-                <!-- 📄 Tab 內容區域 -->
-                <div class="tab-content" id="tab-linroom" style="display: block;">
-                    <h3 style="color:#444;">靈泉房計算</h3>
-                    <input type="number" id="linroom" placeholder="請輸入報名房間數" oninput="processLinRoom()"><br><br>
-                    <p style="color:#333;">最終靈泉房數量</p>
-                    <div class="result" style="color:#f00;" id="linroomans">-</div>
-                    <p style="color:#333;">有機會輪空的輪次</p>
-                    <div class="result" style="color:#f00; margin-bottom:20px;" id="linroompass">-</div>
-                </div>
+                
 
                 <!-- 📄 修練時間計算工具 -->
-                <div class="tab-content" id="tab-training" style="display: none;">
+                <div class="tab-content" id="tab-training" style="display: block;">
                     <h3 style="color:#444;">修練時間計算</h3>
                     <label>現在等級：</label>
                     <select id="now-lv" onchange="processTrainingTime()">
@@ -94,7 +87,7 @@
                         <option value="166950">Lv.8 合體後期</option>
                         <option value="552320">Lv.9 洞虛前期</option>
                         <option value="376970">Lv.9 洞虛中期</option>
-                        <option value="193220">Lv.9 洞虛後期</option>
+                        <option value="193200">Lv.9 洞虛後期</option>
                         <option value="639765">Lv.10 大乘前期</option>
                         <option value="436800">Lv.10 大乘中期</option>
                         <option value="223650">Lv.10 大乘後期</option>
@@ -139,6 +132,74 @@
                     </div>
                     
                     
+                </div>
+
+                <!-- 📄 Tab 內容區域 -->
+                <div class="tab-content" id="tab-linroom" style="display: none;">
+                    <h3 style="color:#444;">靈泉房計算</h3>
+                    <input type="number" id="linroom" placeholder="請輸入報名房間數" oninput="processLinRoom()"><br><br>
+                    <p style="color:#333;">最終靈泉房數量</p>
+                    <div class="result" style="color:#f00;" id="linroomans">-</div>
+                    <p style="color:#333;">有機會輪空的輪次</p>
+                    <div class="result" style="color:#f00; margin-bottom:20px;" id="linroompass">-</div>
+                </div>
+
+                <!-- 📄 修練時間計算工具 -->
+                <div class="tab-content" id="tab-storage" style="display: none;">
+                    <h3 style="color:#444;">結晶儲存計算</h3>
+                    <label>現在等級：</label>
+                    <select id="S-now-lv" onchange="processStorageTime()">
+                        <option value="5400">Lv.3 築基前期</option>
+                        <option value="13000">Lv.3 築基中期</option>
+                        <option value="24150">Lv.3 築基後期</option>
+                        <option value="25000">Lv.4 結丹前期</option>
+                        <option value="26000">Lv.4 結丹中期</option>
+                        <option value="44625">Lv.4 結丹後期</option>
+                        <option value="48825">Lv.5 元嬰前期</option>
+                        <option value="51240">Lv.5 元嬰中期</option>
+                        <option value="54915">Lv.5 元嬰後期</option>
+                        <option value="56490">Lv.6 出竅前期</option>
+                        <option value="59325">Lv.6 出竅中期</option>
+                        <option value="61950">Lv.6 出竅後期</option>
+                        <option value="65415">Lv.7 化神前期</option>
+                        <option value="68670">Lv.7 化神中期</option>
+                        <option value="72135">Lv.7 化神後期</option>
+                        <option value="75705">Lv.8 合體前期</option>
+                        <option value="79485">Lv.8 合體中期</option>
+                        <option value="166950">Lv.8 合體後期</option>
+                        <option value="175350">Lv.9 洞虛前期</option>
+                        <option value="183750">Lv.9 洞虛中期</option>
+                        <option value="193200">Lv.9 洞虛後期</option>
+                        <option value="202965">Lv.10 大乘前期</option>
+                        <option value="213150">Lv.10 大乘中期</option>
+                        <option value="223650">Lv.10 大乘後期</option>
+                        <option value="262500">Lv.11 渡劫前期</option>
+                        <option value="283500">Lv.11 渡劫中期</option>
+                        <option value="315000">Lv.11 渡劫後期</option>
+                        <option value="1050000">Lv.12 人仙前期</option>
+                        <option value="861000">Lv.12 人仙中期</option>
+                        <option value="903000">Lv.12 人仙後期</option>
+                        <option value="924000">Lv.13 真仙前期</option>
+                        <option value="945000">Lv.13 真仙中期</option>
+                        <option value="950985">Lv.13 真仙後期</option>
+                        <option value="966980">Lv.14 金仙前期</option>
+                        <option value="985530">Lv.14 金仙中期</option>
+                        <option value="1003275">Lv.14 金仙後期</option>
+                        <option value="1020000">Lv.15 上仙前期</option>
+                        <option value="1039500">Lv.15 上仙中期</option>
+                        <option value="1058422">Lv.15 上仙後期</option>
+                        <option value="2520000">Lv.16 仙君前期</option>
+                        <option value="1890000">Lv.16 仙君中期</option>
+                        <option value="1942500">Lv.16 仙君後期</option>
+                        <option value="2047500">Lv.17 仙尊前期</option>
+                        <option value="2252250">Lv.17 仙尊中期</option>
+                        <option value="2478000">Lv.17 仙尊後期</option>
+                    </select><br><br>
+
+                    <input type="number" id="S-c-speed" placeholder="目前修練速度" oninput="processStorageTime()"><br><br>
+                    
+                    <p style="color:#333; font-size:16px;">收取結晶時間</p>
+                    <div class="result" style="color:#f00; " id="StorageTime">-</div>
                 </div>
                 
             </div>
@@ -223,16 +284,38 @@
         <div id="visitCounter" style="color:#fff; font-size:14px; margin-top:20px;"></div>
         <footer>© 2025 ᴍᴀʀᴄᴏ . All rights reserved.</footer>
     </div>
+    <!-- 🔔 更新公告 Modal -->
+    <div id="updateNoticeModal" class="update-modal">
+        <div class="update-modal-content">
+            <span class="update-close">&times;</span>
+            <div class="update-header">
+                <h2>🔔 更新公告 🔔</h2>
+                <p class="update-date">2025 / 04 / 07</p>
+            </div>
+            <div class="update-body">
+                <p> <span>➠</span> 加入結晶儲存時間的計算</p>
+                <p> <span>➠</span> 修練時間計算結果加入挑戰帖次數</p>
+            </div>
+            <div class="update-footer">
+                <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <script src="js/calculator.js?v=1.0.2"></script>
     <script>
+        // 顯示更新訊息 Modal
+
         window.addEventListener("DOMContentLoaded", () => {
             fetch("https://fanshopping.com.tw/wp/visit.php")
                 .then(response => response.json())
                 .then(data => {
                     if (data.totalVisits !== undefined) {
                         const formattedCount = Number(data.totalVisits).toLocaleString(); // 三位加逗點
-                        document.getElementById("visitCounter").innerText = "📈 本站總瀏覽：" + formattedCount + " 次";
+                        document.getElementById("visitCounter").innerText = "📈 本站總訪問次數：" + formattedCount;
                     } else {
                         document.getElementById("visitCounter").innerText = "載入瀏覽次數失敗";
                         console.error("API 回傳錯誤：", data);
@@ -242,7 +325,35 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
+
+                const versionKey = "updateNoticeShown_20250407";
+                const modal = document.getElementById("updateNoticeModal");
+                const closeBtn = document.querySelector(".update-close");
+                const dismissForeverBtn = document.getElementById("dismissForeverBtn");
+
+                // 若之前沒設定過永久關閉，顯示 modal
+                if (!localStorage.getItem(versionKey)) {
+                    modal.style.display = "block";
+                }
+
+                // 關閉按鈕 (這次關閉，下次仍會出現)
+                closeBtn.onclick = () => modal.style.display = "none";
+
+                // 永久不再顯示
+                dismissForeverBtn.onclick = () => {
+                    localStorage.setItem(versionKey, "true");
+                    modal.style.display = "none";
+                };
+
+                // 點擊外部區域關閉
+                window.onclick = (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = "none";
+                    }
+                };
         });
     </script>
+
+    
 </body>
 </html>
