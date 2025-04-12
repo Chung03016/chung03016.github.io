@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>戰力計算器</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.0.2">
+    <link rel="stylesheet" href="css/styles.css?v=1.0.1">
     
 </head>
 <body>
@@ -290,11 +290,10 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 07</p>
+                <p class="update-date">2025 / 04 / 13</p>
             </div>
             <div class="update-body">
-                <p> <span>➠</span> 加入結晶儲存時間的計算</p>
-                <p> <span>➠</span> 修練時間計算結果加入挑戰帖次數</p>
+                <p> <span>➠</span> 已重新修正玩家提出功法計算上的邏輯錯誤</p>
             </div>
             <div class="update-footer">
                 <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
@@ -326,7 +325,7 @@
                     console.error("發生錯誤：", error);
                 });
 
-                const versionKey = "updateNoticeShown_20250407";
+                const versionKey = "updateNoticeShown_20250413";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
