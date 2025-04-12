@@ -219,13 +219,14 @@ function processStorageTime() {
     )}分${pad(seconds)}秒</span>` +
     `<span style="color:#6d6d6d; font-size:16px;"> 收取一次</span>`;
 }
+
 const skills = {
   N秘笈: {
     水卷: [3000, 10000, 15000, 20000, 30000],
     火卷: [3000, 10000, 15000, 20000, 30000],
     木卷: [3000, 10000, 15000, 20000, 30000],
   },
-  SR秘笈: { 天罡陣: [1.02, 1.05, 1.07, 1.1, 1.12] },
+  SR秘笈: { 天罡陣: [1.02, 1.05, 1.07, 1.1, 1.15] },
 };
 
 const images = {
@@ -280,131 +281,106 @@ function calculatePower() {
     false
   );
 
-  // 計算不同屬性的戰力
-  let waterPower =
-    (basePower + bonusPower["水"]) * (1 + multiplier["水"]) * srSsrMultiplier;
-  let firePower =
-    (basePower + bonusPower["火"]) * (1 + multiplier["火"]) * srSsrMultiplier;
-  let woodPower =
-    (basePower + bonusPower["木"]) * (1 + multiplier["木"]) * srSsrMultiplier;
+  const restrainBonus = 0.05; // 克制固定加成 5%
 
-  // 計算最大 / 最小總戰力
-  let maxTotalPower = Math.max(waterPower, firePower, woodPower);
-  let minTotalPower = Math.min(waterPower, firePower, woodPower);
+  let finalWater =
+    ((basePower + basePower * (restrainBonus + multiplier["水"]) + bonusPower["水"]) *
+      srSsrMultiplier) /
+    0.95;
 
-  // 即時更新顯示結果
-  document.getElementById("waterResult").textContent = (
-    (waterPower * 1.05) /
-    0.95
-  ).toFixed(2);
-  document.getElementById("fireResult").textContent = (
-    (firePower * 1.05) /
-    0.95
-  ).toFixed(2);
-  document.getElementById("woodResult").textContent = (
-    (woodPower * 1.05) /
-    0.95
-  ).toFixed(2);
+  let finalFire =
+    ((basePower + basePower * (restrainBonus + multiplier["火"]) + bonusPower["火"]) *
+      srSsrMultiplier) /
+    0.95;
+
+  let finalWood =
+    ((basePower + basePower * (restrainBonus + multiplier["木"]) + bonusPower["木"]) *
+      srSsrMultiplier) /
+    0.95;
+
+  document.getElementById("waterResult").textContent = finalWater.toFixed(2);
+  document.getElementById("fireResult").textContent = finalFire.toFixed(2);
+  document.getElementById("woodResult").textContent = finalWood.toFixed(2);
 }
 
+
 function calculateRequiredPower() {
-  let opponentPower =
-    parseFloat(document.getElementById("opponentPower").value) || 0;
+  let opponentPower = parseFloat(document.getElementById("opponentPower").value) || 0;
+
+  // 對手功法 / 心法加成
   let {
     bonusPower: oppBonus,
-    multiplier: oppMulti,
+    multiplier: oppMultiplier,
     srSsrMultiplier: oppSrSsrMultiplier,
   } = getBuffValues(
-    [
-      "opponentConfig1",
-      "opponentConfig2",
-      "opponentConfig3",
-      "opponentConfig4",
-    ],
+    ["opponentConfig1", "opponentConfig2", "opponentConfig3", "opponentConfig4"],
     true
   );
 
-  let opponentWaterPower =
-    (opponentPower + oppBonus["水"]) *
-    (1 + oppMulti["水"]) *
-    oppSrSsrMultiplier;
-  let opponentFirePower =
-    (opponentPower + oppBonus["火"]) *
-    (1 + oppMulti["火"]) *
-    oppSrSsrMultiplier;
-  let opponentWoodPower =
-    (opponentPower + oppBonus["木"]) *
-    (1 + oppMulti["木"]) *
-    oppSrSsrMultiplier;
-
-  let { bonusPower, multiplier, srSsrMultiplier } = getBuffValues(
+  // 自己的功法 / 心法加成
+  let {
+    bonusPower,
+    multiplier,
+    srSsrMultiplier,
+  } = getBuffValues(
     ["config1", "config2", "config3", "config4"],
     false
   );
 
-  let requiredWaterPower =
-    (opponentWaterPower * 0.95) /
-      (1.05 * srSsrMultiplier * (1 + multiplier["水"])) -
-    bonusPower["水"];
-  let requiredFirePower =
-    (opponentFirePower * 0.95) /
-      (1.05 * srSsrMultiplier * (1 + multiplier["火"])) -
-    bonusPower["火"];
-  let requiredWoodPower =
-    (opponentWoodPower * 0.95) /
-      (1.05 * srSsrMultiplier * (1 + multiplier["木"])) -
-    bonusPower["木"];
+  const restrainBonus = 0.05; // 克制加成固定 5%
 
-  requiredWaterPower = Math.max(0, requiredWaterPower.toFixed(2));
-  requiredFirePower = Math.max(0, requiredFirePower.toFixed(2));
-  requiredWoodPower = Math.max(0, requiredWoodPower.toFixed(2));
+  // 1️⃣ 對手最終屬性戰力（先加 bonus、再乘倍率）
+  let opponentWaterPower = ((opponentPower + oppBonus["水"]) * (1 + oppMultiplier["水"]) * oppSrSsrMultiplier);
+  let opponentFirePower = ((opponentPower + oppBonus["火"]) * (1 + oppMultiplier["火"]) * oppSrSsrMultiplier);
+  let opponentWoodPower = ((opponentPower + oppBonus["木"]) * (1 + oppMultiplier["木"]) * oppSrSsrMultiplier);
 
-  let maxRequiredPower = Math.max(
-    requiredWaterPower,
-    requiredFirePower,
-    requiredWoodPower
-  );
-  let minRequiredPower = Math.min(
-    requiredWaterPower,
-    requiredFirePower,
-    requiredWoodPower
-  );
+  // 2️⃣ 反推自己最少需要的戰力（已考慮加乘邏輯）
+  function reverseRequired(oppoPower, selfMult, selfBonus, srMul) {
+    const totalPercent = restrainBonus + selfMult;
+    return Math.max(
+      0,
+      ((oppoPower * 0.95) / (srMul * (1 + totalPercent)) - selfBonus).toFixed(2)
+    );
+  }
 
-  document.getElementById("requiredWaterPower").textContent =
-    requiredWaterPower;
+  let requiredWaterPower = reverseRequired(opponentWaterPower, multiplier["水"], bonusPower["水"], srSsrMultiplier);
+  let requiredFirePower = reverseRequired(opponentFirePower, multiplier["火"], bonusPower["火"], srSsrMultiplier);
+  let requiredWoodPower = reverseRequired(opponentWoodPower, multiplier["木"], bonusPower["木"], srSsrMultiplier);
+
+  document.getElementById("requiredWaterPower").textContent = requiredWaterPower;
   document.getElementById("requiredFirePower").textContent = requiredFirePower;
   document.getElementById("requiredWoodPower").textContent = requiredWoodPower;
 }
 
-function getBuffValues(selectIDs, isOpponent = false) {
-  let bonusPower = { 水: 0, 火: 0, 木: 0 }; // 固定戰力加成 (來自 N秘笈)
-  let multiplier = { 水: 0, 火: 0, 木: 0 }; // 百分比加成 (來自功法)
-  let srSsrMultiplier = 1; // SR/SSR心法的倍率加成 (連乘)
 
-  // 讀取心法影響 (N秘笈加固定戰力 & SR/SSR加倍率)
+function getBuffValues(selectIDs, isOpponent = false) {
+  let bonusPower = { 水: 0, 火: 0, 木: 0 };       // 固定戰力加成 (N秘笈)
+  let multiplier = { 水: 0, 火: 0, 木: 0 };        // 百分比加成 (功法)
+  let srSsrMultiplier = 1;                       // SR/SSR 乘法倍率加成
+
   selectIDs.forEach((id) => {
     let value = document.getElementById(id).value;
     if (!value) return;
     let [skill, level] = value.split("-");
     level = parseInt(level) - 1;
 
-    // N秘笈：增加固定戰力
+    // 固定戰力加成 (N秘笈)
     if (skills["N秘笈"][skill]) {
       if (skill === "水卷") bonusPower["水"] += skills["N秘笈"][skill][level];
-      else if (skill === "火卷")
-        bonusPower["火"] += skills["N秘笈"][skill][level];
-      else if (skill === "木卷")
-        bonusPower["木"] += skills["N秘笈"][skill][level];
+      else if (skill === "火卷") bonusPower["火"] += skills["N秘笈"][skill][level];
+      else if (skill === "木卷") bonusPower["木"] += skills["N秘笈"][skill][level];
     }
-    // SR/SSR秘笈 (這些秘笈是倍率加成，影響所有屬性)
-    else if (skills["SR秘笈"][skill] || skills["SSR秘笈"][skill]) {
-      let multiplierValue =
-        skills["SR秘笈"][skill]?.[level] || skills["SSR秘笈"][skill]?.[level];
-      srSsrMultiplier *= multiplierValue;
+
+    // SR/SSR 倍率加成
+    if (skills["SR秘笈"]?.[skill]) {
+      srSsrMultiplier *= skills["SR秘笈"][skill][level];
+    }
+    if (skills["SSR秘笈"]?.[skill]) {
+      srSsrMultiplier *= skills["SSR秘笈"][skill][level];
     }
   });
 
-  // 取得對應的功法加成
+  // 功法百分比加成
   let gongfaMultiplier = getGongfaMultiplier(isOpponent);
   multiplier["水"] += gongfaMultiplier["水"];
   multiplier["火"] += gongfaMultiplier["火"];
@@ -412,6 +388,7 @@ function getBuffValues(selectIDs, isOpponent = false) {
 
   return { bonusPower, multiplier, srSsrMultiplier };
 }
+
 
 function getGongfaMultiplier(isOpponent = false) {
   let multiplier = { 水: 0, 火: 0, 木: 0 };
