@@ -239,7 +239,8 @@ input[type="checkbox"] {
   margin-bottom: 20px;
 }
 
-.tab-btn {
+.tab-btn,
+.tab-btn-q {
   padding: 10px 20px;
   border: none;
   background-color: #ddd;
@@ -251,6 +252,8 @@ input[type="checkbox"] {
 }
 
 .tab-btn.active,
+.tab-btn-q.active,
+.tab-btn-q:hover,
 .tab-btn:hover {
   background-color: #666;
   color: white;
@@ -262,6 +265,7 @@ input[type="checkbox"] {
   padding: 15px;
   border-radius: 0 0 10px 10px;
 }
+
 /* 當螢幕寬度小於 600px（可自行調整）時，改為單列 */
 @media (max-width: 600px) {
   .gongfa-grid {
@@ -338,6 +342,19 @@ input[type="checkbox"] {
 .update-body p span {
   color: #ff0000;
   margin-left: 10px;
+}
+
+.indented-bullet {
+  position: relative;
+  padding-left: 1.5em; /* 給整段一個縮排空間 */
+  text-indent: -1.9em; /* 讓符號凸出來 */
+  line-height: 1.6;
+  margin: 0;
+}
+
+.bullet-icon {
+  color: #ff0000;
+  width: 1.5em; /* 對應 padding-left */
 }
 
 .update-close {
