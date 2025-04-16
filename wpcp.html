@@ -4,65 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>戰力計算器</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.0.1">
+    <link rel="stylesheet" href="css/styles.css?v=1.1.0">
     
 </head>
 <body>
     <div class="container">
-        <!-- 右上角按鈕 -->
-        <button id="infoButton" class="info-btn">問答題</button>
-        <!-- <button id="infoButton2" class="info-btn2">ℹ️ 靈泉房計算</button> -->
-        <!-- 小工具按鈕 -->
+        <button id="infoButton" class="info-btn">葵花寶典</button>
         <button id="infoButton2" class="info-btn2">小工具</button>
-       <!-- Modal 框 -->
         <div id="infoModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="color:#666;">問答題選擇與獎勵對應表</h2>
-                <div class="modal-body">
-                    <table class="modal-table">
-                        <tbody>
-                            <tr><td>幫助鸞鳥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>幫助金鼠</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>贈藥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>救治</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
-                            <tr><td>與其戰鬥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>好言相勸</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>救治</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>離去</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
-                            <tr><td>乘船前往</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>御劍前往</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>黑水湖</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>花蓮村</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
-                            <tr><td>澆灌藥園</td><td>加修為</td><td>煉丹</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>仙草</td><td>加修為</td><td>丹藥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
-                            <tr><td>夜晚前往</td><td  style="color:rgb(255, 149, 0);">元氣丹</td><td>白天前往</td><td>無</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>一同探索</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>分開探索</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
-                            <tr><td>向左走</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>向右走</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>暗中調查</td><td style="color:rgb(182, 70, 0);">挑戰帖</td><td>正面出擊</td><td>無</td></tr>
-                            <tr><td>與其戰鬥</td><td style="color:rgb(182, 70, 0);">挑戰帖</td><td>表達敬仰</td><td>加修為</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>善良</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>強大</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
-                            <tr><td>勇敢靠近</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>迅速躲避</td><td>無</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>上前切磋</td><td>加修為(較多)</td><td>謙虛回絕</td><td>無</td></tr>
-                            <tr><td>淺處挖掘</td><td>加修為</td><td>深處挖掘</td><td>無</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>普通的靈石</td><td>加修為</td><td>古怪的靈石</td><td>加修為(較多)</td></tr>
-                            <tr><td>食用果實</td><td>加修為(較多)</td><td>飲用溪水</td><td>加修為</td></tr>
-                            <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>過去</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>未來</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
-                        </tbody>
-                    </table>
+                <div class="tabs">
+                <button class="tab-btn-q active" data-target="tab-qa-table">問答</button>
+                <button class="tab-btn-q" data-target="tab-qa-info-1">功/法寶</button>
+                <button class="tab-btn-q" data-target="tab-qa-info-3">打帖戰力</button>
+                <button class="tab-btn-q" data-target="tab-qa-info-2">妖靈塔</button>
+                </div>
+                <div class="tab-content-q" id="tab-qa-table" style="display:block;">
+                    <h2 style="color:#666;">問答題選擇與獎勵對應表</h2>
+                    <div class="modal-body">
+                        <table class="modal-table">
+                            <tbody>
+                                <tr><td>幫助鸞鳥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>幫助金鼠</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>贈藥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>救治</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
+                                <tr><td>與其戰鬥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>好言相勸</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>救治</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>離去</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
+                                <tr><td>乘船前往</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>御劍前往</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>黑水湖</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>花蓮村</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
+                                <tr><td>澆灌藥園</td><td>加修為</td><td>煉丹</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>仙草</td><td>加修為</td><td>丹藥</td><td style="color:rgb(17, 144, 66);">聚靈丹</td></tr>
+                                <tr><td>夜晚前往</td><td  style="color:rgb(255, 149, 0);">元氣丹</td><td>白天前往</td><td>無</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>一同探索</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>分開探索</td><td  style="color:rgb(255, 149, 0);">元氣丹</td></tr>
+                                <tr><td>向左走</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>向右走</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>暗中調查</td><td style="color:rgb(182, 70, 0);">挑戰帖</td><td>正面出擊</td><td>無</td></tr>
+                                <tr><td>與其戰鬥</td><td style="color:rgb(182, 70, 0);">挑戰帖</td><td>表達敬仰</td><td>加修為</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>善良</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>強大</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
+                                <tr><td>勇敢靠近</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>迅速躲避</td><td>無</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>上前切磋</td><td>加修為(較多)</td><td>謙虛回絕</td><td>無</td></tr>
+                                <tr><td>淺處挖掘</td><td>加修為</td><td>深處挖掘</td><td>無</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>普通的靈石</td><td>加修為</td><td>古怪的靈石</td><td>加修為(較多)</td></tr>
+                                <tr><td>食用果實</td><td>加修為(較多)</td><td>飲用溪水</td><td>加修為</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>過去</td><td style="color:rgb(17, 144, 66);">聚靈丹</td><td>未來</td><td style="color:rgb(218, 2, 2);">扣修為</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content-q" id="tab-qa-info-1" style="display:none;">
+                    <h2 style="color:#666;">功法/法寶保底</h2>
+                    <div class="modal-body">
+                        <table class="modal-table">
+                            <thead>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <th>階段</th>
+                                    <th>功法</th>
+                                    <th>法寶</th>
+                                    <th>保底</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lv.1 凡人</td>
+                                    <td>戰力+100</td>
+                                    <td>戰力+180</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.2 練氣</td>
+                                    <td>戰力+400</td>
+                                    <td>戰力+430</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.3 築基</td>
+                                    <td>戰力+7000</td>
+                                    <td>戰力+7000</td>
+                                    <td>20</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.4 結丹</td>
+                                    <td style="background-color: rgba(253,255,124,0.47);">修煉速度+5%</td>
+                                    <td>戰力+2萬<span style="color:rgb(218, 2, 2);"><br>(禮包)</span></td>
+                                    <td>40</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.5 元嬰</td>
+                                    <td style="background-color: rgba(253,255,124,0.47);">修煉速度+5%</td>
+                                    <td>戰力+6萬</td>
+                                    <td>60</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.6 出竅</td>
+                                    <td>火屬戰力+3%</td>
+                                    <td>戰力+8萬</td>
+                                    <td>80</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.7 化神</td>
+                                    <td style="background-color: rgba(253,255,124,0.47);">水屬戰力+3%</td>
+                                    <td>戰力+10萬</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.8 合體</td>
+                                    <td>木屬戰力+3%</td>
+                                    <td>戰力+14萬</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.9 洞虛</td>
+                                    <td>戰力+10萬</td>
+                                    <td>戰力+20萬</td>
+                                    <td>150</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.10 大承</td>
+                                    <td>戰力+1%</td>
+                                    <td>戰力+40萬</td>
+                                    <td>180</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.11 渡劫</td>
+                                    <td style="background-color: rgba(253,255,124,0.47);">修煉速度+15%</td>
+                                    <td>戰力+1%</td>
+                                    <td>210</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.12 人仙</td>
+                                    <td>修煉速度+30%<span style="color:rgb(218, 2, 2);"><br>(禮包)</span></td>
+                                    <td>戰力+100萬</td>
+                                    <td>250</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.13 真仙</td>
+                                    <td>木屬戰力+5%</td>
+                                    <td>戰力+130萬</td>
+                                    <td>290</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.14 金仙</td>
+                                    <td>火屬戰力+5%</td>
+                                    <td>戰力+170萬</td>
+                                    <td>330</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.15 上仙</td>
+                                    <td>水屬戰力+5%<span style="color:rgb(218, 2, 2);"><br>(禮包)</span></td>
+                                    <td>戰力+5%<span style="color:rgb(218, 2, 2);"><br>(禮包)</span></td>
+                                    <td>370</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.16 仙君</td>
+                                    <td>戰力+300萬</td>
+                                    <td>戰力+300萬</td>
+                                    <td>410</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.17 仙尊</td>
+                                    <td>戰力+15%</td>
+                                    <td>戰力+350萬</td>
+                                    <td>450</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.18 仙帝</td>
+                                    <td>修煉速度+70%</td>
+                                    <td>戰力+15%</td>
+                                    <td>500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content-q" id="tab-qa-info-2" style="display:none;">
+                    <h2  style="color:#666;">妖靈塔保底</h2>
+                    <div class="modal-body">
+                        <table class="modal-table">
+                            <thead>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <th>階段</th>
+                                    <th>等級</th>
+                                    <th>機率</th>
+                                    <th>保底</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lv.1 - Lv.4</td>
+                                    <td>一級喚妖鈴</td>
+                                    <td>3%</td>
+                                    <td>20 (1萬金幣)</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.5 - Lv.9</td>
+                                    <td style="line-height:1.2;">一級喚妖鈴<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">二級喚妖鈴</td>
+                                    <td>3%<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">0,95%</td>
+                                    <td>20 (1萬金幣)<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">60 (3萬金幣)</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.10 - Lv.13</td>
+                                    <td>二級喚妖鈴<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">三級喚妖鈴</td>
+                                    <td>0.95%<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">0,28%</td>
+                                    <td>60 (3萬金幣)<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">200 (10萬金幣)</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.14 - Lv.18</td>
+                                    <td>三級喚妖鈴<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">四級喚妖鈴</td>
+                                    <td>0.28%<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">0,13%</td>
+                                    <td>200 (10萬金幣)<hr style="margin:5px 0px; border: none; height: 1px; background-color:rgba(195, 195, 195, 0.71);">400 (20萬金幣)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content-q" id="tab-qa-info-3" style="display:none;">
+                    <h2  style="color:#666;">打帖戰力增加</h2>
+                    <div class="modal-body">
+                        <table class="modal-table">
+                            <thead>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <th>階段</th>
+                                    <th>挑戰增加的戰力</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lv.1 凡人</td>
+                                    <td>戰力+20</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.2 練氣</td>
+                                    <td>戰力+100</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.3 築基</td>
+                                    <td>戰力+800</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.4 結丹</td>
+                                    <td>戰力+1,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.5 元嬰</td>
+                                    <td>戰力+1,500</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.6 出竅</td>
+                                    <td>戰力+2,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.7 化神</td>
+                                    <td>戰力+3,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.8 合體</td>
+                                    <td>戰力+4,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.9 洞虛</td>
+                                    <td>戰力+5,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);">
+                                    <td>Lv.10 大承</td>
+                                    <td>戰力+6,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Lv.11 渡劫</td>
+                                    <td>戰力+8,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(252, 254, 143, 0.47);">
+                                    <td>Lv.12 人仙</td>
+                                    <td>戰力+20,000</td>
+                                </tr>
+                                <tr  style="background-color: rgba(254, 255, 196, 0.47);">
+                                    <td>Lv.13 真仙</td>
+                                    <td>戰力+25,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(252, 254, 143, 0.47);">
+                                    <td>Lv.14 金仙</td>
+                                    <td>戰力+28,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(254, 255, 196, 0.47);">
+                                    <td>Lv.15 上仙</td>
+                                    <td>戰力+30,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(252, 254, 143, 0.47);">
+                                    <td>Lv.16 仙君</td>
+                                    <td>戰力+45,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(254, 255, 196, 0.47);">
+                                    <td>Lv.17 仙尊</td>
+                                    <td>戰力+60,000</td>
+                                </tr>
+                                <tr style="background-color: rgba(252, 254, 143, 0.47);">
+                                    <td>Lv.18 仙帝</td>
+                                    <td>戰力+100,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Modal -->
         <div id="infoModal2" class="modal">
             <div class="modal-content">
                 <span class="close2">&times;</span>
-
-                <!-- 🔖 Tabs 導航 -->
                 <div class="tabs">
                     <button class="tab-btn active" data-target="tab-training">修練時間計算</button>
                     <button class="tab-btn" data-target="tab-linroom">靈泉房計算</button>
                     <button class="tab-btn" data-target="tab-storage">結晶儲存計算</button>
                 </div>
-
-                
-
-                <!-- 📄 修練時間計算工具 -->
                 <div class="tab-content" id="tab-training" style="display: block;">
                     <h3 style="color:#444;">修練時間計算</h3>
                     <label>現在等級：</label>
@@ -113,28 +362,18 @@
                         <option value="4730250">Lv.17 仙尊中期</option>
                         <option value="2478000">Lv.17 仙尊後期</option>
                     </select><br><br>
-
                     <input type="number" id="now-exp" placeholder="請輸入當前修為" oninput="processTrainingTime()"><br><br>
-
                     <input type="number" id="c-speed" placeholder="目前修練速度" oninput="processTrainingTime()"><br><br>
-
                     <input type="number" id="energy-pill" placeholder="吃元氣丹可補回經驗" oninput="processTrainingTime()"><br><br>
-                    
                     <p style="color:#333; font-size:16px;">離晉升還需要的時間</p>
                     <div class="result" style="color:#f00; " id="trainingTime">-</div>
                     <div id="pkTime" style="color:#6d6d6d; "></div> 
-
                     <p style="color:#333;font-size:16px;">預計晉升時間</p>
                     <div>
                         <span class="result" style="color:#f00; margin-bottom:20px;" id="expectedTime">-</span>
                         <span class="result" style="color:#f00;" id="nextPromotionSlot">-</span>
-                        
                     </div>
-                    
-                    
                 </div>
-
-                <!-- 📄 Tab 內容區域 -->
                 <div class="tab-content" id="tab-linroom" style="display: none;">
                     <h3 style="color:#444;">靈泉房計算</h3>
                     <input type="number" id="linroom" placeholder="請輸入報名房間數" oninput="processLinRoom()"><br><br>
@@ -143,8 +382,6 @@
                     <p style="color:#333;">有機會輪空的輪次</p>
                     <div class="result" style="color:#f00; margin-bottom:20px;" id="linroompass">-</div>
                 </div>
-
-                <!-- 📄 修練時間計算工具 -->
                 <div class="tab-content" id="tab-storage" style="display: none;">
                     <h3 style="color:#444;">結晶儲存計算</h3>
                     <label>現在等級：</label>
@@ -195,20 +432,13 @@
                         <option value="2252250">Lv.17 仙尊中期</option>
                         <option value="2478000">Lv.17 仙尊後期</option>
                     </select><br><br>
-
                     <input type="number" id="S-c-speed" placeholder="目前修練速度" oninput="processStorageTime()"><br><br>
-                    
                     <p style="color:#333; font-size:16px;">收取結晶時間</p>
                     <div class="result" style="color:#f00; " id="StorageTime">-</div>
                 </div>
-                
             </div>
         </div>
-
-
-
         <h1>戰力計算器</h1>
-
         <div class="section">
             <h2>您的戰力</h2>
             <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="updateCalculations()">
@@ -223,7 +453,6 @@
                     <label><input type="checkbox" class="gongfa" value="水-5">萬世橫江典(Lv15)</label>
                 </div>
             </div>
-        
             <h3>您的心法配置</h3>
             <select class="skill-select" id="config1" onchange="updateConfig(0, this.value)"></select>
             <select class="skill-select" id="config2" onchange="updateConfig(1, this.value)"></select>
@@ -237,15 +466,11 @@
             </div>
             <p>💧可攻擊的最大戰力</p>
             <div class="result" id="waterResult">-</div>
-
             <p>🔥可攻擊的最大戰力</p>
             <div class="result" id="fireResult">-</div>
-
             <p>🪵可攻擊的最大戰力</p>
             <div class="result" id="woodResult">-</div>
-
         </div>
-
         <div class="section">
             <h2>對手戰力</h2>
             <input type="number" id="opponentPower" placeholder="請輸入對手戰力" oninput="updateCalculations()">
@@ -273,41 +498,48 @@
             </div>
             <p>💧至少需要的戰力</p>
             <div class="result" id="requiredWaterPower">-</div>
-
             <p>🔥至少需要的戰力</p>
             <div class="result" id="requiredFirePower">-</div>
-
             <p>🪵至少需要的戰力</p>
             <div class="result" id="requiredWoodPower">-</div>
-
         </div>
         <div id="visitCounter" style="color:#fff; font-size:14px; margin-top:20px;"></div>
         <footer>© 2025 ᴍᴀʀᴄᴏ . All rights reserved.</footer>
     </div>
-    <!-- 🔔 更新公告 Modal -->
     <div id="updateNoticeModal" class="update-modal">
         <div class="update-modal-content">
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 13</p>
+                <p class="update-date">2025 / 04 / 16</p>
             </div>
             <div class="update-body">
-                <p> <span>➠</span> 已修正玩家提出功法計算上的邏輯錯誤</p>
+                <p class="indented-bullet">
+                    <span class="bullet-icon">➠</span>
+                    新增葵花寶典(功法寶、妖鈴塔保底、打帖資訊)
+                </p>
             </div>
             <div class="update-footer">
                 <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
             </div>
         </div>
     </div>
-
-
-
-
-    <script src="js/calculator.js?v=1.0.3"></script>
+    <script src="js/calculator.js?v=1.1.0"></script>
     <script>
-        // 顯示更新訊息 Modal
+        const tabBtnsQ = document.querySelectorAll(".tab-btn-q");
+        const tabContentsQ = document.querySelectorAll(".tab-content-q");
+        tabBtnsQ.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const target = btn.getAttribute("data-target");
 
+                tabBtnsQ.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                tabContentsQ.forEach(content => {
+                    content.style.display = content.id === target ? "block" : "none";
+                });
+            });
+        });
         window.addEventListener("DOMContentLoaded", () => {
             fetch("https://fanshopping.com.tw/wp/visit.php")
                 .then(response => response.json())
@@ -324,27 +556,18 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-
-                const versionKey = "updateNoticeShown_20250413";
+                const versionKey = "updateNoticeShown_20250416";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
-
-                // 若之前沒設定過永久關閉，顯示 modal
                 if (!localStorage.getItem(versionKey)) {
                     modal.style.display = "block";
                 }
-
-                // 關閉按鈕 (這次關閉，下次仍會出現)
                 closeBtn.onclick = () => modal.style.display = "none";
-
-                // 永久不再顯示
                 dismissForeverBtn.onclick = () => {
                     localStorage.setItem(versionKey, "true");
                     modal.style.display = "none";
                 };
-
-                // 點擊外部區域關閉
                 window.onclick = (e) => {
                     if (e.target === modal) {
                         modal.style.display = "none";
@@ -352,7 +575,5 @@
                 };
         });
     </script>
-
-    
 </body>
 </html>
