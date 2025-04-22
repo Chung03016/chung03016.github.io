@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>修仙小助手</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.1.8">
+    <link rel="stylesheet" href="css/styles.css?v=1.2.0">
     <link rel="icon" href="img/wpcp.jpg" type="image/png">
     <link rel="apple-touch-icon" href="img/wpcp.jpg">
 </head>
@@ -444,8 +444,8 @@
             <div class="carousel-card-display" id="verticalCardDisplay">
 
             </div>
-            <div style="text-align:center;">
-                <span style="color:#FFD306;">為確保資訊正確，每筆資料只顯示30分鐘</span>
+            <div id="infoNotice" style="text-align:center;">
+                <span id="infoText" style="color:#FFD306;"></span>
             </div>
             <div class="btn-group-full">
                 <button class="marquee-btn" id="openRequestModal">求打</button>
@@ -613,6 +613,18 @@
         </div>
     </div>
     <script src="js/calculator.js?v=1.1.0"></script>
+    <script>
+        const now = new Date();
+        const hour = now.getHours();
+
+        const infoText = document.getElementById("infoText");
+
+        if (hour < 8) {
+            infoText.textContent = "夜間求打資訊將持續顯示至早上08:00";
+        } else {
+            infoText.textContent = "為確保資訊正確，每筆資料只顯示30分鐘";
+        }
+    </script>
     <script>
         const tabBtnsQ = document.querySelectorAll(".tab-btn-q");
         const tabContentsQ = document.querySelectorAll(".tab-content-q");
