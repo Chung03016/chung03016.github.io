@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>戰力計算器</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.1.0">
-    
+    <title>修仙小助手</title>
+    <link rel="stylesheet" href="css/styles.css?v=1.1.8">
+    <link rel="icon" href="img/wpcp.jpg" type="image/png">
+    <link rel="apple-touch-icon" href="img/wpcp.jpg">
 </head>
 <body>
     <div class="container">
@@ -438,7 +439,47 @@
                 </div>
             </div>
         </div>
-        <h1>戰力計算器</h1>
+        <h1>修仙小助手</h1>
+        <div class="vertical-card-carousel">
+            <div class="carousel-card-display" id="verticalCardDisplay">
+
+            </div>
+            <div class="btn-group-full">
+                <button class="marquee-btn" id="openRequestModal">求打</button>
+                <button class="marquee-btn" id="openAllRequestsModal">展開</button>
+            </div>
+
+            <div id="allRequestsModal" class="request-modal">
+            <div class="request2-modal-content" style="max-height: 80vh; overflow-y: auto;">
+                <span class="closeAllRequestsModal">&times;</span>
+                <h2>全部求打資訊</h2>
+                <select id="searchLevel" style="margin-bottom: 16px; padding: 8px 12px; border-radius: 6px;">
+                    <option value="">🔍 選擇等級（全部）</option>
+                    <option value="1">Lv.1 凡人</option>
+                    <option value="2">Lv.2 練氣</option>
+                    <option value="3">Lv.3 築基</option>
+                    <option value="4">Lv.4 結丹</option>
+                    <option value="5">Lv.5 元嬰</option>
+                    <option value="6">Lv.6 出竅</option>
+                    <option value="7">Lv.7 化神</option>
+                    <option value="8">Lv.8 合體</option>
+                    <option value="9">Lv.9 洞虛</option>
+                    <option value="10">Lv.10 大承</option>
+                    <option value="11">Lv.11 渡劫</option>
+                    <option value="12">Lv.12 人仙</option>
+                    <option value="13">Lv.13 真仙</option>
+                    <option value="14">Lv.14 金仙</option>
+                    <option value="15">Lv.15 上仙</option>
+                    <option value="16">Lv.16 仙君</option>
+                    <option value="17">Lv.17 仙尊</option>
+                    <option value="18">Lv.18 仙帝</option>
+                </select>
+                <div id="allRequestsList" class="all-request-cards .carousel-card"></div>
+            </div>
+            </div>
+        </div>
+
+
         <div class="section">
             <h2>您的戰力</h2>
             <input type="number" id="inputValue" placeholder="請輸入您的戰力" oninput="updateCalculations()">
@@ -511,17 +552,61 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 16</p>
+                <p class="update-date">2025 / 04 / 22</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    新增葵花寶典(功法寶、妖鈴塔保底、打帖資訊)
+                    新增即時求打交流的功能，可根據等級搜尋適合自己的求打資訊。
                 </p>
             </div>
             <div class="update-footer">
                 <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
             </div>
+        </div>
+    </div>
+
+    <div id="requestModal" class="request-modal">
+        <div class="request-modal-content">
+            <span class="closeRequestModal">&times;</span>
+            <h2>求打資訊填寫</h2>
+            <form id="requestForm">
+                <select id="req-level">
+                    <option value="">您的等級</option>
+                    <option value="1">Lv.1 凡人</option>
+                    <option value="2">Lv.2 練氣</option>
+                    <option value="3">Lv.3 築基</option>
+                    <option value="4">Lv.4 結丹</option>
+                    <option value="5">Lv.5 元嬰</option>
+                    <option value="6">Lv.6 出竅</option>
+                    <option value="7">Lv.7 化神</option>
+                    <option value="8">Lv.8 合體</option>
+                    <option value="9">Lv.9 洞虛</option>
+                    <option value="10">Lv.10 大承</option>
+                    <option value="11">Lv.11 渡劫</option>
+                    <option value="12">Lv.12 人仙</option>
+                    <option value="13">Lv.13 真仙</option>
+                    <option value="14">Lv.14 金仙</option>
+                    <option value="15">Lv.15 上仙</option>
+                    <option value="16">Lv.16 仙君</option>
+                    <option value="17">Lv.17 仙尊</option>
+                    <option value="18">Lv.18 仙帝</option>
+                </select>
+                <input type="text" id="req-nickname" placeholder="請輸入遊戲暱稱" >
+                <input type="number" id="req-power" placeholder="請輸入目前戰力">
+                <select id="req-attr">
+                    <option value="">請選擇求打屬性</option>
+                    <option value="水">水屬</option>
+                    <option value="火">火屬</option>
+                    <option value="木">木屬</option>
+                </select>
+                <input type="text" id="req-location" placeholder="請輸入求打位置">
+                <input type="text" id="req-note" placeholder="備註">
+
+                <div></div>
+                <button type="button" id="submitRequest">發送</button>
+            </form>
+
         </div>
     </div>
     <script src="js/calculator.js?v=1.1.0"></script>
@@ -545,7 +630,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.totalVisits !== undefined) {
-                        const formattedCount = Number(data.totalVisits).toLocaleString(); // 三位加逗點
+                        const formattedCount = Number(data.totalVisits).toLocaleString();
                         document.getElementById("visitCounter").innerText = "📈 本站總訪問次數：" + formattedCount;
                     } else {
                         document.getElementById("visitCounter").innerText = "載入瀏覽次數失敗";
@@ -556,7 +641,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250416";
+                const versionKey = "updateNoticeShown_20250422";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
@@ -573,7 +658,190 @@
                         modal.style.display = "none";
                     }
                 };
+
+                const openBtn = document.getElementById("openRequestModal");
+                const modalReq = document.getElementById("requestModal");
+                const closeBtnReq = document.querySelector(".closeRequestModal");
+
+                openBtn.onclick = () => modalReq.style.display = "block";
+                closeBtnReq.onclick = () => modalReq.style.display = "none";
+                window.onclick = (e) => {
+                    if (e.target === modalReq) {
+                        modalReq.style.display = "none";
+                    }
+                };
+
+                document.getElementById("submitRequest").addEventListener("click", () => {
+                    const level = document.getElementById("req-level").value;
+                    const nickname = document.getElementById("req-nickname").value.trim();
+                    const power = document.getElementById("req-power").value.trim();
+                    const attr = document.getElementById("req-attr").value;
+                    const location = document.getElementById("req-location").value.trim();
+                    const note = document.getElementById("req-note").value.trim();
+
+                    if (!level || !nickname || !power || !attr || !location) {
+                        alert("請填寫完整資訊！");
+                        return;
+                    }
+                    fetch("https://fanshopping.com.tw/wp/save_request.php", {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({level, nickname, power, attr, location, note})
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            modalReq.style.display = "none";
+                            updateVerticalMarquee();
+                        } else {
+                            alert("送出失敗，請稍後再試");
+                        }
+                    });
+                });
         });
+
+
+        let currentSlideIndex = 0;
+        let slideData = []; 
+
+        function showSlide(index) {
+            const container = document.getElementById("verticalCardDisplay");
+
+            const oldCard = container.querySelector(".vertical-slide-card");
+            if (oldCard) {
+                oldCard.classList.remove("enter");
+                oldCard.classList.add("exit");
+                setTimeout(() => {
+                if (oldCard.parentNode) oldCard.parentNode.removeChild(oldCard);
+                }, 600);
+            }
+
+            const d = slideData[index];
+           
+            const attrIconMap = {
+                "水": "💧",
+                "火": "🔥",
+                "木": "🪵"
+            };
+            const attrIcon = attrIconMap[d.attr] || "";
+            const newCard = document.createElement("div");
+            newCard.className = "vertical-slide-card enter";
+            newCard.setAttribute("data-attr", d.attr);
+            newCard.innerHTML = `
+                <strong>Lv.${d.level}｜${d.nickname}</strong>｜${attrIcon}<br>
+                戰力 ➠ ${Number(d.power).toLocaleString()}<br>
+                位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}`;
+            container.appendChild(newCard);
+        }
+
+
+        function startCardRotation() {
+            setInterval(() => {
+                if (slideData.length === 0) return;
+                currentSlideIndex = (currentSlideIndex + 1) % slideData.length;
+                showSlide(currentSlideIndex);
+            }, 3000);
+        }
+
+        function updateVerticalMarquee() {
+            fetch("https://fanshopping.com.tw/wp/get_requests.php")
+                .then(res => res.json())
+                .then(data => {
+                slideData = data;
+                currentSlideIndex = 0;
+                if (slideData.length > 0) {
+                    showSlide(currentSlideIndex); 
+                    startCardRotation();          
+                }
+                });
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            updateVerticalMarquee();
+        });
+
     </script>
+    <script>
+        const openAllBtn = document.getElementById("openAllRequestsModal");
+        const allModal = document.getElementById("allRequestsModal");
+        const closeAllBtn = document.querySelector(".closeAllRequestsModal");
+
+        openAllBtn.onclick = () => {
+        allModal.style.display = "block";
+        fetch("https://fanshopping.com.tw/wp/get_requests.php")
+            .then(res => res.json())
+            .then(data => {
+            const list = document.getElementById("allRequestsList");
+            list.innerHTML = "";
+            document.getElementById("noResultMessage")?.remove();
+            if (data.length > 0) {
+                data.forEach(d => {
+                    const attrIcons = {
+                    "水": "💧",
+                    "火": "🔥",
+                    "木": "🪵"
+                    };
+                    const icon = attrIcons[d.attr] || "";
+
+                    const card = document.createElement("div");
+                    card.className = "carousel-card";
+                    card.setAttribute("data-attr", d.attr);
+                    card.setAttribute("data-level", d.level);
+                    card.innerHTML = `
+                    <strong>Lv.${d.level}｜${d.nickname}</strong>｜${icon}<br>
+                    戰力 ➠ ${Number(d.power).toLocaleString()}<br>
+                    位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}
+                    `;
+                    list.appendChild(card);
+                });
+                } else {
+                list.innerHTML = `<p id="noResultMessage">目前尚無求打資訊</p>`;
+                }
+            });
+        };
+
+        closeAllBtn.onclick = () => {
+        allModal.style.display = "none";
+        };
+
+        window.onclick = (e) => {
+        if (e.target === allModal) {
+            allModal.style.display = "none";
+        }
+        };
+        document.getElementById("searchLevel").addEventListener("change", function () {
+            const selectedLevel = this.value;
+            const cards = document.querySelectorAll("#allRequestsList .carousel-card");
+
+            let hasVisible = false;
+
+            cards.forEach(card => {
+                const cardLevel = card.getAttribute("data-level");
+                if (!selectedLevel || cardLevel === selectedLevel) {
+                card.style.display = "block";
+                hasVisible = true;
+                } else {
+                card.style.display = "none";
+                }
+            });
+
+            const noResult = document.getElementById("noResultMessage");
+            if (!hasVisible) {
+                if (!noResult) {
+                const msg = document.createElement("div");
+                msg.id = "noResultMessage";
+                msg.textContent = "目前尚無求打資訊...";
+                msg.style.cssText = "text-align:center; padding:20px; font-weight:bold; color:#666;";
+                document.getElementById("allRequestsList").appendChild(msg);
+                }
+            } else {
+                if (noResult) noResult.remove();
+            }
+            });
+
+
+    </script>
+    
+
 </body>
 </html>
