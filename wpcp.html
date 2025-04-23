@@ -748,7 +748,24 @@
                 位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}`;
             container.appendChild(newCard);
         }
+        
+        function showNoDataCard() {
+            const container = document.getElementById("verticalCardDisplay");
 
+            const oldCard = container.querySelector(".vertical-slide-card");
+            if (oldCard) {
+                oldCard.classList.remove("enter");
+                oldCard.classList.add("exit");
+                setTimeout(() => {
+                    if (oldCard.parentNode) oldCard.parentNode.removeChild(oldCard);
+                }, 600);
+            }
+
+            const newCard = document.createElement("div");
+            newCard.className = "vertical-slide-card enter";
+            newCard.innerHTML = `<strong style="color:#888;">尚無求打資訊</strong>`;
+            container.appendChild(newCard);
+        }
 
         function startCardRotation() {
             setInterval(() => {
@@ -762,12 +779,14 @@
             fetch("https://fanshopping.com.tw/wp/get_requests.php")
                 .then(res => res.json())
                 .then(data => {
-                slideData = data;
-                currentSlideIndex = 0;
-                if (slideData.length > 0) {
-                    showSlide(currentSlideIndex); 
-                    startCardRotation();          
-                }
+                    slideData = data;
+                    currentSlideIndex = 0;
+                    if (slideData.length > 0) {
+                        showSlide(currentSlideIndex);
+                        startCardRotation();
+                    } else {
+                        showNoDataCard();
+                    }
                 });
         }
 
