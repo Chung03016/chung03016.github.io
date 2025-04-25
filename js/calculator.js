@@ -1,38 +1,31 @@
 function processLinRoom() {
   let roomnum = parseInt(document.getElementById("linroom").value);
   let roundsWithBye = [];
-
-  // 🛡️ 若輸入無效或為負數 → 清空結果並返回
   if (isNaN(roomnum) || roomnum <= 0) {
     document.getElementById("linroomans").textContent = "-";
     document.getElementById("linroompass").textContent = "-";
     return;
   }
 
-  let finalRoomCount = roomnum; // 記錄最後剩下的房間數
+  let finalRoomCount = roomnum; 
 
-  // 循環最多 5 輪 (可視需求調整)
   for (let i = 1; i <= 5; i++) {
-    if (roomnum <= 1) break; // 若剩 1 間則提前結束
+    if (roomnum <= 1) break;
 
     if (roomnum % 2 !== 0) {
-      // 🧮 奇數房間 → +1 後除以 2 並記錄輪空輪次
       roomnum = Math.ceil(roomnum / 2);
-      roundsWithBye.push(i); // 第 i 輪有機會輪空
+      roundsWithBye.push(i); 
     } else {
-      // ⚖️ 偶數房間 → 直接除以 2
       roomnum = roomnum / 2;
     }
-    finalRoomCount = roomnum; // 更新最終房間數
+    finalRoomCount = roomnum;
   }
 
-  // ✅ 更新計算結果
   document.getElementById("linroomans").textContent = finalRoomCount;
   document.getElementById("linroompass").textContent =
     roundsWithBye.length > 0 ? roundsWithBye.join("、") : "無";
 }
 
-// 修練時間計算
 function processTrainingTime() {
   const nowlv = parseInt(document.getElementById("now-lv").value);
   const nowexp = parseInt(document.getElementById("now-exp").value);
@@ -42,7 +35,6 @@ function processTrainingTime() {
   const expectedDiv = document.getElementById("expectedTime");
   const nextSlotDiv = document.getElementById("nextPromotionSlot");
 
-  // 驗證輸入
   if (isNaN(nowlv) || isNaN(nowexp) || isNaN(cspeed) || cspeed <= 0) {
     resultDiv.textContent = "-";
     return;
@@ -51,13 +43,9 @@ function processTrainingTime() {
   const remainingExp = nowlv - nowexp - (isNaN(energypill) ? 0 : energypill);
   if (remainingExp <= 0) {
     resultDiv.textContent = "已達滿修為";
-
-    // 🕰️ 計算預計晉升時間
     const now = new Date();
-    now.setMinutes(now.getMinutes()); // 將計算分鐘加到當前時間
+    now.setMinutes(now.getMinutes()); 
     expectedDiv.textContent = ``;
-
-    // 📅 晉升場次 (每日固定場次)
     const promotionSlots = [
       "10:00",
       "11:00",
@@ -76,32 +64,22 @@ function processTrainingTime() {
       "00:00",
     ];
 
-    // 🔎 計算最近可晉升場次
     const promotionTime = findNextPromotionSlot(now, promotionSlots);
     nextSlotDiv.textContent = `(${promotionTime}秘境)`;
     return;
   }
-
-  // 🕒 計算所需時間 (分鐘)
   const totalMinutes = Math.round(remainingExp / cspeed / 60);
-
-  // ⏳ 換算成 小時 + 分鐘
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
-
-  // 📄 顯示結果
   resultDiv.textContent = `${hours} 小時 ${minutes} 分鐘`;
-
-  // 🕰️ 計算預計晉升時間
   const now = new Date();
-  now.setMinutes(now.getMinutes() + totalMinutes); // 將計算分鐘加到當前時間
+  now.setMinutes(now.getMinutes() + totalMinutes); 
 
-  const expectedHours = now.getHours().toString().padStart(2, "0"); // 補零格式
+  const expectedHours = now.getHours().toString().padStart(2, "0"); 
   const expectedMinutes = now.getMinutes().toString().padStart(2, "0");
 
   expectedDiv.textContent = `${expectedHours}:${expectedMinutes} 修為可滿`;
 
-  // 📅 晉升場次 (每日固定場次)
   const promotionSlots = [
     "10:00",
     "11:00",
@@ -120,11 +98,9 @@ function processTrainingTime() {
     "00:00",
   ];
 
-  // 🔎 計算最近可晉升場次
   const promotionTime = findNextPromotionSlot(now, promotionSlots);
   nextSlotDiv.textContent = `(${promotionTime}秘境)`;
 
-  // 🧮 根據 nowlv 計算對應 pkpluse 與 pkpluse2
   let pkpluse = 0;
   let pkpluse2 = 0;
 
@@ -154,7 +130,6 @@ function processTrainingTime() {
     }
   }
 
-  // 📦 計算挑戰帖數量（若資料無對應就不顯示）
   if (pkpluse > 0 && pkpluse2 > 0) {
     const pktime = Math.ceil(remainingExp / pkpluse);
     const pktime2 = Math.ceil(remainingExp / pkpluse2);
@@ -165,31 +140,36 @@ function processTrainingTime() {
   }
 }
 
-// 🔍 找到下一個可晉升場次
 function findNextPromotionSlot(targetTime, slots) {
   const targetMinutes = targetTime.getHours() * 60 + targetTime.getMinutes();
 
   for (const slot of slots) {
     const [slotHour, slotMinute] = slot.split(":").map(Number);
     const slotMinutes = slotHour * 60 + slotMinute;
-
-    // 若 targetTime <= 當前場次時間 → 該場次即為可晉升場次
-    if (targetMinutes <= slotMinutes) return slot;
+    if (
+      targetMinutes < slotMinutes ||
+      (slot === "00:00" && targetMinutes < 60)
+    ) {
+      return `${slot}`;
+    }
   }
 
-  // 若超過當日最後場次 → 返回隔日 10:00
-  return "隔日 10:00";
+  const nextDay = new Date(targetTime);
+  nextDay.setDate(nextDay.getDate() + 1);
+  return `00:00`;
+}
+
+function formatDate(date) {
+  const yyyy = date.getFullYear();
+  const mm = (date.getMonth() + 1).toString().padStart(2, "0");
+  const dd = date.getDate().toString().padStart(2, "0");
+  return `${yyyy}/${mm}/${dd}`;
 }
 function processStorageTime() {
-  // 取得目前選取等級的 value（結晶總量）
   const selectedLevel = document.getElementById("S-now-lv").value;
   const crystalAmount = parseFloat(selectedLevel);
-
-  // 取得目前修練速度
   const speedInput = document.getElementById("S-c-speed").value;
   const cultivationSpeed = parseFloat(speedInput);
-
-  // 驗證數值是否合法
   if (
     isNaN(crystalAmount) ||
     isNaN(cultivationSpeed) ||
@@ -198,20 +178,12 @@ function processStorageTime() {
     document.getElementById("StorageTime").innerText = "請輸入有效的修練速度";
     return;
   }
-
-  // 計算總分鐘數
   const totalMinutes = (crystalAmount * 0.4) / (cultivationSpeed * 60);
-
-  // 換算為秒 → 小時、分鐘、秒
   const totalSeconds = Math.floor(totalMinutes * 60);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-
-  // 補零的格式化函數
   const pad = (num) => String(num).padStart(2, "0");
-
-  // 組合顯示內容：黑色文字 + 紅色時間
   document.getElementById("StorageTime").innerHTML =
     `<span style="color:#6d6d6d; font-size:16px;">請每隔 </span>` +
     `<span style="color:#f00; font-size:16px;">${pad(hours)}時${pad(
@@ -281,7 +253,7 @@ function calculatePower() {
     false
   );
 
-  const restrainBonus = 0.05; // 克制固定加成 5%
+  const restrainBonus = 0.05;
 
   let finalWater =
     ((basePower + basePower * (restrainBonus + multiplier["水"]) + bonusPower["水"]) *
@@ -306,8 +278,6 @@ function calculatePower() {
 
 function calculateRequiredPower() {
   let opponentPower = parseFloat(document.getElementById("opponentPower").value) || 0;
-
-  // 對手功法 / 心法加成
   let {
     bonusPower: oppBonus,
     multiplier: oppMultiplier,
@@ -316,8 +286,6 @@ function calculateRequiredPower() {
     ["opponentConfig1", "opponentConfig2", "opponentConfig3", "opponentConfig4"],
     true
   );
-
-  // 自己的功法 / 心法加成
   let {
     bonusPower,
     multiplier,
@@ -327,14 +295,11 @@ function calculateRequiredPower() {
     false
   );
 
-  const restrainBonus = 0.05; // 克制加成固定 5%
-
-  // 1️⃣ 對手最終屬性戰力（先加 bonus、再乘倍率）
+  const restrainBonus = 0.05;
   let opponentWaterPower = ((opponentPower + oppBonus["水"]) * (1 + oppMultiplier["水"]) * oppSrSsrMultiplier);
   let opponentFirePower = ((opponentPower + oppBonus["火"]) * (1 + oppMultiplier["火"]) * oppSrSsrMultiplier);
   let opponentWoodPower = ((opponentPower + oppBonus["木"]) * (1 + oppMultiplier["木"]) * oppSrSsrMultiplier);
 
-  // 2️⃣ 反推自己最少需要的戰力（已考慮加乘邏輯）
   function reverseRequired(oppoPower, selfMult, selfBonus, srMul) {
     const totalPercent = restrainBonus + selfMult;
     return Math.max(
@@ -354,9 +319,9 @@ function calculateRequiredPower() {
 
 
 function getBuffValues(selectIDs, isOpponent = false) {
-  let bonusPower = { 水: 0, 火: 0, 木: 0 };       // 固定戰力加成 (N秘笈)
-  let multiplier = { 水: 0, 火: 0, 木: 0 };        // 百分比加成 (功法)
-  let srSsrMultiplier = 1;                       // SR/SSR 乘法倍率加成
+  let bonusPower = { 水: 0, 火: 0, 木: 0 };
+  let multiplier = { 水: 0, 火: 0, 木: 0 };
+  let srSsrMultiplier = 1;           
 
   selectIDs.forEach((id) => {
     let value = document.getElementById(id).value;
@@ -364,14 +329,12 @@ function getBuffValues(selectIDs, isOpponent = false) {
     let [skill, level] = value.split("-");
     level = parseInt(level) - 1;
 
-    // 固定戰力加成 (N秘笈)
     if (skills["N秘笈"][skill]) {
       if (skill === "水卷") bonusPower["水"] += skills["N秘笈"][skill][level];
       else if (skill === "火卷") bonusPower["火"] += skills["N秘笈"][skill][level];
       else if (skill === "木卷") bonusPower["木"] += skills["N秘笈"][skill][level];
     }
 
-    // SR/SSR 倍率加成
     if (skills["SR秘笈"]?.[skill]) {
       srSsrMultiplier *= skills["SR秘笈"][skill][level];
     }
@@ -380,7 +343,6 @@ function getBuffValues(selectIDs, isOpponent = false) {
     }
   });
 
-  // 功法百分比加成
   let gongfaMultiplier = getGongfaMultiplier(isOpponent);
   multiplier["水"] += gongfaMultiplier["水"];
   multiplier["火"] += gongfaMultiplier["火"];
@@ -398,7 +360,7 @@ function getGongfaMultiplier(isOpponent = false) {
 
   document.querySelectorAll(checkboxSelector).forEach((cb) => {
     let [type, percent] = cb.value.split("-");
-    multiplier[type] += parseInt(percent) / 100; // 直接加總百分比
+    multiplier[type] += parseInt(percent) / 100;
   });
 
   return multiplier;
@@ -415,20 +377,21 @@ document.querySelectorAll(".opponent-gongfa").forEach((cb) => {
 window.onload = function () {
   populateSelectOptions();
 
-  // ✅ 自己的功法 - 綁定即時計算
   document.querySelectorAll(".gongfa").forEach((cb) => {
     cb.addEventListener("change", updateCalculations);
   });
 
-  // ✅ 對手的功法 - 新增這段代碼以即時計算
   document.querySelectorAll(".opponent-gongfa").forEach((cb) => {
     cb.addEventListener("change", calculateRequiredPower);
+  });
+
+  ["now-lv", "now-exp", "c-speed", "energy-pill"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", processTrainingTime);
   });
 };
 
 window.onload = populateSelectOptions;
 
-// 取得按鈕與 Modal 元素
 let modal = document.getElementById("infoModal");
 let btn = document.getElementById("infoButton");
 let modal2 = document.getElementById("infoModal2");
@@ -436,7 +399,6 @@ let btn2 = document.getElementById("infoButton2");
 let closeBtn = document.querySelector(".close");
 let closeBtn2 = document.querySelector(".close2");
 
-// 點擊按鈕，顯示 Modal
 btn.onclick = function () {
   modal.style.display = "block";
 };
@@ -444,7 +406,6 @@ btn2.onclick = function () {
   modal2.style.display = "block";
 };
 
-// 點擊關閉按鈕，隱藏 Modal
 closeBtn.onclick = function () {
   modal.style.display = "none";
 };
@@ -452,7 +413,6 @@ closeBtn2.onclick = function () {
   modal2.style.display = "none";
 };
 
-// 點擊 Modal 外部時，關閉 Modal
 window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
@@ -462,17 +422,13 @@ window.onclick = function (event) {
   }
 };
 
-// 🗂️ Tabs 切換功能
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
 
 tabButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    // 移除所有 active 樣式
     tabButtons.forEach((b) => b.classList.remove("active"));
     tabContents.forEach((c) => (c.style.display = "none"));
-
-    // 新增 active 並顯示對應內容
     btn.classList.add("active");
     document.getElementById(btn.dataset.target).style.display = "block";
   });
