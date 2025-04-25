@@ -433,3 +433,84 @@ tabButtons.forEach((btn) => {
     document.getElementById(btn.dataset.target).style.display = "block";
   });
 });
+
+document.getElementById("floatingBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("feedbackModal").style.display = "block";
+});
+
+document.querySelector(".closeFeedbackModal").onclick = () => {
+  document.getElementById("feedbackModal").style.display = "none";
+};
+
+window.onclick = (e) => {
+  if (e.target === document.getElementById("feedbackModal")) {
+    document.getElementById("feedbackModal").style.display = "none";
+  }
+};
+
+document.getElementById("submitFeedback").addEventListener("click", () => {
+  const nickname = document.getElementById("fb-nickname").value.trim();
+  const id = document.getElementById("fb-id").value.trim();
+  const message = document.getElementById("fb-message").value.trim();
+
+  if (!nickname || !id || !message) {
+    alert("請完整填寫所有欄位！");
+    return;
+  }
+
+  fetch("https://fanshopping.com.tw/wp/feedback_save.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nickname, id, message }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "success",
+          title: "感謝您的反饋！",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          customClass: {
+            popup: "my-toast",
+          },
+        });
+
+        document.getElementById("feedbackModal").style.display = "none";
+        document.getElementById("feedbackForm").reset();
+      } else {
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "error",
+          title: data.error || "送出失敗，請稍後再試",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+          customClass: {
+            popup: "my-toast",
+          },
+        });
+      }
+    })
+    .catch(() => {
+      Swal.fire({
+        toast: true,
+        position: "top",
+        icon: "error",
+        title: "伺服器錯誤，請稍後再試",
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        customClass: {
+          popup: "my-toast",
+        },
+      });
+    });
+});
+
+
