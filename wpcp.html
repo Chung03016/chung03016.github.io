@@ -633,6 +633,26 @@
     </div>
     <script src="js/calculator.js?v=1.3.0"></script>
     <script>
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                if (data.ip === '185.213.82.117') {
+                    document.body.innerHTML = `
+                        <div style="text-align:center; padding:100px; font-family:Microsoft JhengHei;">
+                            <h1 style="color:#b20000;">⚠️ 您已被封鎖</h1>
+                            <p style="font-size:20px;">由於異常行為，您的 IP 已被限制訪問本網站。</p>
+                            <p style="font-size:16px;">如有疑問請聯繫管理員。</p>
+                        </div>
+                    `;
+                    document.title = "訪問被拒絕";
+                }
+            })
+            .catch(error => {
+                console.error('取得 IP 發生錯誤', error);
+            });
+    </script>
+
+    <script>
         const now = new Date();
         const hour = now.getHours();
 
