@@ -562,6 +562,10 @@
                     <span class="bullet-icon">➠</span>
                     修正修為滿後進場的時間，23:50修為滿應是可進場00:00的場次
                 </p>
+                <p class="indented-bullet">
+                    <span class="bullet-icon">➠</span>
+                    新增反饋表單，有任何問題或是想謝謝我皆可透過表單與我聯繫！
+                </p>
             </div>
             <div class="update-footer">
                 <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
@@ -579,7 +583,7 @@
             <form id="feedbackForm">
                 <input type="text" id="fb-nickname" placeholder="暱稱">
                 <input type="text" id="fb-id" placeholder="您的 ID">
-                <textarea id="fb-message" placeholder="請輸入您的問題或建議，如果想要偷偷謝謝我也可以呦！" rows="4" style="resize: none;"></textarea>
+                <textarea id="fb-message" placeholder="請輸入您的問題或建議，如果想要感謝我也可以留言呦！" rows="4" style="resize: none;"></textarea>
                 <button type="button" id="submitFeedback">送出</button>
             </form>
         </div>
@@ -671,7 +675,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250425";
+                const versionKey = "updateNoticeShown_20250425-1";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
