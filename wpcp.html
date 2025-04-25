@@ -555,12 +555,12 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 22</p>
+                <p class="update-date">2025 / 04 / 25</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    新增即時求打交流的功能，可根據等級搜尋適合自己的求打資訊。
+                    修正修為滿後進場的時間，23:50修為滿應是可進場00:00的場次
                 </p>
             </div>
             <div class="update-footer">
@@ -612,7 +612,7 @@
 
         </div>
     </div>
-    <script src="js/calculator.js?v=1.1.0"></script>
+    <script src="js/calculator.js?v=1.2.0"></script>
     <script>
         const now = new Date();
         const hour = now.getHours();
@@ -656,7 +656,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250422";
+                const versionKey = "updateNoticeShown_20250425";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
