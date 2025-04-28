@@ -198,7 +198,10 @@ const skills = {
     火卷: [3000, 10000, 15000, 20000, 30000],
     木卷: [3000, 10000, 15000, 20000, 30000],
   },
-  SR秘笈: { 天罡陣: [1.02, 1.05, 1.07, 1.1, 1.15] },
+  SR秘笈: { 
+    天罡陣: [1.02, 1.05, 1.07, 1.1, 1.15],
+    靈泉心法: [1.02, 1.05, 1.07, 1.1, 1.15],
+  },
 };
 
 const images = {
@@ -208,6 +211,7 @@ const images = {
   水卷: "wp_image4.jpg",
   火卷: "wp_image5.jpg",
   木卷: "wp_image6.jpg",
+  靈泉心法: "wp_image7.jpg",
 };
 
 function populateSelectOptions() {
@@ -215,17 +219,23 @@ function populateSelectOptions() {
   selects.forEach((select) => {
     select.innerHTML = `<option value="">請選擇本命心法</option>`;
     for (let category in skills) {
-      let optgroup = document.createElement("optgroup");
-      optgroup.label = `-${category}-`;
+      let bigOptgroup = document.createElement("optgroup");
+      bigOptgroup.label = `-${category}-`;
+
       for (let skill in skills[category]) {
+        let skillTitle = document.createElement("option");
+        skillTitle.textContent = `- ${skill} -`;
+        skillTitle.disabled = true;
+        bigOptgroup.appendChild(skillTitle);
         for (let i = 0; i < skills[category][skill].length; i++) {
           let option = document.createElement("option");
           option.value = `${skill}-${i + 1}`;
-          option.textContent = `${skill} - LV${i + 1}`;
-          optgroup.appendChild(option);
+          option.textContent = `Lv${i + 1}`;
+          bigOptgroup.appendChild(option);
         }
       }
-      select.appendChild(optgroup);
+
+      select.appendChild(bigOptgroup);
     }
   });
 }
