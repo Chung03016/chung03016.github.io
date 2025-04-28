@@ -41,7 +41,7 @@
                                 <tr><td>與其戰鬥</td><td style="color:rgb(182, 70, 0);">挑戰帖</td><td>表達敬仰</td><td>加修為</td></tr>
                                 <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>善良</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>強大</td><td style="color:rgb(182, 70, 0);">挑戰帖</td></tr>
                                 <tr><td>勇敢靠近</td><td style="color:rgb(218, 2, 2);">扣修為</td><td>迅速躲避</td><td>無</td></tr>
-                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>上前切磋</td><td>加修為(較多)</td><td>謙虛回絕</td><td>無</td></tr>
+                                <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>上前切磋</td><td>加修為</td><td>謙虛回絕</td><td>無</td></tr>
                                 <tr><td>淺處挖掘</td><td>加修為</td><td>深處挖掘</td><td>無</td></tr>
                                 <tr style="background-color: rgba(213, 213, 213, 0.33);"><td>普通的靈石</td><td>加修為</td><td>古怪的靈石</td><td>加修為(較多)</td></tr>
                                 <tr><td>食用果實</td><td>加修為(較多)</td><td>飲用溪水</td><td>加修為</td></tr>
@@ -161,7 +161,7 @@
                                 </tr>
                                 <tr>
                                     <td>Lv.17 仙尊</td>
-                                    <td>戰力+15%</td>
+                                    <td>戰力+5%</td>
                                     <td>戰力+350萬</td>
                                     <td>450</td>
                                 </tr>
@@ -555,16 +555,20 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 25</p>
+                <p class="update-date">2025 / 04 / 28</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    修正修為滿後進場的時間，23:50修為滿應是可進場00:00的場次
+                    修正功法寶資訊上的錯誤(17等攻法修正<del>戰力+15%</del> -> 戰力+5%)
                 </p>
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    新增反饋表單，有任何問題或是想謝謝我皆可透過表單與我聯繫！
+                    更新求打資訊為只顯示2個小時內的當天資訊，並加上時間戳便於確認資訊發佈時間
+                </p>
+                <p class="indented-bullet">
+                    <span class="bullet-icon">➠</span>
+                    心法部分新增靈泉心法的選項
                 </p>
             </div>
             <div class="update-footer">
@@ -582,7 +586,7 @@
             <h2>使用者反饋</h2>
             <form id="feedbackForm">
                 <input type="text" id="fb-nickname" placeholder="暱稱">
-                <input type="text" id="fb-id" placeholder="您的 ID">
+                <input type="text" id="fb-id" placeholder="您的ID(請正確填寫我才有辦法聯繫您)">
                 <textarea id="fb-message" placeholder="請輸入您的問題或建議，如果想要感謝我也可以留言呦！" rows="4" style="resize: none;"></textarea>
                 <button type="button" id="submitFeedback">送出</button>
             </form>
@@ -631,7 +635,7 @@
 
         </div>
     </div>
-    <script src="js/calculator.js?v=1.3.0"></script>
+    <script src="js/calculator.js?v=1.4.0"></script>
     <script>
         //fetch('https://api.ipify.org?format=json')
         //    .then(response => response.json())
@@ -659,9 +663,9 @@
         const infoText = document.getElementById("infoText");
 
         if (hour < 8) {
-            infoText.textContent = "夜間求打資訊將持續顯示至早上08:00";
+            infoText.textContent = "請確保資訊的更新時間，每天0時會清空";
         } else {
-            infoText.textContent = "為確保資訊正確，每筆資料只顯示30分鐘";
+            infoText.textContent = "請確保資訊的更新時間，每天0時會清空";
         }
     </script>
     <script>
@@ -695,7 +699,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250425-1";
+                const versionKey = "updateNoticeShown_20250428";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
@@ -807,7 +811,28 @@
 
         let currentSlideIndex = 0;
         let slideData = [];
-        let rotationInterval = null; // 🔸 用來存 interval ID
+        let rotationInterval = null;
+
+        function timeAgo(createdTime) {
+            const now = new Date();
+            const created = new Date(createdTime);
+            const diffMs = now - created;
+            const diffSeconds = Math.floor(diffMs / 1000);
+
+            if (diffSeconds < 60) {
+                return `${diffSeconds}秒前`;
+            }
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            if (diffMinutes < 60) {
+                return `${diffMinutes}分鐘前`;
+            }
+            const diffHours = Math.floor(diffMinutes / 60);
+            if (diffHours < 24) {
+                return `${diffHours}小時前`;
+            }
+            const diffDays = Math.floor(diffHours / 24);
+            return `${diffDays}天前`;
+        }
 
         function showSlide(index) {
             const container = document.getElementById("verticalCardDisplay");
@@ -828,13 +853,22 @@
                 "木": "🪵"
             };
             const attrIcon = attrIconMap[d.attr] || "";
+            const timeText = d.created_at ? timeAgo(d.created_at) : "";
+
             const newCard = document.createElement("div");
             newCard.className = "vertical-slide-card enter";
             newCard.setAttribute("data-attr", d.attr);
             newCard.innerHTML = `
-                <strong>Lv.${d.level}｜${d.nickname}</strong>｜${attrIcon}<br>
-                戰力 ➠ ${Number(d.power).toLocaleString()}<br>
-                位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}`;
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>Lv.${d.level}｜${d.nickname}｜${attrIcon}</strong>
+                    <small style="color: gray; font-size: 12px;">${timeText}</small>
+                </div>
+                <div>
+                    
+                    戰力 ➠ ${Number(d.power).toLocaleString()}<br>
+                    位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}
+                </div>
+            `;
             container.appendChild(newCard);
         }
 
@@ -857,7 +891,6 @@
         }
 
         function startCardRotation() {
-            // 🔸 避免重複輪播，先清掉
             if (rotationInterval) {
                 clearInterval(rotationInterval);
             }
@@ -882,7 +915,6 @@
                     } else {
                         showNoDataCard();
 
-                        // 🔸 沒資料時也要清掉 interval
                         if (rotationInterval) {
                             clearInterval(rotationInterval);
                         }
@@ -905,31 +937,39 @@
         fetch("https://fanshopping.com.tw/wp/get_requests.php")
             .then(res => res.json())
             .then(data => {
-            const list = document.getElementById("allRequestsList");
-            list.innerHTML = "";
-            document.getElementById("noResultMessage")?.remove();
-            if (data.length > 0) {
-                data.forEach(d => {
-                    const attrIcons = {
-                    "水": "💧",
-                    "火": "🔥",
-                    "木": "🪵"
-                    };
-                    const icon = attrIcons[d.attr] || "";
+                const list = document.getElementById("allRequestsList");
+                list.innerHTML = "";
+                document.getElementById("noResultMessage")?.remove();
 
-                    const card = document.createElement("div");
-                    card.className = "carousel-card";
-                    card.setAttribute("data-attr", d.attr);
-                    card.setAttribute("data-level", d.level);
-                    card.innerHTML = `
-                    <strong>Lv.${d.level}｜${d.nickname}</strong>｜${icon}<br>
-                    戰力 ➠ ${Number(d.power).toLocaleString()}<br>
-                    位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}
-                    `;
-                    list.appendChild(card);
-                });
+                if (data.length > 0) {
+                    data.forEach(d => {
+                        const attrIcons = {
+                            "水": "💧",
+                            "火": "🔥",
+                            "木": "🪵"
+                        };
+                        const icon = attrIcons[d.attr] || "";
+                        const timeText = d.created_at ? timeAgo(d.created_at) : "";
+
+                        const card = document.createElement("div");
+                        card.className = "carousel-card";
+                        card.setAttribute("data-attr", d.attr);
+                        card.setAttribute("data-level", d.level);
+
+                        card.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong>Lv.${d.level}｜${d.nickname}｜${icon}</strong>
+                                <small style="color: gray; font-size: 12px;">${timeText}</small>
+                            </div>
+                            <div>
+                                戰力 ➠ ${Number(d.power).toLocaleString()}<br>
+                                位置 ➠ ${d.location}${d.note ? "<br>備註 ➠ " + d.note : ""}
+                            </div>
+                        `;
+                        list.appendChild(card);
+                    });
                 } else {
-                list.innerHTML = `<p id="noResultMessage">目前尚無求打資訊</p>`;
+                    list.innerHTML = `<p id="noResultMessage">目前尚無求打資訊</p>`;
                 }
             });
         };
