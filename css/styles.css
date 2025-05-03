@@ -792,6 +792,24 @@ input[type="checkbox"] {
   background-color: #ffd73a;
 }
 
+
+#predictModal button {
+  background-color: #5d0480;
+  border: none;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#predictModal button:hover {
+  background-color: #9e1db8;
+}
+
 .closeFeedbackModal {
   float: right;
   font-size: 24px;
