@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>修仙小助手</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.3.0">
+    <link rel="stylesheet" href="css/styles.css?v=1.4.0">
     <link rel="icon" href="img/wpcp.jpg" type="image/png">
     <link rel="apple-touch-icon" href="img/wpcp.jpg">
 </head>
@@ -555,20 +555,12 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 04 / 28</p>
+                <p class="update-date">2025 / 05 / 04</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    修正功法寶資訊上的錯誤(17等攻法修正<del>戰力+15%</del> -> 戰力+5%)
-                </p>
-                <p class="indented-bullet">
-                    <span class="bullet-icon">➠</span>
-                    更新求打資訊為只顯示2個小時內的當天資訊，並加上時間戳便於確認資訊發佈時間
-                </p>
-                <p class="indented-bullet">
-                    <span class="bullet-icon">➠</span>
-                    心法部分新增靈泉心法的選項
+                    新增修練等級預測器(右小角懸浮按鈕)，可根據目前的狀況去預測本紀元可能達到的階段。
                 </p>
             </div>
             <div class="update-footer">
@@ -635,7 +627,105 @@
 
         </div>
     </div>
-    <script src="js/calculator.js?v=1.4.0"></script>
+
+    <a href="#" id="floatingPredictBtn">
+        <img src="img/wpcp_btn4.png" alt="修練預測" class="floating-image-button" style="bottom: 110px; width:75px; height:75px;right:25px;">
+    </a>
+    <div id="predictModal" class="modal">
+        <div class="modal-content" style="max-height: 90vh; overflow-y: auto; padding: 20px;">
+            <span class="closePredictModal" style="float:right; cursor:pointer;">&times;</span>
+            <div id="predictorContent">
+                <div style="padding:20px;max-width:600px;margin:auto">
+                    <h2 style="color:#333;">🔮 修練預測器</h2>
+
+                    <select id="currentStage">
+                    <option>選取您目前的階段</option>
+                    <option>Lv.3 築基前期</option><option>Lv.3 築基中期</option><option>Lv.3 築基後期</option>
+                    <option>Lv.4 結丹前期</option><option>Lv.4 結丹中期</option><option>Lv.4 結丹後期</option>
+                    <option>Lv.5 元嬰前期</option><option>Lv.5 元嬰中期</option><option>Lv.5 元嬰後期</option>
+                    <option>Lv.6 出竅前期</option><option>Lv.6 出竅中期</option><option>Lv.6 出竅後期</option>
+                    <option>Lv.7 化神前期</option><option>Lv.7 化神中期</option><option>Lv.7 化神後期</option>
+                    <option>Lv.8 合體前期</option><option>Lv.8 合體中期</option><option>Lv.8 合體後期</option>
+                    <option>Lv.9 洞虛前期</option><option>Lv.9 洞虛中期</option><option>Lv.9 洞虛後期</option>
+                    <option>Lv.10 大承前期</option><option>Lv.10 大承中期</option><option>Lv.10 大承後期</option>
+                    <option>Lv.11 渡劫前期</option><option>Lv.11 渡劫中期</option><option>Lv.11 渡劫後期</option>
+                    <option>Lv.12 人仙前期</option><option>Lv.12 人仙中期</option><option>Lv.12 人仙後期</option>
+                    <option>Lv.13 真仙前期</option><option>Lv.13 真仙中期</option><option>Lv.13 真仙後期</option>
+                    <option>Lv.14 金仙前期</option><option>Lv.14 金仙中期</option><option>Lv.14 金仙後期</option>
+                    <option>Lv.15 上仙前期</option><option>Lv.15 上仙中期</option><option>Lv.15 上仙後期</option>
+                    <option>Lv.16 仙君前期</option><option>Lv.16 仙君中期</option><option>Lv.16 仙君後期</option>
+                    <option>Lv.17 仙尊前期</option><option>Lv.17 仙尊中期</option><option>Lv.17 仙尊後期</option>
+                    <option>Lv.18 仙帝前期</option><option>Lv.18 仙帝中期</option><option>Lv.18 仙帝後期</option>
+                    </select>
+                    
+
+                    <label><input type="number" id="currentExp"  placeholder="輸入您目前的修為值"></label><br>
+
+                    <fieldset style="border:1px solid #ccc;padding:10px;">
+                        <legend style="font-size:16px;">Step3 - 選擇您的心法等級</legend>
+                        <select id="youxuangong"><option>幽玄宮Lv.0</option><option>幽玄宮Lv.1</option><option>幽玄宮Lv.2</option><option>幽玄宮Lv.3</option><option>幽玄宮Lv.4</option><option>幽玄宮Lv.5</option></select><br>
+                        <select id="bingxinjue"><option>冰心訣Lv.0</option><option>冰心訣Lv.1</option><option>冰心訣Lv.2</option><option>冰心訣Lv.3</option><option>冰心訣Lv.4</option><option>冰心訣Lv.5</option></select><br>
+                        <select id="xuanminggong"><option>玄冥功Lv.0</option><option>玄冥功Lv.1</option><option>玄冥功Lv.2</option><option>玄冥功Lv.3</option><option>玄冥功Lv.4</option><option>玄冥功Lv.5</option></select><br>
+                        <select id="tianminglu"><option>天命錄Lv.0</option><option>天命錄Lv.1</option><option>天命錄Lv.2</option><option>天命錄Lv.3</option><option>天命錄Lv.4</option><option>天命錄Lv.5</option></select><br>
+                        <br><span style="color:#f00; font-size:14px;">★若沒有該心法則不用選擇</span>
+                    </fieldset><br>
+
+                    <fieldset style="border:1px solid #ccc;padding:10px;">
+                        <legend style="font-size:16px;">Step4 - 勾選您擁有的功法</legend>
+                        <label style="font-size:16px;"><input type="checkbox" class="gongfa" value="5">Lv.4 帝辰殘篇</label><br>
+                        <label style="font-size:16px;"><input type="checkbox" class="gongfa" value="5">Lv.5 英雄心法</label><br>
+                        <label style="font-size:16px;"><input type="checkbox" class="gongfa" value="15">Lv.11 萬仙鎮世圖</label><br>
+                        <label style="font-size:16px;"><input type="checkbox" class="gongfa" value="30">Lv.12 周天星海咒</label><br>
+                        <label style="font-size:16px;"><input type="checkbox" class="gongfa" value="70">Lv.18 大道甚夷卷</label><br>
+                    </fieldset><br>
+
+                    <input type="number" id="battle" placeholder="輸入您目前的戰役值">
+                    
+                    <select id="friends">
+                        <option value="">目前密友數量</option>
+                        <option value="0">0位</option>
+                        <option value="1">1位</option>
+                        <option value="2">2位</option>
+                        <option value="3">3位</option>
+                    </select>
+                    <select id="springBoost">
+                        <option value="">有無泡靈泉or贏靈泉</option>
+                        <option value="0">無</option>
+                        <option value="0.1">泡靈泉</option>
+                        <option value="0.4">贏靈泉</option>
+                    </select><br><br>
+
+
+                    <button onclick="predictStage()">開始預測</button>
+                    <div id="predictionResult" style="margin-top:20px;font-weight:bold;font-size:14px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/calculator.js?v=1.5.0"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const predictBtn = document.getElementById("floatingPredictBtn");
+            const predictModal = document.getElementById("predictModal");
+            const closePredict = document.querySelector(".closePredictModal");
+
+            predictBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                predictModal.style.display = "block";
+            });
+
+            closePredict.addEventListener("click", () => {
+                predictModal.style.display = "none";
+            });
+
+            window.addEventListener("click", (e) => {
+                if (e.target === predictModal) {
+                predictModal.style.display = "none";
+                }
+            });
+        });
+
+    </script>
     <script>
         //fetch('https://api.ipify.org?format=json')
         //    .then(response => response.json())
@@ -699,7 +789,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250428";
+                const versionKey = "updateNoticeShown_20250504";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
