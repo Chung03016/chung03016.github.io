@@ -523,4 +523,150 @@ document.getElementById("submitFeedback").addEventListener("click", () => {
     });
 });
 
+const stageList = [
+  { stage: 'Lv.3 築基前期', need: 5400, speed: 1 },
+  { stage: 'Lv.3 築基中期', need: 13000, speed: 1 },
+  { stage: 'Lv.3 築基後期', need: 24150, speed: 3 },
+  { stage: 'Lv.4 結丹前期', need: 25000, speed: 5 },
+  { stage: 'Lv.4 結丹中期', need: 26000, speed: 5 },
+  { stage: 'Lv.4 結丹後期', need: 44625, speed: 5 },
+  { stage: 'Lv.5 元嬰前期', need: 48825, speed: 5 },
+  { stage: 'Lv.5 元嬰中期', need: 51240, speed: 5 },
+  { stage: 'Lv.5 元嬰後期', need: 54915, speed: 5 },
+  { stage: 'Lv.6 出竅前期', need: 56490, speed: 5 },
+  { stage: 'Lv.6 出竅中期', need: 59325, speed: 5 },
+  { stage: 'Lv.6 出竅後期', need: 61950, speed: 5 },
+  { stage: 'Lv.7 化神前期', need: 65415, speed: 5 },
+  { stage: 'Lv.7 化神中期', need: 68670, speed: 5 },
+  { stage: 'Lv.7 化神後期', need: 72135, speed: 5 },
+  { stage: 'Lv.8 合體前期', need: 75705, speed: 10 },
+  { stage: 'Lv.8 合體中期', need: 79485, speed: 10 },
+  { stage: 'Lv.8 合體後期', need: 166950, speed: 10 },
+  { stage: 'Lv.9 洞虛前期', need: 175350, speed: 10 },
+  { stage: 'Lv.9 洞虛中期', need: 183750, speed: 10 },
+  { stage: 'Lv.9 洞虛後期', need: 193220, speed: 10 },
+  { stage: 'Lv.10 大承前期', need: 202965, speed: 10 },
+  { stage: 'Lv.10 大承中期', need: 213150, speed: 10 },
+  { stage: 'Lv.10 大承後期', need: 223650, speed: 10 },
+  { stage: 'Lv.11 渡劫前期', need: 262500, speed: 10 },
+  { stage: 'Lv.11 渡劫中期', need: 283500, speed: 10 },
+  { stage: 'Lv.11 渡劫後期', need: 315000, speed: 10 },
+  { stage: 'Lv.12 人仙前期', need: 1050000, speed: 30 },
+  { stage: 'Lv.12 人仙中期', need: 861000, speed: 30 },
+  { stage: 'Lv.12 人仙後期', need: 903000, speed: 30 },
+  { stage: 'Lv.13 真仙前期', need: 924000, speed: 30 },
+  { stage: 'Lv.13 真仙中期', need: 94500, speed: 30 },
+  { stage: 'Lv.13 真仙後期', need: 950985, speed: 30 },
+  { stage: 'Lv.14 金仙前期', need: 966980, speed: 30 },
+  { stage: 'Lv.14 金仙中期', need: 985530, speed: 30 },
+  { stage: 'Lv.14 金仙後期', need: 1003275, speed: 30 },
+  { stage: 'Lv.15 上仙前期', need: 1020000, speed: 30 },
+  { stage: 'Lv.15 上仙中期', need: 1039500, speed: 30 },
+  { stage: 'Lv.15 上仙後期', need: 1058422, speed: 30 },
+  { stage: 'Lv.16 仙君前期', need: 2520000, speed: 50 },
+  { stage: 'Lv.16 仙君中期', need: 1890000, speed: 50 },
+  { stage: 'Lv.16 仙君後期', need: 1942500, speed: 50 },
+  { stage: 'Lv.17 仙尊前期', need: 2047500, speed: 50 },
+  { stage: 'Lv.17 仙尊中期', need: 2252250, speed: 50 },
+  { stage: 'Lv.17 仙尊後期', need: 2478000, speed: 50 },
+  { stage: 'Lv.18 仙帝前期', need: 6300000, speed: 100 },
+  { stage: 'Lv.18 仙帝中期', need: 7035000, speed: 100 },
+  { stage: 'Lv.18 仙帝後期', need: 7035000, speed: 100 },
+];
+
+function getTimeRemaining() {
+  const now = new Date();
+  const day = now.getDay();
+  const end = new Date();
+  const offset = (6 - day + (day === 0 ? -1 : 0)) % 7;
+  end.setDate(now.getDate() + offset);
+  end.setHours(23, 59, 59, 999);
+  return Math.floor((end - now) / 1000);
+}
+
+function predictStage() {
+  const stageName = document.getElementById("currentStage").value;
+  const currentExp = parseInt(document.getElementById("currentExp").value) || 0;
+  const startIndex = stageList.findIndex(s => s.stage === stageName);
+  if (startIndex === -1) return;
+
+  const percentAdd = (
+    [
+      { id: 'youxuangong', rate: [0,0.01,0.02,0.03,0.04,0.06] },
+      { id: 'xuanminggong', rate: [0,0.01,0.02,0.03,0.04,0.05] },
+      { id: 'tianminglu', rate: [0,0.01,0.02,0.03,0.04,0.05] }
+    ].reduce((acc, cur) => acc + cur.rate[+document.getElementById(cur.id).selectedIndex], 0) +
+    [...document.querySelectorAll(".gongfa:checked")].reduce((acc, el) => acc + Number(el.value), 0) / 100 +
+    (() => {
+      const b = +document.getElementById("battle").value;
+      return b >= 1501 ? 0.15 : b >= 1001 ? 0.07 : b >= 501 ? 0.05 : b >= 200 ? 0.03 : 0;
+    })() +
+    (Number(document.getElementById("friends").value) * 0.05)+
+    parseFloat(document.getElementById("springBoost").value || 0)
+  );
+
+  const fixedAdd = [0,1,1,2,2,3][+document.getElementById("bingxinjue").selectedIndex];
+
+ let time = getTimeRemaining();
+let exp = currentExp;
+let maxReach = stageList[startIndex].stage;
+let finalSpeed = 0;
+
+let currentTime = Date.now();
+
+for (let i = startIndex; i < stageList.length && time > 0; i++) {
+  const { need, speed } = stageList[i];
+  const toNext = need - exp;
+
+  let accumulated = 0;
+
+  while (accumulated < toNext && time > 0) {
+    const simDate = new Date(currentTime);
+    const hour = simDate.getHours();
+
+    const percentAdd =
+      [
+        { id: 'youxuangong', rate: [0,0.01,0.02,0.03,0.04,0.06] },
+        { id: 'xuanminggong', rate: [0,0.01,0.02,0.03,0.04,0.05] },
+        { id: 'tianminglu', rate: [0,0.01,0.02,0.03,0.04,0.05] }
+      ].reduce((acc, cur) => acc + cur.rate[+document.getElementById(cur.id).selectedIndex], 0) +
+      [...document.querySelectorAll(".gongfa:checked")].reduce((acc, el) => acc + Number(el.value), 0) / 100 +
+      (() => {
+        const b = +document.getElementById("battle").value;
+        return b >= 1501 ? 0.15 : b >= 1001 ? 0.07 : b >= 501 ? 0.05 : b >= 200 ? 0.03 : 0;
+      })() +
+      ((hour >= 9 && hour <= 23) ? (Number(document.getElementById("friends").value) * 0.05) : 0) +
+      ((hour >= 10 && hour <= 22) ? parseFloat(document.getElementById("springBoost").value || 0) : 0);
+
+    const fixedAdd = [0,1,1,2,2,3][+document.getElementById("bingxinjue").selectedIndex];
+    const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
+
+    if (finalSpeed === 0) finalSpeed = trueSpeed;
+
+
+    accumulated += trueSpeed;
+    exp += trueSpeed;
+    time--;
+    currentTime += 1000; // +1 秒
+  }
+
+  if (accumulated >= toNext) {
+    exp = 0;
+    maxReach = stageList[i + 1]?.stage || stageList[i].stage;
+  }
+}
+
+Swal.fire({
+  title: '預測結果',
+  html: `
+    當前修練速度為：<span style="color:#00BFFF">${finalSpeed.toFixed(2)} 修為/秒</span><br>
+    根據目前條件，你本週可能達到<br><span style="color:#EA0000">『 ${maxReach} 』</span>
+  `,
+  icon: 'info',
+  confirmButtonText: '確定',
+});
+
+
+}
+
 
