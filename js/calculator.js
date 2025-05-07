@@ -524,6 +524,7 @@ document.getElementById("submitFeedback").addEventListener("click", () => {
 });
 
 const stageList = [
+  { stage: '', need: , speed:  },
   { stage: 'Lv.1 凡人前期', need: 15, speed: 1 },
   { stage: 'Lv.1 凡人中期', need: 25, speed: 1 },
   { stage: 'Lv.1 凡人後期', need: 50, speed: 1 },
