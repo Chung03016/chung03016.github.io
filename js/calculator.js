@@ -524,8 +524,14 @@ document.getElementById("submitFeedback").addEventListener("click", () => {
 });
 
 const stageList = [
-  { stage: 'Lv.3 築基前期', need: 5400, speed: 1 },
-  { stage: 'Lv.3 築基中期', need: 13000, speed: 1 },
+  { stage: 'Lv.1 凡人前期', need: 15, speed: 1 },
+  { stage: 'Lv.1 凡人中期', need: 25, speed: 1 },
+  { stage: 'Lv.1 凡人後期', need: 50, speed: 1 },
+  { stage: 'Lv.2 鍊氣前期', need: 100, speed: 1 },
+  { stage: 'Lv.2 鍊氣中期', need: 440, speed: 1 },
+  { stage: 'Lv.2 鍊氣後期', need: 900, speed: 1 },
+  { stage: 'Lv.3 築基前期', need: 5400, speed: 3 },
+  { stage: 'Lv.3 築基中期', need: 13000, speed: 3 },
   { stage: 'Lv.3 築基後期', need: 24150, speed: 3 },
   { stage: 'Lv.4 結丹前期', need: 25000, speed: 5 },
   { stage: 'Lv.4 結丹中期', need: 26000, speed: 5 },
