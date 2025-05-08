@@ -187,7 +187,7 @@ input[type="checkbox"] {
   text-align: center;
   position: relative;
   max-height: 80vh;
-  overflow: hidden;
+  overflow: auto;
   font-size: 16px;
 }
 
