@@ -656,7 +656,7 @@ for (let i = startIndex; i < stageList.length && time > 0; i++) {
     currentTime += 1000; // +1 秒
   }
 
-  if (accumulated >= toNext) {
+  if (accumulated >= toNext && i !== startIndex) {
     exp = 0;
     maxReach = stageList[i + 1]?.stage || stageList[i].stage;
   }
