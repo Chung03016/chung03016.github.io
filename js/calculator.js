@@ -622,7 +622,12 @@ let currentTime = Date.now();
 
 for (let i = startIndex; i < stageList.length && time > 0; i++) {
   const { need, speed } = stageList[i];
-  const toNext = need - exp;
+
+  let toNext = need - exp;
+
+  if (i === startIndex && toNext <= 0) {
+    toNext = 1;
+  }
 
   let accumulated = 0;
 
@@ -649,11 +654,10 @@ for (let i = startIndex; i < stageList.length && time > 0; i++) {
 
     if (finalSpeed === 0) finalSpeed = trueSpeed;
 
-
     accumulated += trueSpeed;
     exp += trueSpeed;
     time--;
-    currentTime += 1000; // +1 秒
+    currentTime += 1000;
   }
 
   if (accumulated >= toNext && i !== startIndex) {
@@ -661,6 +665,7 @@ for (let i = startIndex; i < stageList.length && time > 0; i++) {
     maxReach = stageList[i + 1]?.stage || stageList[i].stage;
   }
 }
+
 
 Swal.fire({
   title: '預測結果',
