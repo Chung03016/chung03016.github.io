@@ -555,12 +555,12 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 05 / 04</p>
+                <p class="update-date">2025 / 05 / 08</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    新增修練等級預測器(右小角懸浮按鈕)，可根據目前的狀況去預測本紀元可能達到的階段。
+                    已修正階段預測器基礎速度誤判問題。
                 </p>
             </div>
             <div class="update-footer">
@@ -704,7 +704,7 @@
             </div>
         </div>
     </div>
-    <script src="js/calculator.js?v=1.9.0"></script>
+    <script src="js/calculator.js?v=2.1.0"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const predictBtn = document.getElementById("floatingPredictBtn");
@@ -791,7 +791,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250504";
+                const versionKey = "updateNoticeShown_20250508";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
