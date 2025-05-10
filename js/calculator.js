@@ -590,93 +590,150 @@ function getTimeRemaining() {
   return Math.floor((end - now) / 1000);
 }
 
-function predictStage() {
-  const stageName = document.getElementById("currentStage").value;
-  const currentExp = parseInt(document.getElementById("currentExp").value) || 0;
-  const startIndex = stageList.findIndex(s => s.stage === stageName);
-  if (startIndex === -1) return;
-
-  const percentAdd = (
-    [
-      { id: 'youxuangong', rate: [0,0.01,0.02,0.03,0.04,0.06] },
-      { id: 'xuanminggong', rate: [0,0.01,0.02,0.03,0.04,0.05] },
-      { id: 'tianminglu', rate: [0,0.01,0.02,0.03,0.04,0.05] }
-    ].reduce((acc, cur) => acc + cur.rate[+document.getElementById(cur.id).selectedIndex], 0) +
-    [...document.querySelectorAll(".gongfa:checked")].reduce((acc, el) => acc + Number(el.value), 0) / 100 +
-    (() => {
-      const b = +document.getElementById("battle").value;
-      return b >= 1501 ? 0.15 : b >= 1001 ? 0.07 : b >= 501 ? 0.05 : b >= 200 ? 0.03 : 0;
-    })() +
-    (Number(document.getElementById("friends").value) * 0.05)+
-    parseFloat(document.getElementById("springBoost").value || 0)
-  );
-
-  const fixedAdd = [0,1,1,2,2,3][+document.getElementById("bingxinjue").selectedIndex];
-
- let time = getTimeRemaining();
-let exp = currentExp;
-let maxReach = stageList[startIndex].stage;
-let finalSpeed = 0;
-
-let currentTime = Date.now();
-
-for (let i = startIndex; i < stageList.length && time > 0; i++) {
-  const { need, speed } = stageList[i];
-
-  let toNext = need - exp;
-
-  if (i === startIndex && toNext <= 0) {
-    toNext = 1;
-  }
-
-  let accumulated = 0;
-
-  while (accumulated < toNext && time > 0) {
-    const simDate = new Date(currentTime);
-    const hour = simDate.getHours();
-
-    const percentAdd =
-      [
-        { id: 'youxuangong', rate: [0,0.01,0.02,0.03,0.04,0.06] },
-        { id: 'xuanminggong', rate: [0,0.01,0.02,0.03,0.04,0.05] },
-        { id: 'tianminglu', rate: [0,0.01,0.02,0.03,0.04,0.05] }
-      ].reduce((acc, cur) => acc + cur.rate[+document.getElementById(cur.id).selectedIndex], 0) +
-      [...document.querySelectorAll(".gongfa:checked")].reduce((acc, el) => acc + Number(el.value), 0) / 100 +
-      (() => {
-        const b = +document.getElementById("battle").value;
-        return b >= 1501 ? 0.15 : b >= 1001 ? 0.07 : b >= 501 ? 0.05 : b >= 200 ? 0.03 : 0;
-      })() +
-      ((hour >= 9 && hour <= 23) ? (Number(document.getElementById("friends").value) * 0.05) : 0) +
-      ((hour >= 10 && hour <= 22) ? parseFloat(document.getElementById("springBoost").value || 0) : 0);
-
-    const fixedAdd = [0,1,1,2,2,3][+document.getElementById("bingxinjue").selectedIndex];
-    const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
-
-    if (finalSpeed === 0) finalSpeed = trueSpeed;
-
-    accumulated += trueSpeed;
-    exp += trueSpeed;
-    time--;
-    currentTime += 1000;
-  }
-
-  if (accumulated >= toNext && i !== startIndex) {
-    exp = 0;
-    maxReach = stageList[i + 1]?.stage || stageList[i].stage;
-  }
+function canBreakthroughNow(date) {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour >= 10 && hour < 24 && minute === 0;
 }
 
 
-Swal.fire({
-  title: '預測結果',
-  html: `
-    當前修練速度為：<span style="color:#00BFFF">${finalSpeed.toFixed(2)} 修為/秒</span><br>
+function predictStage() {
+  const stageName = document.getElementById("currentStage").value;
+  const currentExp = parseInt(document.getElementById("currentExp").value) || 0;
+  const startIndex = stageList.findIndex((s) => s.stage === stageName);
+  if (startIndex === -1) return;
+
+  const percentAdd =
+    [
+      { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
+      { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
+      { id: "tianminglu", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
+    ].reduce(
+      (acc, cur) =>
+        acc + cur.rate[+document.getElementById(cur.id).selectedIndex],
+      0
+    ) +
+    [...document.querySelectorAll(".gongfa:checked")].reduce(
+      (acc, el) => acc + Number(el.value),
+      0
+    ) /
+      100 +
+    (() => {
+      const b = +document.getElementById("battle").value;
+      return b >= 1501
+        ? 0.15
+        : b >= 1001
+        ? 0.07
+        : b >= 501
+        ? 0.05
+        : b >= 200
+        ? 0.03
+        : 0;
+    })() +
+    Number(document.getElementById("friends").value) * 0.05 +
+    parseFloat(document.getElementById("springBoost").value || 0);
+
+  const fixedAdd = [0, 1, 1, 2, 2, 3][
+    +document.getElementById("bingxinjue").selectedIndex
+  ];
+
+  let time = getTimeRemaining();
+  let exp = currentExp;
+  let maxReach = stageList[startIndex].stage;
+  let finalSpeed = 0;
+
+  let currentTime = Date.now();
+
+  for (let i = startIndex; i < stageList.length && time > 0; i++) {
+    const { need, speed } = stageList[i];
+
+    let toNext = need - exp;
+
+    if (i === startIndex && toNext <= 0) {
+      toNext = 1;
+    }
+
+    let accumulated = 0;
+
+    while (accumulated < toNext && time > 0) {
+      const simDate = new Date(currentTime);
+      const hour = simDate.getHours();
+
+      const percentAdd =
+        [
+          { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
+          { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
+          { id: "tianminglu", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
+        ].reduce(
+          (acc, cur) =>
+            acc + cur.rate[+document.getElementById(cur.id).selectedIndex],
+          0
+        ) +
+        [...document.querySelectorAll(".gongfa:checked")].reduce(
+          (acc, el) => acc + Number(el.value),
+          0
+        ) /
+          100 +
+        (() => {
+          const b = +document.getElementById("battle").value;
+          return b >= 1501
+            ? 0.15
+            : b >= 1001
+            ? 0.07
+            : b >= 501
+            ? 0.05
+            : b >= 200
+            ? 0.03
+            : 0;
+        })() +
+        (hour >= 9 && hour <= 23
+          ? Number(document.getElementById("friends").value) * 0.05
+          : 0) +
+        (hour >= 10 && hour <= 22
+          ? parseFloat(document.getElementById("springBoost").value || 0)
+          : 0);
+
+      const fixedAdd = [0, 1, 1, 2, 2, 3][
+        +document.getElementById("bingxinjue").selectedIndex
+      ];
+      const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
+
+      if (finalSpeed === 0) finalSpeed = trueSpeed;
+
+      accumulated += trueSpeed;
+      exp += trueSpeed;
+      time--;
+      currentTime += 1000;
+    }
+
+    if (accumulated >= toNext) {
+      const nextStage = stageList[i + 1];
+      const isMajorLevelUp =
+        nextStage &&
+        parseInt(nextStage.stage.match(/\d+/)) >
+          parseInt(stageList[i].stage.match(/\d+/));
+
+      if (!isMajorLevelUp || canBreakthroughNow(new Date(currentTime))) {
+        exp = 0;
+        maxReach = nextStage?.stage || stageList[i].stage;
+      } else {
+        break;
+      }
+    }
+  }
+
+  Swal.fire({
+    title: "預測結果",
+    html: `
+    當前修練速度為：<span style="color:#00BFFF">${finalSpeed.toFixed(
+      2
+    )} 修為/秒</span><br>
     根據目前條件，你本週可能達到<br><span style="color:#EA0000">『 ${maxReach} 』</span>
   `,
-  icon: 'info',
-  confirmButtonText: '確定',
-});
-
+    icon: "info",
+    confirmButtonText: "確定",
+  });
+}
 
 }
 
