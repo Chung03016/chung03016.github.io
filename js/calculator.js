@@ -735,6 +735,3 @@ function predictStage() {
   });
 }
 
-}
-
-
