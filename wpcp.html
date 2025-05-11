@@ -555,12 +555,12 @@
             <span class="update-close">&times;</span>
             <div class="update-header">
                 <h2>🔔 更新公告 🔔</h2>
-                <p class="update-date">2025 / 05 / 08</p>
+                <p class="update-date">2025 / 05 / 12</p>
             </div>
             <div class="update-body">
                 <p class="indented-bullet">
                     <span class="bullet-icon">➠</span>
-                    已修正階段預測器基礎速度誤判問題。
+                    預測器暫時性關閉，待重新調整後會再開啟
                 </p>
             </div>
             <div class="update-footer">
@@ -628,9 +628,9 @@
         </div>
     </div>
 
-    <a href="#" id="floatingPredictBtn">
+   <!-- <a href="#" id="floatingPredictBtn">
         <img src="img/wpcp_btn4.png" alt="修練預測" class="floating-image-button" style="bottom: 110px; width:75px; height:75px;right:25px;">
-    </a>
+    </a> -->
     <div id="predictModal" class="modal">
         <div class="modal-content" style="overflow-y: auto; padding: 20px;">
             <span class="closePredictModal" style="float:right; cursor:pointer;">&times;</span>
@@ -791,7 +791,7 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250508";
+                const versionKey = "updateNoticeShown_20250512";
                 const modal = document.getElementById("updateNoticeModal");
                 const closeBtn = document.querySelector(".update-close");
                 const dismissForeverBtn = document.getElementById("dismissForeverBtn");
