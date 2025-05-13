@@ -846,4 +846,31 @@ input[type="checkbox"] {
   .marquee-btn {
     font-size: 14px;
   }
+
+  .swal2-icon.small-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 10px !important;
+  }
+  .swal-title-small {
+    font-size: 20px !important;
+  }
+}
+.loading::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #999;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
