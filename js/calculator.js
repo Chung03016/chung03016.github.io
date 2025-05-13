@@ -595,71 +595,50 @@ function canBreakthroughNow(date) {
   const minute = date.getMinutes();
   return hour >= 10 && hour < 24 && minute === 0;
 }
+function getNextBreakthroughTime(from) {
+  const next = new Date(from);
+  next.setMinutes(0, 0, 0);
+  if (from.getMinutes() > 0 || from.getSeconds() > 0) {
+    next.setHours(next.getHours() + 1);
+  }
 
+  while (next.getHours() < 10 || next.getHours() > 23) {
+    next.setHours(next.getHours() + 1);
+    next.setMinutes(0);
+  }
+
+  return next;
+}
+
+function formatDateTime24(date) {
+  return date.toLocaleString("zh-TW", {
+    hour12: false,
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
 
 function predictStage() {
-  const stageName = document.getElementById("currentStage").value;
-  const currentExp = parseInt(document.getElementById("currentExp").value) || 0;
-  const startIndex = stageList.findIndex((s) => s.stage === stageName);
-  if (startIndex === -1) return;
+  const btn = document.getElementById("predictBtn");
+  const logEl = document.getElementById("simulationLog");
+  btn.disabled = true;
+  btn.classList.add("loading");
+  btn.textContent = "預測中...";
+  logEl.innerHTML = "";
 
-  const percentAdd =
-    [
-      { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
-      { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
-      { id: "tianminglu", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
-    ].reduce(
-      (acc, cur) =>
-        acc + cur.rate[+document.getElementById(cur.id).selectedIndex],
-      0
-    ) +
-    [...document.querySelectorAll(".gongfa:checked")].reduce(
-      (acc, el) => acc + Number(el.value),
-      0
-    ) /
-      100 +
-    (() => {
-      const b = +document.getElementById("battle").value;
-      return b >= 1501
-        ? 0.15
-        : b >= 1001
-        ? 0.07
-        : b >= 501
-        ? 0.05
-        : b >= 200
-        ? 0.03
-        : 0;
-    })() +
-    Number(document.getElementById("friends").value) * 0.05 +
-    parseFloat(document.getElementById("springBoost").value || 0);
+  setTimeout(() => {
+    const stageName = document.getElementById("currentStage").value;
+    const currentExp =
+      parseInt(document.getElementById("currentExp").value) || 0;
+    const startIndex = stageList.findIndex((s) => s.stage === stageName);
+    if (startIndex === -1) return;
 
-  const fixedAdd = [0, 1, 1, 2, 2, 3][
-    +document.getElementById("bingxinjue").selectedIndex
-  ];
-
-  let time = getTimeRemaining();
-  let exp = currentExp;
-  let maxReach = stageList[startIndex].stage;
-  let finalSpeed = 0;
-
-  let currentTime = Date.now();
-
-  for (let i = startIndex; i < stageList.length && time > 0; i++) {
-    const { need, speed } = stageList[i];
-
-    let toNext = need - exp;
-
-    if (i === startIndex && toNext <= 0) {
-      toNext = 1;
-    }
-
-    let accumulated = 0;
-
-    while (accumulated < toNext && time > 0) {
-      const simDate = new Date(currentTime);
+    const getPercentAdd = (simDate) => {
       const hour = simDate.getHours();
-
-      const percentAdd =
+      return (
         [
           { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
           { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
@@ -691,47 +670,148 @@ function predictStage() {
           : 0) +
         (hour >= 10 && hour <= 22
           ? parseFloat(document.getElementById("springBoost").value || 0)
-          : 0);
+          : 0)
+      );
+    };
 
-      const fixedAdd = [0, 1, 1, 2, 2, 3][
-        +document.getElementById("bingxinjue").selectedIndex
-      ];
-      const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
+    const getFixedAdd = () =>
+      [0, 1, 1, 2, 2, 3][+document.getElementById("bingxinjue").selectedIndex];
 
-      if (finalSpeed === 0) finalSpeed = trueSpeed;
+    let time = getTimeRemaining();
+    let exp = currentExp;
+    let maxReach = stageList[startIndex].stage;
+    let finalSpeed = 0;
+    let currentTime = Date.now();
+    const logs = [];
 
-      accumulated += trueSpeed;
-      exp += trueSpeed;
-      time--;
-      currentTime += 1000;
-    }
+    for (let i = startIndex; i < stageList.length && time > 0; i++) {
+      const { need, speed } = stageList[i];
+      let toNext = need - exp;
+      if (i === startIndex && toNext <= 0) toNext = 1;
 
-    if (accumulated >= toNext) {
-      const nextStage = stageList[i + 1];
-      const isMajorLevelUp =
-        nextStage &&
-        parseInt(nextStage.stage.match(/\d+/)) >
+      let accumulated = 0;
+
+      while (accumulated < toNext && time > 0) {
+        const simDate = new Date(currentTime);
+        const percentAdd = getPercentAdd(simDate);
+        const fixedAdd = getFixedAdd();
+        const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
+
+        if (finalSpeed === 0) finalSpeed = trueSpeed;
+
+        accumulated += trueSpeed;
+        exp += trueSpeed;
+        time--;
+        currentTime += 1000;
+      }
+
+      if (accumulated >= toNext) {
+        const nextStage = stageList[i + 1];
+        if (!nextStage) break;
+
+        const isMajorLevelUp =
+          parseInt(nextStage.stage.match(/\d+/)) >
           parseInt(stageList[i].stage.match(/\d+/));
 
-      if (!isMajorLevelUp || canBreakthroughNow(new Date(currentTime))) {
+        if (isMajorLevelUp) {
+          const breakthroughTime = getNextBreakthroughTime(
+            new Date(currentTime)
+          );
+          const waitSeconds = Math.floor(
+            (breakthroughTime - currentTime) / 1000
+          );
+
+          if (time < waitSeconds) {
+            logs.push(
+              `[${new Date(currentTime).toLocaleString()}] 無法晉升 ${
+                nextStage.stage
+              }（剩餘時間不足等待突破整點）`
+            );
+            break;
+          }
+
+          logs.push(
+            `[${formatDateTime24(
+              new Date(currentTime)
+            )}] 等待 ${waitSeconds} 秒進入秘境`
+          );
+          time -= waitSeconds;
+          currentTime += waitSeconds * 1000;
+        }
+        const consumeSeconds = 4 * 60 + 1; // 240 秒
+        time -= consumeSeconds;
+        currentTime += consumeSeconds * 1000;
         exp = 0;
-        maxReach = nextStage?.stage || stageList[i].stage;
-      } else {
-        break;
+        maxReach = nextStage.stage;
+        logs.push(
+          `[${formatDateTime24(new Date(currentTime))}] 成功晉升到：${
+            nextStage.stage
+          }`
+        );
       }
     }
-  }
 
-  Swal.fire({
-    title: "預測結果",
-    html: `
-    當前修練速度為：<span style="color:#00BFFF">${finalSpeed.toFixed(
-      2
-    )} 修為/秒</span><br>
-    根據目前條件，你本週可能達到<br><span style="color:#EA0000">『 ${maxReach} 』</span>
+    Swal.fire({
+      title: "預測結果",
+      html: `
+    <div style="font-size:14px; text-align:left; max-height:70vh;overflow-y:hidden;">
+      <div style="text-align:center; margin-bottom:12px;">
+        <p style="color:#333; font-size:16px; line-height:12px;">
+          當前修練速度為&nbsp;
+          <span style="color:#00BFFF; font-size:16px; font-weight:bold;line-height:12px;">
+            ${finalSpeed.toFixed(2)} 修為/秒
+          </span>
+        </p>
+        <p style="color:#333; font-size:16px;line-height:12px;">根據目前條件，你本週可能達到</p>
+        <p style="color:#EA0000; font-size:16px; font-weight:bold;line-height:12px;">
+          『 ${maxReach} 』
+        </p>
+      </div>
+
+      <hr style="margin:0 0 8px;">
+      <div style="font-size:16px;"><strong>📊 模擬過程：</strong></div>
+      <div
+        style="
+          max-height:50vh;
+          overflow-y:auto;
+          -webkit-overflow-scrolling: touch;
+          margin-top:8px;
+          padding-right:4px;
+        "
+      >
+        ${logs
+          .map((line) => {
+            const isBreak = line.includes("成功晉升");
+            const color = isBreak ? "#4CAF50" : "#999";
+            return `
+            <div style="display:flex; align-items:flex-start; gap:6px; margin-bottom:4px;">
+              <div style="
+                width:12px; height:12px;
+                border-radius:50%;
+                background:${color};
+                margin-top:3px;
+              "></div>
+              <div style="flex:1; line-height:1.4;">${line}</div>
+            </div>
+          `;
+          })
+          .join("")}
+      </div>
+    </div>
   `,
-    icon: "info",
-    confirmButtonText: "確定",
-  });
+      width: 550,
+      heightAuto: false,
+      icon: "info",
+      confirmButtonText: "確定",
+      customClass: {
+        icon: "small-icon",
+        title: "swal-title-small",
+      },
+    }).then(() => {
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      btn.textContent = "開始預測";
+    });
+  }, 30);
 }
 
