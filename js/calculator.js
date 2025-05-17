@@ -629,41 +629,51 @@ function predictStage() {
   const logEl = document.getElementById("simulationLog");
   btn.disabled = true;
   btn.classList.add("loading");
-  btn.textContent = "預測中...";
+  btn.textContent = "預測中…";
   logEl.innerHTML = "";
 
   setTimeout(() => {
-    // --- 1) 本週結束時間（禮拜六 23:59:59.999） ---
-    const nowDate = new Date();
-    const today = nowDate.getDay(); // 0=日 … 6=六
-    const endDate = new Date(nowDate);
-    const offset = (6 - today + (today === 0 ? -1 : 0)) % 7;
-    endDate.setDate(nowDate.getDate() + offset);
+    // --- 1) 本週結束時間（週六 23:59:59.999） ---
+    const now = new Date();
+    const today = now.getDay();
+    const endDate = new Date(now);
+    const offset = (6 - today + 7) % 7;  
+    endDate.setDate(now.getDate() + offset);
     endDate.setHours(23, 59, 59, 999);
     const weekEndTime = endDate.getTime();
 
     // --- 2) 讀取使用者輸入 ---
-    const stageName = document.getElementById("currentStage").value;
-    const baseExp = parseInt(document.getElementById("currentExp").value) || 0;
-    const recoverExp =
-      parseInt(document.getElementById("potionExp").value) || 0;
-    let exp = baseExp + recoverExp;
-    const startIndex = stageList.findIndex((s) => s.stage === stageName);
+    const stageName  = document.getElementById("currentStage").value;
+    const baseExp    = parseInt(document.getElementById("currentExp").value)   || 0;
+    const recoverExp = parseInt(document.getElementById("potionExp").value)    || 0;
+    let exp          = baseExp + recoverExp;
+    const startIndex = stageList.findIndex(s => s.stage === stageName);
     if (startIndex === -1) return;
 
-    const initialBattle =
-      parseInt(document.getElementById("battle").value) || 0;
+    const initialBattle  = parseInt(document.getElementById("battle").value) || 0;
     const maintainBattle = document.getElementById("battleMaintain").checked;
-    let battleVal = maintainBattle ? 2000 : initialBattle;
+    let battleVal        = maintainBattle ? 2000 : initialBattle;
 
-    // 下一個整點該扣戰役的時間戳
-    let nextBattleReduction = new Date(Date.now());
-    nextBattleReduction.setMinutes(0, 0, 0);
-    if (nowDate.getMinutes() > 0 || nowDate.getSeconds() > 0) {
+    // --- 3) 計算模擬起始時間（週日 00:00–09:59 從 10:00 開始） ---
+    let currentTime;
+    if (now.getDay() === 0 && now.getHours() < 10) {
+      const start = new Date(now);
+      start.setHours(10, 0, 0, 0);
+      currentTime = start.getTime();
+    } else {
+      currentTime = now.getTime();
+    }
+
+    // --- 4) 剩餘可模擬秒數 ---
+    let time = Math.floor((weekEndTime - currentTime) / 1000);
+
+    // --- 5) battle 扣點：初始化下一個整點 ---
+    let nextBattleReduction = new Date(currentTime);
+    nextBattleReduction.setMinutes(0, 0, 0, 0);
+    if (new Date(currentTime).getMinutes() > 0 || new Date(currentTime).getSeconds() > 0) {
       nextBattleReduction.setHours(nextBattleReduction.getHours() + 1);
     }
 
-    // 每當模擬進度到達或超過下一個整點，就扣 200；若維持勾選則鎖 2000 不變
     function updateBattle(simTimeMs) {
       if (maintainBattle) {
         battleVal = 2000;
@@ -671,46 +681,38 @@ function predictStage() {
       }
       while (simTimeMs >= nextBattleReduction.getTime()) {
         battleVal = Math.max(0, battleVal - 200);
-        // 推到下一整點
-        nextBattleReduction = new Date(
-          nextBattleReduction.getTime() + 3600 * 1000
-        );
+        nextBattleReduction = new Date(nextBattleReduction.getTime() + 3600 * 1000);
       }
     }
 
-    // --- 3) 加成計算函式（使用 battleVal） ---
+    // --- 6) 加成計算（battleVal, 密友09–23, 靈泉11–22）---
     function getPercentAdd(simDate, currentLevel) {
       const h = simDate.getHours();
-      // 心法 dropdown + 戰役 + 密友 + 靈泉
       const base =
-        [
-          { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
-          { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
-          { id: "tianminglu", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
-        ].reduce(
-          (sum, cur) =>
+        [ { id:"youxuangong", rate:[0,0.01,0.02,0.03,0.04,0.06] },
+          { id:"xuanminggong", rate:[0,0.01,0.02,0.03,0.04,0.05] },
+          { id:"tianminglu", rate:[0,0.01,0.02,0.03,0.04,0.05] }
+        ].reduce((sum, cur) =>
             sum + cur.rate[document.getElementById(cur.id).selectedIndex],
           0
         ) +
-        (battleVal >= 1501
-          ? 0.15
-          : battleVal >= 1001
-          ? 0.07
-          : battleVal >= 501
-          ? 0.05
-          : battleVal >= 200
-          ? 0.03
-          : 0) +
+        (battleVal >= 1501 ? 0.15
+         : battleVal >= 1001 ? 0.07
+         : battleVal >= 501  ? 0.05
+         : battleVal >= 200  ? 0.03
+         : 0
+        ) +
         (h >= 9 && h <= 23
           ? +document.getElementById("friends").value * 0.05
-          : 0) +
+          : 0
+        ) +
         (h >= 11 && h <= 22
           ? parseFloat(document.getElementById("springBoost").value || 0)
-          : 0);
+          : 0
+        );
 
-      // 功法
-      const gf =
-        [...document.querySelectorAll(".gongfa:checked")].reduce((sum, el) => {
+      const gf = [...document.querySelectorAll(".gongfa:checked")]
+        .reduce((sum, el) => {
           const req = +el.dataset.level;
           return sum + (currentLevel >= req ? +el.value : 0);
         }, 0) / 100;
@@ -719,147 +721,126 @@ function predictStage() {
     }
 
     const getFixedAdd = () =>
-      [0, 1, 1, 2, 2, 3][+document.getElementById("bingxinjue").selectedIndex];
+      [0,1,1,2,2,3][+document.getElementById("bingxinjue").selectedIndex];
 
-    // --- 4) 開始整週模擬 ---
-    let time = getTimeRemaining();
-    let maxReach = stageList[startIndex].stage;
-    let finalSpeed = 0;
-    let currentTime = Date.now();
-    const logs = [];
+    // --- 7) 開始整週模擬 ---
+    let maxReach      = stageList[startIndex].stage;
+    let finalSpeed    = 0;
+    const logs        = [];
     let lastTrueSpeed = 0;
-    let lastIndex = startIndex;
+    let lastIndex     = startIndex;
+
     for (let i = startIndex; i < stageList.length && time > 0; i++) {
+      lastIndex = i;
       const { need, speed, stage } = stageList[i];
       const lvl = parseInt(stage.match(/\d+/)[0], 10);
-      lastIndex = i;
-      // 更新戰役到當前時間
+
       updateBattle(currentTime);
 
-      // 4.1) 開始這個子階段
-      const sim0 = new Date(currentTime);
-      const pct0 = getPercentAdd(sim0, lvl);
-      const fx0 = getFixedAdd();
+      // 7.1) 開始子階段
+      const sim0      = new Date(currentTime);
+      const pct0      = getPercentAdd(sim0, lvl);
+      const fx0       = getFixedAdd();
       const initSpeed = speed * (1 + pct0) + fx0;
       if (i === startIndex) {
-        // 第一階段多顯示「baseExp + recoverExp」
         logs.push(
-          `<span style="font-weight: 600;">[${formatDateTime24(sim0)}]</span>  <br/>開始模擬 ${stage}` +
-            `； ${initSpeed.toFixed(2)} 修為/秒`
+          `<span style="font-weight:600">[${formatDateTime24(sim0)}]</span><br/>` +
+          `開始模擬 ${stage}；${initSpeed.toFixed(2)} 修為/秒`
         );
-      } else {
-        // 其餘階段只顯示 exp/need
-        // logs.push(
-        //   `[${formatDateTime24(sim0)}] 開始模擬 ${stage}` +
-        //     `；[${exp.toFixed(0)}/${need}]` +
-        //     `；速度 ${initSpeed.toFixed(2)}；戰役 ${battleVal}`
-        // );
       }
 
       let toNext = need - exp;
       if (i === startIndex && toNext <= 0) toNext = 1;
 
       let accumulated = 0;
-
-      // 每秒累積直至該子階段完成或時間耗盡
       while (accumulated < toNext && time > 0) {
-        const simDate = new Date(currentTime);
+        const simDate   = new Date(currentTime);
         updateBattle(currentTime);
+        const p = getPercentAdd(simDate, lvl);
+        const f = getFixedAdd();
+        const ts = speed * (1 + p) + f;
+        lastTrueSpeed = ts;
+        if (!finalSpeed) finalSpeed = ts;
 
-        const pctAdd = getPercentAdd(simDate, lvl);
-        const fxAdd = getFixedAdd();
-        const trueSpeed = speed * (1 + pctAdd) + fxAdd;
-
-        lastTrueSpeed = trueSpeed;
-        if (!finalSpeed) finalSpeed = trueSpeed;
-
-        accumulated += trueSpeed;
-        exp += trueSpeed;
+        accumulated += ts;
+        exp += ts;
         time--;
         currentTime += 1000;
       }
       if (accumulated < toNext) break;
 
-      // 4.2) 準備下一階段
-      const nextStage = stageList[i + 1];
+      // 7.2) 大階段突破？僅 lvl≥4 時才進秘境
+      const nextStage = stageList[i+1];
       if (!nextStage) break;
       const nextLvl = parseInt(nextStage.stage.match(/\d+/)[0], 10);
       const isMajor = nextLvl > lvl;
 
-      // 大階段突破要等待+突破（也要分段 updateBattle）
       if (isMajor && lvl >= 4) {
         const brkDate = getNextBreakthroughTime(new Date(currentTime));
-        const brkMs = brkDate.getTime();
+        const brkMs   = brkDate.getTime();
         if (brkMs > weekEndTime) {
           logs.push(
-            `[${formatDateTime24(
-              new Date(currentTime)
-            )}] 本週最後一場秘境已過，模擬結束`
+            `[${formatDateTime24(new Date(currentTime))}] 本週最後一場秘境已過，模擬結束`
           );
           break;
         }
 
-        // 拆段等待進秘境
-        const totalWaitSec = Math.floor((brkMs - currentTime) / 1000);
+        // 拆段等待 & 突破同秒累積
+        const totalWaitSec = Math.floor((brkMs - currentTime)/1000);
+        const midnight     = new Date(currentTime);
+        midnight.setHours(24,0,0,0);
 
-        // 段 1：到午夜或突破時間
-        const midnight = new Date(currentTime);
-        midnight.setHours(24, 0, 0, 0);
+        // 段1：至午夜或秘境
         const seg1End = Math.min(brkMs, midnight.getTime());
-        const seg1Sec = Math.floor((seg1End - currentTime) / 1000);
+        const seg1Sec = Math.floor((seg1End - currentTime)/1000);
         exp += lastTrueSpeed * seg1Sec;
         logs.push(
-          `<span style="font-weight: 600;">[${formatDateTime24(
-            new Date(currentTime)
-          )}]</span>  <br/>等待 ${seg1Sec} 秒進入秘境`
+          `<span style="font-weight:600">[${formatDateTime24(new Date(currentTime))}]</span><br/>` +
+          `等待 ${seg1Sec} 秒進入秘境`
         );
         time -= seg1Sec;
         currentTime = seg1End;
 
-        // 段 2：午夜後至突破
+        // 段2：午夜後至秘境
         const seg2Sec = totalWaitSec - seg1Sec;
         if (seg2Sec > 0) {
           updateBattle(currentTime);
-          const simMid = new Date(currentTime);
-          const pctMid = getPercentAdd(simMid, lvl);
-          const fxMid = getFixedAdd();
-          lastTrueSpeed = speed * (1 + pctMid) + fxMid;
+          const midDate = new Date(currentTime);
+          const p2 = getPercentAdd(midDate, lvl);
+          const f2 = getFixedAdd();
+          lastTrueSpeed = speed * (1 + p2) + f2;
           exp += lastTrueSpeed * seg2Sec;
           logs.push(
-            `[${formatDateTime24(
-              new Date(currentTime)
-            )}]  <br/>等待 ${seg2Sec} 秒進入秘境（無密友）`
+            `<span style="font-weight:600">[${formatDateTime24(midDate)}]</span><br/>` +
+            `等待 ${seg2Sec} 秒進入秘境（無密友）`
           );
           time -= seg2Sec;
           currentTime += seg2Sec * 1000;
         }
 
-        // 突破 240 秒（同樣可能跨午夜）
-        const brkConsume = 4 * 60;
-        // 段 3：有密友加成的前半
-        const seg3EndMs = Math.min(
-          currentTime + brkConsume * 1000,
-          midnight.getTime()
-        );
-        const seg3Sec = Math.floor((seg3EndMs - currentTime) / 1000);
+        // 突破 240 秒
+        const brkConsume = 240;
+        // 前半（密友段）
+        const seg3EndMs = Math.min(currentTime + brkConsume*1000, midnight.getTime());
+        const seg3Sec   = Math.floor((seg3EndMs - currentTime)/1000);
         exp += lastTrueSpeed * seg3Sec;
         time -= seg3Sec;
         currentTime = seg3EndMs;
-        // 段 4：午夜後的後半
+        // 後半（午夜後段）
         const seg4Sec = brkConsume - seg3Sec;
         if (seg4Sec > 0) {
           updateBattle(currentTime);
-          const simPost = new Date(currentTime);
-          const pctPost = getPercentAdd(simPost, lvl);
-          const fxPost = getFixedAdd();
-          lastTrueSpeed = speed * (1 + pctPost) + fxPost;
+          const postDate = new Date(currentTime);
+          const p3 = getPercentAdd(postDate, lvl);
+          const f3 = getFixedAdd();
+          lastTrueSpeed = speed * (1 + p3) + f3;
           exp += lastTrueSpeed * seg4Sec;
           time -= seg4Sec;
           currentTime += seg4Sec * 1000;
         }
       }
 
-      // 4.3) 進入新階段，保留溢出 exp
+      // 7.3) 進新階段，保留溢出 exp
       if (isMajor) {
         const carry = exp - need;
         exp = carry > 0 ? carry : 0;
@@ -868,89 +849,84 @@ function predictStage() {
       }
       maxReach = nextStage.stage;
 
-      // 4.4) 成功晉升 log
+      // 7.4) 成功晉升
       updateBattle(currentTime);
       const sim2 = new Date(currentTime);
-      const pct2 = getPercentAdd(sim2, nextLvl);
-      const fx2 = getFixedAdd();
-      const sp2 = nextStage.speed * (1 + pct2) + fx2;
+      const p4   = getPercentAdd(sim2, nextLvl);
+      const f4   = getFixedAdd();
+      const s4   = nextStage.speed * (1 + p4) + f4;
       logs.push(
-        `<span style="font-weight: 600;">[${formatDateTime24(sim2)}]</span> <br/>成功晉升到：${nextStage.stage}` +
-          `；${sp2.toFixed(2)} 修為/秒`
+        `<span style="font-weight:600">[${formatDateTime24(sim2)}]</span><br/>` +
+        `成功晉升：${nextStage.stage}；${s4.toFixed(2)} 修為/秒`
       );
     }
 
+    // --- 8) 跑到週結算前一秒，記錄最終狀態 ---
     const finalStageObj = stageList[lastIndex];
-    const finalLevel = parseInt(finalStageObj.stage.match(/\d+/)[0], 10);
-    const baseSpeed = finalStageObj.speed;
+    const finalLvl      = parseInt(finalStageObj.stage.match(/\d+/)[0], 10);
+    const baseSpeed     = finalStageObj.speed;
 
-    // 一直跑到结算前一秒
-    while (currentTime < weekEndTime - 1) {
-      // 扣战役
+    while (currentTime < weekEndTime - 1 && time > 0) {
       updateBattle(currentTime);
+      const d    = new Date(currentTime);
+      const p    = getPercentAdd(d, finalLvl);
+      const f    = getFixedAdd();
+      const ts   = baseSpeed * (1 + p) + f;
+      lastTrueSpeed = ts;
+      exp += ts;
 
-      // 累积这个秒的修为
-      const simDate = new Date(currentTime);
-      const pct = getPercentAdd(simDate, finalLevel);
-      const fx = getFixedAdd();
-      const trueSpeed = baseSpeed * (1 + pct) + fx;
-      lastTrueSpeed = trueSpeed;
-      exp += trueSpeed;
-
-      // 推进一秒
       currentTime += 1000;
       time--;
     }
 
-    // 最后状态 log
     const finalDate = new Date(currentTime);
     logs.push(
-      `<span style="font-weight: 600;">[${formatDateTime24(finalDate)}]</span>  <br/>${finalStageObj.stage}` +
-        `[${exp.toFixed(0)}/${finalStageObj.need}]` +
-        `；${lastTrueSpeed.toFixed(2)} 修為/秒`
+      `<span style="font-weight:600">[${formatDateTime24(finalDate)}]</span><br/>` +
+      `最後狀態：${finalStageObj.stage}；` +
+      `[${exp.toFixed(0)}/${finalStageObj.need}]；` +
+      `${lastTrueSpeed.toFixed(2)} 修為/秒`
     );
-    // 最後顯示
+
+    // --- 9) 顯示結果 ---
     Swal.fire({
       title: "預測結果",
       html: `
         <div style="font-size:14px;text-align:left;max-height:70vh;overflow-y:hidden;">
           <div style="text-align:center;margin-bottom:12px;">
-            <p style="color:#333;font-size:16px;line-height:12px;">
-              當前修練速度為
-              <span style="color:#00BFFF;font-size:16px;font-weight:bold;">
+            <p style="color:#333;font-size:16px;">
+              當前速度：
+              <span style="color:#00BFFF;font-weight:bold;">
                 ${finalSpeed.toFixed(2)} 修為/秒
               </span>
             </p>
-            <p style="color:#333;font-size:16px;">本週可能達到</p>
-            <p style="color:#EA0000;font-size:16px;font-weight:bold;">
-              『 ${maxReach} 』
+            <p style="color:#333;font-size:16px;">
+              本週可能達到：<strong style="color:#EA0000;">
+                ${maxReach}
+              </strong>
             </p>
           </div>
           <hr style="margin:0 0 8px;">
           <div style="font-size:16px;"><strong>📊 模擬過程：</strong></div>
           <div style="max-height:50vh;overflow-y:auto;margin-top:8px;padding-right:4px;">
-            ${logs
-              .map(
-                (line) => `
+            ${logs.map(line => `
               <div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;">
                 <div style="
                   width:12px;height:12px;border-radius:50%;
                   background:${line.includes("成功") ? "#4CAF50" : "#999"};
                   margin-top:3px;
                 "></div>
-                <div style="flex:1;line-height:1.4; background:#e6f4ea;">${line}</div>
+                <div style="flex:1;line-height:1.4;background:#e6f4ea;">
+                  ${line}
+                </div>
               </div>
-            `
-              )
-              .join("")}
+            `).join("")}
           </div>
         </div>
       `,
       width: 550,
-      heightAuto: false,
       icon: "info",
       confirmButtonText: "確定",
-      customClass: { icon: "small-icon", title: "swal-title-small" },
+      customClass: { icon: "small-icon", title: "swal-title-small" }
     }).then(() => {
       btn.disabled = false;
       btn.classList.remove("loading");
