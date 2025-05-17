@@ -524,60 +524,60 @@ document.getElementById("submitFeedback").addEventListener("click", () => {
 });
 
 const stageList = [
-  { stage: 'Lv.1 凡人前期', need: 15, speed: 1 },
-  { stage: 'Lv.1 凡人中期', need: 25, speed: 1 },
-  { stage: 'Lv.1 凡人後期', need: 50, speed: 1 },
-  { stage: 'Lv.2 煉氣前期', need: 100, speed: 1 },
-  { stage: 'Lv.2 煉氣中期', need: 440, speed: 1 },
-  { stage: 'Lv.2 煉氣後期', need: 900, speed: 1 },
-  { stage: 'Lv.3 築基前期', need: 5400, speed: 3 },
-  { stage: 'Lv.3 築基中期', need: 13000, speed: 3 },
-  { stage: 'Lv.3 築基後期', need: 24150, speed: 3 },
-  { stage: 'Lv.4 結丹前期', need: 25000, speed: 5 },
-  { stage: 'Lv.4 結丹中期', need: 26000, speed: 5 },
-  { stage: 'Lv.4 結丹後期', need: 44625, speed: 5 },
-  { stage: 'Lv.5 元嬰前期', need: 48825, speed: 5 },
-  { stage: 'Lv.5 元嬰中期', need: 51240, speed: 5 },
-  { stage: 'Lv.5 元嬰後期', need: 54915, speed: 5 },
-  { stage: 'Lv.6 出竅前期', need: 56490, speed: 5 },
-  { stage: 'Lv.6 出竅中期', need: 59325, speed: 5 },
-  { stage: 'Lv.6 出竅後期', need: 61950, speed: 5 },
-  { stage: 'Lv.7 化神前期', need: 65415, speed: 5 },
-  { stage: 'Lv.7 化神中期', need: 68670, speed: 5 },
-  { stage: 'Lv.7 化神後期', need: 72135, speed: 5 },
-  { stage: 'Lv.8 合體前期', need: 75705, speed: 10 },
-  { stage: 'Lv.8 合體中期', need: 79485, speed: 10 },
-  { stage: 'Lv.8 合體後期', need: 166950, speed: 10 },
-  { stage: 'Lv.9 洞虛前期', need: 175350, speed: 10 },
-  { stage: 'Lv.9 洞虛中期', need: 183750, speed: 10 },
-  { stage: 'Lv.9 洞虛後期', need: 193220, speed: 10 },
-  { stage: 'Lv.10 大承前期', need: 202965, speed: 10 },
-  { stage: 'Lv.10 大承中期', need: 213150, speed: 10 },
-  { stage: 'Lv.10 大承後期', need: 223650, speed: 10 },
-  { stage: 'Lv.11 渡劫前期', need: 262500, speed: 10 },
-  { stage: 'Lv.11 渡劫中期', need: 283500, speed: 10 },
-  { stage: 'Lv.11 渡劫後期', need: 315000, speed: 10 },
-  { stage: 'Lv.12 人仙前期', need: 1050000, speed: 30 },
-  { stage: 'Lv.12 人仙中期', need: 861000, speed: 30 },
-  { stage: 'Lv.12 人仙後期', need: 903000, speed: 30 },
-  { stage: 'Lv.13 真仙前期', need: 924000, speed: 30 },
-  { stage: 'Lv.13 真仙中期', need: 94500, speed: 30 },
-  { stage: 'Lv.13 真仙後期', need: 950985, speed: 30 },
-  { stage: 'Lv.14 金仙前期', need: 966980, speed: 30 },
-  { stage: 'Lv.14 金仙中期', need: 985530, speed: 30 },
-  { stage: 'Lv.14 金仙後期', need: 1003275, speed: 30 },
-  { stage: 'Lv.15 上仙前期', need: 1020000, speed: 30 },
-  { stage: 'Lv.15 上仙中期', need: 1039500, speed: 30 },
-  { stage: 'Lv.15 上仙後期', need: 1058422, speed: 30 },
-  { stage: 'Lv.16 仙君前期', need: 2520000, speed: 50 },
-  { stage: 'Lv.16 仙君中期', need: 1890000, speed: 50 },
-  { stage: 'Lv.16 仙君後期', need: 1942500, speed: 50 },
-  { stage: 'Lv.17 仙尊前期', need: 2047500, speed: 50 },
-  { stage: 'Lv.17 仙尊中期', need: 2252250, speed: 50 },
-  { stage: 'Lv.17 仙尊後期', need: 2478000, speed: 50 },
-  { stage: 'Lv.18 仙帝前期', need: 6300000, speed: 100 },
-  { stage: 'Lv.18 仙帝中期', need: 7035000, speed: 100 },
-  { stage: 'Lv.18 仙帝後期', need: 7035000, speed: 100 },
+  { stage: "Lv.1 凡人前期", need: 15, speed: 1 },
+  { stage: "Lv.1 凡人中期", need: 25, speed: 1 },
+  { stage: "Lv.1 凡人後期", need: 50, speed: 1 },
+  { stage: "Lv.2 煉氣前期", need: 100, speed: 1 },
+  { stage: "Lv.2 煉氣中期", need: 440, speed: 1 },
+  { stage: "Lv.2 煉氣後期", need: 900, speed: 1 },
+  { stage: "Lv.3 築基前期", need: 5400, speed: 3 },
+  { stage: "Lv.3 築基中期", need: 13000, speed: 3 },
+  { stage: "Lv.3 築基後期", need: 24150, speed: 3 },
+  { stage: "Lv.4 結丹前期", need: 25000, speed: 5 },
+  { stage: "Lv.4 結丹中期", need: 26000, speed: 5 },
+  { stage: "Lv.4 結丹後期", need: 44625, speed: 5 },
+  { stage: "Lv.5 元嬰前期", need: 48825, speed: 5 },
+  { stage: "Lv.5 元嬰中期", need: 51240, speed: 5 },
+  { stage: "Lv.5 元嬰後期", need: 54915, speed: 5 },
+  { stage: "Lv.6 出竅前期", need: 56490, speed: 5 },
+  { stage: "Lv.6 出竅中期", need: 59325, speed: 5 },
+  { stage: "Lv.6 出竅後期", need: 61950, speed: 5 },
+  { stage: "Lv.7 化神前期", need: 65415, speed: 5 },
+  { stage: "Lv.7 化神中期", need: 68670, speed: 5 },
+  { stage: "Lv.7 化神後期", need: 72135, speed: 5 },
+  { stage: "Lv.8 合體前期", need: 75705, speed: 10 },
+  { stage: "Lv.8 合體中期", need: 79485, speed: 10 },
+  { stage: "Lv.8 合體後期", need: 166950, speed: 10 },
+  { stage: "Lv.9 洞虛前期", need: 175350, speed: 10 },
+  { stage: "Lv.9 洞虛中期", need: 183750, speed: 10 },
+  { stage: "Lv.9 洞虛後期", need: 193220, speed: 10 },
+  { stage: "Lv.10 大承前期", need: 202965, speed: 10 },
+  { stage: "Lv.10 大承中期", need: 213150, speed: 10 },
+  { stage: "Lv.10 大承後期", need: 223650, speed: 10 },
+  { stage: "Lv.11 渡劫前期", need: 262500, speed: 10 },
+  { stage: "Lv.11 渡劫中期", need: 283500, speed: 10 },
+  { stage: "Lv.11 渡劫後期", need: 315000, speed: 10 },
+  { stage: "Lv.12 人仙前期", need: 1050000, speed: 30 },
+  { stage: "Lv.12 人仙中期", need: 861000, speed: 30 },
+  { stage: "Lv.12 人仙後期", need: 903000, speed: 30 },
+  { stage: "Lv.13 真仙前期", need: 924000, speed: 30 },
+  { stage: "Lv.13 真仙中期", need: 945000, speed: 30 },
+  { stage: "Lv.13 真仙後期", need: 950985, speed: 30 },
+  { stage: "Lv.14 金仙前期", need: 966980, speed: 30 },
+  { stage: "Lv.14 金仙中期", need: 985530, speed: 30 },
+  { stage: "Lv.14 金仙後期", need: 1003275, speed: 30 },
+  { stage: "Lv.15 上仙前期", need: 1020000, speed: 30 },
+  { stage: "Lv.15 上仙中期", need: 1039500, speed: 30 },
+  { stage: "Lv.15 上仙後期", need: 1058422, speed: 30 },
+  { stage: "Lv.16 仙君前期", need: 2520000, speed: 50 },
+  { stage: "Lv.16 仙君中期", need: 1890000, speed: 50 },
+  { stage: "Lv.16 仙君後期", need: 1942500, speed: 50 },
+  { stage: "Lv.17 仙尊前期", need: 2047500, speed: 50 },
+  { stage: "Lv.17 仙尊中期", need: 2252250, speed: 50 },
+  { stage: "Lv.17 仙尊後期", need: 2478000, speed: 50 },
+  { stage: "Lv.18 仙帝前期", need: 6300000, speed: 100 },
+  { stage: "Lv.18 仙帝中期", need: 7035000, speed: 100 },
+  { stage: "Lv.18 仙帝後期", need: 7035000, speed: 100 },
 ];
 
 function getTimeRemaining() {
@@ -593,7 +593,7 @@ function getTimeRemaining() {
 function canBreakthroughNow(date) {
   const hour = date.getHours();
   const minute = date.getMinutes();
-  return hour >= 10 && hour < 24 && minute === 0;
+  return (hour === 0 || (hour >= 10 && hour <= 23)) && minute === 0;
 }
 function getNextBreakthroughTime(from) {
   const next = new Date(from);
@@ -602,8 +602,11 @@ function getNextBreakthroughTime(from) {
     next.setHours(next.getHours() + 1);
   }
 
-  while (next.getHours() < 10 || next.getHours() > 23) {
-    next.setHours(next.getHours() + 1);
+  // 確保在 10–23 小時內的整點
+  while (true) {
+    const h = next.getHours();
+    if (h === 0 || (h >= 10 && h <= 23)) break;
+    next.setHours(h + 1);
     next.setMinutes(0);
   }
 
@@ -630,183 +633,324 @@ function predictStage() {
   logEl.innerHTML = "";
 
   setTimeout(() => {
+    // --- 1) 本週結束時間（禮拜六 23:59:59.999） ---
+    const nowDate = new Date();
+    const today = nowDate.getDay(); // 0=日 … 6=六
+    const endDate = new Date(nowDate);
+    const offset = (6 - today + (today === 0 ? -1 : 0)) % 7;
+    endDate.setDate(nowDate.getDate() + offset);
+    endDate.setHours(23, 59, 59, 999);
+    const weekEndTime = endDate.getTime();
+
+    // --- 2) 讀取使用者輸入 ---
     const stageName = document.getElementById("currentStage").value;
-    const currentExp =
-      parseInt(document.getElementById("currentExp").value) || 0;
+    const baseExp = parseInt(document.getElementById("currentExp").value) || 0;
+    const recoverExp =
+      parseInt(document.getElementById("potionExp").value) || 0;
+    let exp = baseExp + recoverExp;
     const startIndex = stageList.findIndex((s) => s.stage === stageName);
     if (startIndex === -1) return;
 
-    const getPercentAdd = (simDate) => {
-      const hour = simDate.getHours();
-      return (
+    const initialBattle =
+      parseInt(document.getElementById("battle").value) || 0;
+    const maintainBattle = document.getElementById("battleMaintain").checked;
+    let battleVal = maintainBattle ? 2000 : initialBattle;
+
+    // 下一個整點該扣戰役的時間戳
+    let nextBattleReduction = new Date(Date.now());
+    nextBattleReduction.setMinutes(0, 0, 0);
+    if (nowDate.getMinutes() > 0 || nowDate.getSeconds() > 0) {
+      nextBattleReduction.setHours(nextBattleReduction.getHours() + 1);
+    }
+
+    // 每當模擬進度到達或超過下一個整點，就扣 200；若維持勾選則鎖 2000 不變
+    function updateBattle(simTimeMs) {
+      if (maintainBattle) {
+        battleVal = 2000;
+        return;
+      }
+      while (simTimeMs >= nextBattleReduction.getTime()) {
+        battleVal = Math.max(0, battleVal - 200);
+        // 推到下一整點
+        nextBattleReduction = new Date(
+          nextBattleReduction.getTime() + 3600 * 1000
+        );
+      }
+    }
+
+    // --- 3) 加成計算函式（使用 battleVal） ---
+    function getPercentAdd(simDate, currentLevel) {
+      const h = simDate.getHours();
+      // 心法 dropdown + 戰役 + 密友 + 靈泉
+      const base =
         [
           { id: "youxuangong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.06] },
           { id: "xuanminggong", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
           { id: "tianminglu", rate: [0, 0.01, 0.02, 0.03, 0.04, 0.05] },
         ].reduce(
-          (acc, cur) =>
-            acc + cur.rate[+document.getElementById(cur.id).selectedIndex],
+          (sum, cur) =>
+            sum + cur.rate[document.getElementById(cur.id).selectedIndex],
           0
         ) +
-        [...document.querySelectorAll(".gongfa:checked")].reduce(
-          (acc, el) => acc + Number(el.value),
-          0
-        ) /
-          100 +
-        (() => {
-          const b = +document.getElementById("battle").value;
-          return b >= 1501
-            ? 0.15
-            : b >= 1001
-            ? 0.07
-            : b >= 501
-            ? 0.05
-            : b >= 200
-            ? 0.03
-            : 0;
-        })() +
-        (hour >= 9 && hour <= 23
-          ? Number(document.getElementById("friends").value) * 0.05
+        (battleVal >= 1501
+          ? 0.15
+          : battleVal >= 1001
+          ? 0.07
+          : battleVal >= 501
+          ? 0.05
+          : battleVal >= 200
+          ? 0.03
           : 0) +
-        (hour >= 10 && hour <= 22
+        (h >= 9 && h <= 23
+          ? +document.getElementById("friends").value * 0.05
+          : 0) +
+        (h >= 11 && h <= 22
           ? parseFloat(document.getElementById("springBoost").value || 0)
-          : 0)
-      );
-    };
+          : 0);
+
+      // 功法
+      const gf =
+        [...document.querySelectorAll(".gongfa:checked")].reduce((sum, el) => {
+          const req = +el.dataset.level;
+          return sum + (currentLevel >= req ? +el.value : 0);
+        }, 0) / 100;
+
+      return base + gf;
+    }
 
     const getFixedAdd = () =>
       [0, 1, 1, 2, 2, 3][+document.getElementById("bingxinjue").selectedIndex];
 
+    // --- 4) 開始整週模擬 ---
     let time = getTimeRemaining();
-    let exp = currentExp;
     let maxReach = stageList[startIndex].stage;
     let finalSpeed = 0;
     let currentTime = Date.now();
     const logs = [];
-
+    let lastTrueSpeed = 0;
+    let lastIndex = startIndex;
     for (let i = startIndex; i < stageList.length && time > 0; i++) {
-      const { need, speed } = stageList[i];
+      const { need, speed, stage } = stageList[i];
+      const lvl = parseInt(stage.match(/\d+/)[0], 10);
+      lastIndex = i;
+      // 更新戰役到當前時間
+      updateBattle(currentTime);
+
+      // 4.1) 開始這個子階段
+      const sim0 = new Date(currentTime);
+      const pct0 = getPercentAdd(sim0, lvl);
+      const fx0 = getFixedAdd();
+      const initSpeed = speed * (1 + pct0) + fx0;
+      if (i === startIndex) {
+        // 第一階段多顯示「baseExp + recoverExp」
+        logs.push(
+          `<span style="font-weight: 600;">[${formatDateTime24(sim0)}]</span>  <br/>開始模擬 ${stage}` +
+            `； ${initSpeed.toFixed(2)} 修為/秒`
+        );
+      } else {
+        // 其餘階段只顯示 exp/need
+        // logs.push(
+        //   `[${formatDateTime24(sim0)}] 開始模擬 ${stage}` +
+        //     `；[${exp.toFixed(0)}/${need}]` +
+        //     `；速度 ${initSpeed.toFixed(2)}；戰役 ${battleVal}`
+        // );
+      }
+
       let toNext = need - exp;
       if (i === startIndex && toNext <= 0) toNext = 1;
 
       let accumulated = 0;
 
+      // 每秒累積直至該子階段完成或時間耗盡
       while (accumulated < toNext && time > 0) {
         const simDate = new Date(currentTime);
-        const percentAdd = getPercentAdd(simDate);
-        const fixedAdd = getFixedAdd();
-        const trueSpeed = speed * (1 + percentAdd) + fixedAdd;
+        updateBattle(currentTime);
 
-        if (finalSpeed === 0) finalSpeed = trueSpeed;
+        const pctAdd = getPercentAdd(simDate, lvl);
+        const fxAdd = getFixedAdd();
+        const trueSpeed = speed * (1 + pctAdd) + fxAdd;
+
+        lastTrueSpeed = trueSpeed;
+        if (!finalSpeed) finalSpeed = trueSpeed;
 
         accumulated += trueSpeed;
         exp += trueSpeed;
         time--;
         currentTime += 1000;
       }
+      if (accumulated < toNext) break;
 
-      if (accumulated >= toNext) {
-        const nextStage = stageList[i + 1];
-        if (!nextStage) break;
+      // 4.2) 準備下一階段
+      const nextStage = stageList[i + 1];
+      if (!nextStage) break;
+      const nextLvl = parseInt(nextStage.stage.match(/\d+/)[0], 10);
+      const isMajor = nextLvl > lvl;
 
-        const isMajorLevelUp =
-          parseInt(nextStage.stage.match(/\d+/)) >
-          parseInt(stageList[i].stage.match(/\d+/));
-
-        if (isMajorLevelUp) {
-          const breakthroughTime = getNextBreakthroughTime(
-            new Date(currentTime)
-          );
-          const waitSeconds = Math.floor(
-            (breakthroughTime - currentTime) / 1000
-          );
-
-          if (time < waitSeconds) {
-            logs.push(
-              `[${new Date(currentTime).toLocaleString()}] 無法晉升 ${
-                nextStage.stage
-              }（剩餘時間不足等待突破整點）`
-            );
-            break;
-          }
-
+      // 大階段突破要等待+突破（也要分段 updateBattle）
+      if (isMajor) {
+        const brkDate = getNextBreakthroughTime(new Date(currentTime));
+        const brkMs = brkDate.getTime();
+        if (brkMs > weekEndTime) {
           logs.push(
             `[${formatDateTime24(
               new Date(currentTime)
-            )}] 等待 ${waitSeconds} 秒進入秘境`
+            )}] 本週最後一場秘境已過，模擬結束`
           );
-          time -= waitSeconds;
-          currentTime += waitSeconds * 1000;
+          break;
         }
-        const consumeSeconds = 4 * 60 + 1; // 240 秒
-        time -= consumeSeconds;
-        currentTime += consumeSeconds * 1000;
-        exp = 0;
-        maxReach = nextStage.stage;
+
+        // 拆段等待進秘境
+        const totalWaitSec = Math.floor((brkMs - currentTime) / 1000);
+
+        // 段 1：到午夜或突破時間
+        const midnight = new Date(currentTime);
+        midnight.setHours(24, 0, 0, 0);
+        const seg1End = Math.min(brkMs, midnight.getTime());
+        const seg1Sec = Math.floor((seg1End - currentTime) / 1000);
+        exp += lastTrueSpeed * seg1Sec;
         logs.push(
-          `[${formatDateTime24(new Date(currentTime))}] 成功晉升到：${
-            nextStage.stage
-          }`
+          `<span style="font-weight: 600;">[${formatDateTime24(
+            new Date(currentTime)
+          )}]</span>  <br/>等待 ${seg1Sec} 秒進入秘境`
         );
+        time -= seg1Sec;
+        currentTime = seg1End;
+
+        // 段 2：午夜後至突破
+        const seg2Sec = totalWaitSec - seg1Sec;
+        if (seg2Sec > 0) {
+          updateBattle(currentTime);
+          const simMid = new Date(currentTime);
+          const pctMid = getPercentAdd(simMid, lvl);
+          const fxMid = getFixedAdd();
+          lastTrueSpeed = speed * (1 + pctMid) + fxMid;
+          exp += lastTrueSpeed * seg2Sec;
+          logs.push(
+            `[${formatDateTime24(
+              new Date(currentTime)
+            )}]  <br/>等待 ${seg2Sec} 秒進入秘境（無密友）`
+          );
+          time -= seg2Sec;
+          currentTime += seg2Sec * 1000;
+        }
+
+        // 突破 240 秒（同樣可能跨午夜）
+        const brkConsume = 4 * 60;
+        // 段 3：有密友加成的前半
+        const seg3EndMs = Math.min(
+          currentTime + brkConsume * 1000,
+          midnight.getTime()
+        );
+        const seg3Sec = Math.floor((seg3EndMs - currentTime) / 1000);
+        exp += lastTrueSpeed * seg3Sec;
+        time -= seg3Sec;
+        currentTime = seg3EndMs;
+        // 段 4：午夜後的後半
+        const seg4Sec = brkConsume - seg3Sec;
+        if (seg4Sec > 0) {
+          updateBattle(currentTime);
+          const simPost = new Date(currentTime);
+          const pctPost = getPercentAdd(simPost, lvl);
+          const fxPost = getFixedAdd();
+          lastTrueSpeed = speed * (1 + pctPost) + fxPost;
+          exp += lastTrueSpeed * seg4Sec;
+          time -= seg4Sec;
+          currentTime += seg4Sec * 1000;
+        }
       }
+
+      // 4.3) 進入新階段，保留溢出 exp
+      if (isMajor) {
+        const carry = exp - need;
+        exp = carry > 0 ? carry : 0;
+      } else {
+        exp = 0;
+      }
+      maxReach = nextStage.stage;
+
+      // 4.4) 成功晉升 log
+      updateBattle(currentTime);
+      const sim2 = new Date(currentTime);
+      const pct2 = getPercentAdd(sim2, nextLvl);
+      const fx2 = getFixedAdd();
+      const sp2 = nextStage.speed * (1 + pct2) + fx2;
+      logs.push(
+        `<span style="font-weight: 600;">[${formatDateTime24(sim2)}]</span> <br/>成功晉升到：${nextStage.stage}` +
+          `；${sp2.toFixed(2)} 修為/秒`
+      );
     }
 
+    const finalStageObj = stageList[lastIndex];
+    const finalLevel = parseInt(finalStageObj.stage.match(/\d+/)[0], 10);
+    const baseSpeed = finalStageObj.speed;
+
+    // 一直跑到结算前一秒
+    while (currentTime < weekEndTime - 1) {
+      // 扣战役
+      updateBattle(currentTime);
+
+      // 累积这个秒的修为
+      const simDate = new Date(currentTime);
+      const pct = getPercentAdd(simDate, finalLevel);
+      const fx = getFixedAdd();
+      const trueSpeed = baseSpeed * (1 + pct) + fx;
+      lastTrueSpeed = trueSpeed;
+      exp += trueSpeed;
+
+      // 推进一秒
+      currentTime += 1000;
+      time--;
+    }
+
+    // 最后状态 log
+    const finalDate = new Date(currentTime);
+    logs.push(
+      `<span style="font-weight: 600;">[${formatDateTime24(finalDate)}]</span>  <br/>${finalStageObj.stage}` +
+        `[${exp.toFixed(0)}/${finalStageObj.need}]` +
+        `；${lastTrueSpeed.toFixed(2)} 修為/秒`
+    );
+    // 最後顯示
     Swal.fire({
       title: "預測結果",
       html: `
-    <div style="font-size:14px; text-align:left; max-height:70vh;overflow-y:hidden;">
-      <div style="text-align:center; margin-bottom:12px;">
-        <p style="color:#333; font-size:16px; line-height:12px;">
-          當前修練速度為&nbsp;
-          <span style="color:#00BFFF; font-size:16px; font-weight:bold;line-height:12px;">
-            ${finalSpeed.toFixed(2)} 修為/秒
-          </span>
-        </p>
-        <p style="color:#333; font-size:16px;line-height:12px;">根據目前條件，你本週可能達到</p>
-        <p style="color:#EA0000; font-size:16px; font-weight:bold;line-height:12px;">
-          『 ${maxReach} 』
-        </p>
-      </div>
-
-      <hr style="margin:0 0 8px;">
-      <div style="font-size:16px;"><strong>📊 模擬過程：</strong></div>
-      <div
-        style="
-          max-height:50vh;
-          overflow-y:auto;
-          -webkit-overflow-scrolling: touch;
-          margin-top:8px;
-          padding-right:4px;
-        "
-      >
-        ${logs
-          .map((line) => {
-            const isBreak = line.includes("成功晉升");
-            const color = isBreak ? "#4CAF50" : "#999";
-            return `
-            <div style="display:flex; align-items:flex-start; gap:6px; margin-bottom:4px;">
-              <div style="
-                width:12px; height:12px;
-                border-radius:50%;
-                background:${color};
-                margin-top:3px;
-              "></div>
-              <div style="flex:1; line-height:1.4;">${line}</div>
-            </div>
-          `;
-          })
-          .join("")}
-      </div>
-    </div>
-  `,
+        <div style="font-size:14px;text-align:left;max-height:70vh;overflow-y:hidden;">
+          <div style="text-align:center;margin-bottom:12px;">
+            <p style="color:#333;font-size:16px;line-height:12px;">
+              當前修練速度為
+              <span style="color:#00BFFF;font-size:16px;font-weight:bold;">
+                ${finalSpeed.toFixed(2)} 修為/秒
+              </span>
+            </p>
+            <p style="color:#333;font-size:16px;">本週可能達到</p>
+            <p style="color:#EA0000;font-size:16px;font-weight:bold;">
+              『 ${maxReach} 』
+            </p>
+          </div>
+          <hr style="margin:0 0 8px;">
+          <div style="font-size:16px;"><strong>📊 模擬過程：</strong></div>
+          <div style="max-height:50vh;overflow-y:auto;margin-top:8px;padding-right:4px;">
+            ${logs
+              .map(
+                (line) => `
+              <div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;">
+                <div style="
+                  width:12px;height:12px;border-radius:50%;
+                  background:${line.includes("成功") ? "#4CAF50" : "#999"};
+                  margin-top:3px;
+                "></div>
+                <div style="flex:1;line-height:1.4; background:#e6f4ea;">${line}</div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+        </div>
+      `,
       width: 550,
       heightAuto: false,
       icon: "info",
       confirmButtonText: "確定",
-      customClass: {
-        icon: "small-icon",
-        title: "swal-title-small",
-      },
+      customClass: { icon: "small-icon", title: "swal-title-small" },
     }).then(() => {
       btn.disabled = false;
       btn.classList.remove("loading");
@@ -814,4 +958,3 @@ function predictStage() {
     });
   }, 30);
 }
-
