@@ -787,7 +787,7 @@ function predictStage() {
       const isMajor = nextLvl > lvl;
 
       // 大階段突破要等待+突破（也要分段 updateBattle）
-      if (isMajor) {
+      if (isMajor && lvl >= 4) {
         const brkDate = getNextBreakthroughTime(new Date(currentTime));
         const brkMs = brkDate.getTime();
         if (brkMs > weekEndTime) {
