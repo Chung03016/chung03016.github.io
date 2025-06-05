@@ -550,7 +550,7 @@
         <div id="visitCounter" style="color:#fff; font-size:14px; margin-top:20px;"></div>
         <footer>© 2025 ᴍᴀʀᴄᴏ . All rights reserved.</footer>
     </div>
-    <div id="updateNoticeModal" class="update-modal">
+<!--     <div id="updateNoticeModal" class="update-modal">
         <div class="update-modal-content">
             <span class="update-close">&times;</span>
             <div class="update-header">
@@ -567,6 +567,43 @@
                 <button id="dismissForeverBtn" class="danger">不再顯示此公告</button>
             </div>
         </div>
+    </div> -->
+
+    <div id="xianlogNoticeModal" class="update-modal">
+      <div class="update-modal-content" style="max-width: 500px; width: 90%; padding: 32px; border-radius: 12px; background-color: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);">
+        <span id="closeXianlogNotice" class="update-close" style="font-size: 24px; float: right; cursor: pointer" >&times;</span>
+
+        <div class="update-header" style="text-align: center; margin-bottom: 16px">
+          <h2 style="font-size: 20px; margin-bottom: 6px; color: #333">
+            修仙小助手即將停止支援
+          </h2>
+          <p style="font-size: 14px; color: #999">2025 / 06 / 04</p>
+        </div>
+
+        <div class="update-body" style="font-size: 15px; color: #444; line-height: 1.75">
+          親愛的道友您好：<br /><br />感謝您長久以來對<br />
+          <strong>《修仙小助手》</strong> 的支持與陪伴<br /><br />
+
+          為提供更穩定、精準且個人化的修煉體驗 <br />全新版本
+          <strong style="color: #d35400">《仙誌 XianLog》</strong><br />
+          將於<strong style="color: #b20000">114 / 06 / 09</strong>正式上線<br /><br />
+
+          屆時原 <strong>《修仙小助手》</strong> 將停止支援<br />
+          並<strong style="color: #b20000">自動導向</strong>至新版平台<br /><br />
+
+          我們誠摯邀請您<br />一起邁向更高境界的修行旅程<br /><br />
+
+          <span style="font-size: 14px; color: #888">《仙誌 XianLog》團隊 敬上</span>
+        </div>
+
+        <div class="update-footer" style="text-align: center; margin-top: 24px">
+          <a href="https://xianlog.com" target="_blank" style=" display: inline-block; padding: 10px 20px; background-color: #2c3e50; color: #fff; border-radius: 8px; font-size: 14px; text-decoration: none;">
+            👉 前往仙誌 XianLog </a><br />
+          <button id="dismissXianlogNotice" style=" display: inline-block;  padding: 10px 20px; font-size: 14px; border: none; border-radius: 8px; background-color: #aaa; color: #fff; cursor: pointer;">
+            不再顯示
+          </button>
+        </div>
+      </div>
     </div>
     <a href="#" id="floatingBtn">
         <img src="img/wpcp_btn3.png" alt="建議" class="floating-image-button">
@@ -801,23 +838,46 @@
                     document.getElementById("visitCounter").innerText = "連線錯誤";
                     console.error("發生錯誤：", error);
                 });
-                const versionKey = "updateNoticeShown_20250518";
-                const modal = document.getElementById("updateNoticeModal");
-                const closeBtn = document.querySelector(".update-close");
-                const dismissForeverBtn = document.getElementById("dismissForeverBtn");
-                if (!localStorage.getItem(versionKey)) {
-                    modal.style.display = "block";
+                // const versionKey = "updateNoticeShown_20250518";
+                // const modal = document.getElementById("updateNoticeModal");
+                // const closeBtn = document.querySelector(".update-close");
+                // const dismissForeverBtn = document.getElementById("dismissForeverBtn");
+                // if (!localStorage.getItem(versionKey)) {
+                //     modal.style.display = "block";
+                // }
+                // closeBtn.onclick = () => modal.style.display = "none";
+                // dismissForeverBtn.onclick = () => {
+                //     localStorage.setItem(versionKey, "true");
+                //     modal.style.display = "none";
+                // };
+                // window.onclick = (e) => {
+                //     if (e.target === modal) {
+                //         modal.style.display = "none";
+                //     }
+                // };
+
+                const xianlogVersionKey = "xianlogNotice_20250605";
+                const xianlogModal = document.getElementById("xianlogNoticeModal");
+                const xianlogCloseBtn = document.getElementById("closeXianlogNotice");
+                const xianlogDismissBtn = document.getElementById(
+                  "dismissXianlogNotice"
+                );
+
+                if (!localStorage.getItem(xianlogVersionKey)) {
+                  xianlogModal.style.display = "block";
                 }
-                closeBtn.onclick = () => modal.style.display = "none";
-                dismissForeverBtn.onclick = () => {
-                    localStorage.setItem(versionKey, "true");
-                    modal.style.display = "none";
+        
+                xianlogCloseBtn.onclick = () => (xianlogModal.style.display = "none");
+                xianlogDismissBtn.onclick = () => {
+                  localStorage.setItem(xianlogVersionKey, "true");
+                  xianlogModal.style.display = "none";
                 };
-                window.onclick = (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = "none";
-                    }
-                };
+        
+                window.addEventListener("click", (e) => {
+                  if (e.target === xianlogModal) {
+                    xianlogModal.style.display = "none";
+                  }
+                });
 
                 const openBtn = document.getElementById("openRequestModal");
                 const modalReq = document.getElementById("requestModal");
